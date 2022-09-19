@@ -1,4 +1,4 @@
-![alt text](app/src/main/res/mipmap-xxhdpi/ic_launcher_foreground.png?raw=true "Title")  
+![alt text](money.png?raw=true "Title")  
 # FinBill
 Yet another app to manage expenses.
 
