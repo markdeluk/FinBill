@@ -1,4 +1,5 @@
-![alt text](app/src/main/res/mipmap-xxhdpi/ic_launcher_foreground.png?raw=true "Title")# FinBill
+![alt text](app/src/main/res/mipmap-xxhdpi/ic_launcher_foreground.png?raw=true "Title")  
+# FinBill
 Yet another app to manage expenses.
 
 There are already some applications available on Google Play Store that provide lots of features regarding expense management, but sometimes they are difficult to use, and/or you have to pay a subscription for an app that should even manage... subscriptions!  
