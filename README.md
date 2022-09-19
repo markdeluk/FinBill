@@ -11,3 +11,6 @@ Features:
 - [ ] Recurrent expenses management
 - [ ] Expenditure forecasts
 - [ ] Depreciation of long-term expenses
+  
+Remember to do it!
+- [ ] Multi-language translation (at least English, Danish, German, Italian, French, Spanish)
