@@ -14,3 +14,21 @@ Features:
   
 Remember to do it!
 - [ ] Multi-language translation (at least English, Danish, German, Italian, French, Spanish)
+
+
+# To save my life!!!
+
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/fragmentContainerView"
+        android:name="androidx.navigation.fragment.NavHostFragment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:defaultNavHost="true"
+        app:navGraph="@navigation/navigation"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toolbar" />
+    
+    NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.fragmentContainerView);
+    navController = navHostFragment.getNavController();
