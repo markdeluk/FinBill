@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_navigation"
+    app:startDestination="@id/mainFragmentDashboard">
+
+    <fragment
+        android:id="@+id/mainFragmentDashboard"
+        android:name="com.marco.finbill.MainFragmentDashboard"
+        android:label="fragment_main_dashboard"
+        tools:layout="@layout/fragment_main_dashboard" >
+        <action
+            android:id="@+id/action_mainFragmentDashboard_to_mainFragmentAccounts"
+            app:destination="@id/mainFragmentAccounts"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+        <action
+            android:id="@+id/action_mainFragmentDashboard_to_mainFragmentCategories"
+            app:destination="@id/mainFragmentCategories"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+        <action
+            android:id="@+id/action_mainFragmentDashboard_to_mainFragmentSubscriptions"
+            app:destination="@id/mainFragmentSubscriptions"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+    </fragment>
+    <fragment
+        android:id="@+id/mainFragmentAccounts"
+        android:name="com.marco.finbill.MainFragmentAccounts"
+        android:label="fragment_main_accounts"
+        tools:layout="@layout/fragment_main_accounts" >
+        <action
+            android:id="@+id/action_mainFragmentAccounts_to_mainFragmentDashboard"
+            app:destination="@id/mainFragmentDashboard"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+        <action
+            android:id="@+id/action_mainFragmentAccounts_to_mainFragmentCategories"
+            app:destination="@id/mainFragmentCategories"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+        <action
+            android:id="@+id/action_mainFragmentAccounts_to_mainFragmentSubscriptions"
+            app:destination="@id/mainFragmentSubscriptions"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+    </fragment>
+    <fragment
+        android:id="@+id/mainFragmentCategories"
+        android:name="com.marco.finbill.MainFragmentCategories"
+        android:label="fragment_main_categories"
+        tools:layout="@layout/fragment_main_categories" >
+        <action
+            android:id="@+id/action_mainFragmentCategories_to_mainFragmentDashboard"
+            app:destination="@id/mainFragmentDashboard"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim"
+            />
+        <action
+            android:id="@+id/action_mainFragmentCategories_to_mainFragmentSubscriptions"
+            app:destination="@id/mainFragmentSubscriptions"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+        <action
+            android:id="@+id/action_mainFragmentCategories_to_mainFragmentAccounts"
+            app:destination="@id/mainFragmentAccounts"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+    </fragment>
+    <fragment
+        android:id="@+id/mainFragmentSubscriptions"
+        android:name="com.marco.finbill.MainFragmentSubscriptions"
+        android:label="fragment_main_subscriptions"
+        tools:layout="@layout/fragment_main_subscriptions" >
+        <action
+            android:id="@+id/action_mainFragmentSubscriptions_to_mainFragmentCategories"
+            app:destination="@id/mainFragmentCategories"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+        <action
+            android:id="@+id/action_mainFragmentSubscriptions_to_mainFragmentDashboard"
+            app:destination="@id/mainFragmentDashboard"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+        <action
+            android:id="@+id/action_mainFragmentSubscriptions_to_mainFragmentAccounts"
+            app:destination="@id/mainFragmentAccounts"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+    </fragment>
+</navigation>

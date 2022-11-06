@@ -1,3 +1,15 @@
 <resources>
     <string name="app_name">FinBill</string>
+    <string name="welcome" translatable="false">Welcome to FinBill</string>
+    <string name="start" translatable="false">Start</string>
+    <string name="set_name" translatable="false">What\'s your name?</string>
+    <string name="set_name_hint" translatable="false">Type your name here</string>
+    <string name="app_need" translatable="false">I need this app for…</string>
+    <string name="next" translatable="false">Next</string>
+    <string name="select_option" translatable="false">Select an option\…</string>
+    <string name="finish" translatable="false">Finished!</string>
+    <string name="finish_hint" translatable="false">You\'re all set up! Now you can start using FinBill!</string>
+    <string name="let_me_in" translatable="false">Let me in!</string>
+    <string name="settings" translatable="false">Settings</string>
+    <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
 </resources>

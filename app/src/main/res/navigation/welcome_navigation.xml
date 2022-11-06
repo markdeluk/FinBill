@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/welcome_navigation"
+    app:startDestination="@id/welcomeFragment1">
+
+    <fragment
+        android:id="@+id/welcomeFragment1"
+        android:name="com.marco.finbill.WelcomeFragment1"
+        android:label="fragment_welcome1"
+        tools:layout="@layout/fragment_welcome1" >
+        <action
+            android:id="@+id/action_welcomeFragment1_to_welcomeFragment2"
+            app:destination="@id/welcomeFragment2"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:launchSingleTop="true"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+    </fragment>
+    <fragment
+        android:id="@+id/welcomeFragment2"
+        android:name="com.marco.finbill.WelcomeFragment2"
+        android:label="fragment_welcome2"
+        tools:layout="@layout/fragment_welcome2" >
+        <action
+            android:id="@+id/action_welcomeFragment2_to_welcomeFragment3"
+            app:destination="@id/welcomeFragment3"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+    </fragment>
+    <fragment
+        android:id="@+id/welcomeFragment3"
+        android:name="com.marco.finbill.WelcomeFragment3"
+        android:label="fragment_welcome3"
+        tools:layout="@layout/fragment_welcome3" />
+</navigation>
