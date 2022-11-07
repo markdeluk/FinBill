@@ -1,50 +1,50 @@
-package com.marco.finbill.sql.account;
+package com.marco.finbill.sql.category;
 
 import android.graphics.Bitmap;
+import android.graphics.Picture;
 import android.icu.util.Currency;
 import android.media.Image;
+import android.provider.ContactsContract;
 
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
 import java.sql.Date;
 
-@Entity(tableName = "account_table")
-public class Account {
+@Entity(tableName = "category_table")
+public class Category {
     @PrimaryKey(autoGenerate = true)
-    private int accountId;
+    private int categoryId;
     private String name;
+    private Currency currency;
     private String description;
     private int type;
-    private Currency currency;
-    private float balance;
-    private float limit;
-    private Date added;
     private Bitmap image;
+    private Date added;
+    private int isChildOf;
     private int priority;
 
     private enum Type {
-        CASH, BANK, CREDIT_CARD, DEBIT_CARD, DEPOSIT, ONLINE_ACCOUNT, CRYPTO, OTHER
+        EXPENSE, INCOME
     }
 
-    public Account(String name, String description, int type, Currency currency, float balance, float limit, Date added, Bitmap image, int priority) {
+    public Category(String name, Currency currency, String description, int type, Bitmap image, Date added, int isChildOf, int priority) {
         this.name = name;
+        this.currency = currency;
         this.description = description;
         this.type = type;
-        this.currency = currency;
-        this.balance = balance;
-        this.limit = limit;
-        this.added = added;
         this.image = image;
+        this.added = added;
+        this.isChildOf = isChildOf;
         this.priority = priority;
     }
 
-    public int getAccountId() {
-        return accountId;
+    public int getCategoryId() {
+        return categoryId;
     }
 
-    public void setAccountId(int accountId) {
-        this.accountId = accountId;
+    public void setCategoryId(int categoryId) {
+        this.categoryId = categoryId;
     }
 
     public String getName() {
@@ -53,6 +53,14 @@ public class Account {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Currency getCurrency() {
+        return currency;
+    }
+
+    public void setCurrency(Currency currency) {
+        this.currency = currency;
     }
 
     public String getDescription() {
@@ -71,28 +79,12 @@ public class Account {
         this.type = type;
     }
 
-    public Currency getCurrency() {
-        return currency;
+    public Bitmap getImage() {
+        return image;
     }
 
-    public void setCurrency(Currency currency) {
-        this.currency = currency;
-    }
-
-    public float getBalance() {
-        return balance;
-    }
-
-    public void setBalance(float balance) {
-        this.balance = balance;
-    }
-
-    public float getLimit() {
-        return limit;
-    }
-
-    public void setLimit(float limit) {
-        this.limit = limit;
+    public void setImage(Bitmap image) {
+        this.image = image;
     }
 
     public Date getAdded() {
@@ -103,12 +95,12 @@ public class Account {
         this.added = added;
     }
 
-    public Bitmap getImage() {
-        return image;
+    public int getIsChildOf() {
+        return isChildOf;
     }
 
-    public void setImage(Bitmap image) {
-        this.image = image;
+    public void setIsChildOf(int isChildOf) {
+        this.isChildOf = isChildOf;
     }
 
     public int getPriority() {

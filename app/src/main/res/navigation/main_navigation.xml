@@ -38,6 +38,13 @@
             app:exitAnim="@anim/nav_default_exit_anim"
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
             app:popExitAnim="@anim/nav_default_pop_exit_anim"/>
+        <action
+            android:id="@+id/action_mainFragmentDashboard_to_backupFragment"
+            app:destination="@id/backupFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
     </fragment>
     <fragment
         android:id="@+id/mainFragmentAccounts"
@@ -72,6 +79,13 @@
             app:exitAnim="@anim/nav_default_exit_anim"
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
             app:popExitAnim="@anim/nav_default_pop_exit_anim"/>
+        <action
+            android:id="@+id/action_mainFragmentAccounts_to_backupFragment"
+            app:destination="@id/backupFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
     </fragment>
     <fragment
         android:id="@+id/mainFragmentCategories"
@@ -106,6 +120,13 @@
             app:exitAnim="@anim/nav_default_exit_anim"
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
             app:popExitAnim="@anim/nav_default_pop_exit_anim"/>
+        <action
+            android:id="@+id/action_mainFragmentCategories_to_backupFragment"
+            app:destination="@id/backupFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
     </fragment>
     <fragment
         android:id="@+id/mainFragmentSubscriptions"
@@ -140,6 +161,13 @@
             app:exitAnim="@anim/nav_default_exit_anim"
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
             app:popExitAnim="@anim/nav_default_pop_exit_anim"/>
+        <action
+            android:id="@+id/action_mainFragmentSubscriptions_to_backupFragment"
+            app:destination="@id/backupFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
     </fragment>
     <fragment
         android:id="@+id/settingsFragment"
@@ -174,5 +202,53 @@
             app:exitAnim="@anim/nav_default_exit_anim"
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
             app:popExitAnim="@anim/nav_default_pop_exit_anim"/>
+        <action
+            android:id="@+id/action_settingsFragment_to_backupFragment"
+            app:destination="@id/backupFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+    </fragment>
+    <fragment
+        android:id="@+id/backupFragment"
+        android:name="com.marco.finbill.ui.backup.BackupFragment"
+        android:label="@string/backup"
+        tools:layout="@layout/fragment_backup" >
+        <action
+            android:id="@+id/action_backupFragment_to_mainFragmentAccounts"
+            app:destination="@id/mainFragmentAccounts"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+        <action
+            android:id="@+id/action_backupFragment_to_settingsFragment"
+            app:destination="@id/settingsFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+        <action
+            android:id="@+id/action_backupFragment_to_mainFragmentDashboard"
+            app:destination="@id/mainFragmentDashboard"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+        <action
+            android:id="@+id/action_backupFragment_to_mainFragmentCategories"
+            app:destination="@id/mainFragmentCategories"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+        <action
+            android:id="@+id/action_backupFragment_to_mainFragmentSubscriptions"
+            app:destination="@id/mainFragmentSubscriptions"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
     </fragment>
 </navigation>

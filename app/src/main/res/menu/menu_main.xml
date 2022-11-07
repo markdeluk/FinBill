@@ -5,6 +5,13 @@
     <item
         android:id="@+id/settingsFragment"
         android:title="@string/settings"
-        app:showAsAction="never"
+        android:icon="@drawable/settings_icon"
+        app:showAsAction="ifRoom"
+    />
+    <item
+        android:id="@+id/backupFragment"
+        android:title="@string/backup"
+        android:icon="@drawable/backup_icon"
+        app:showAsAction="ifRoom"
     />
 </menu>
