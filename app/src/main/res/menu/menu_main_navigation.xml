@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/mainFragmentDashboard"
+        android:title="@string/dashboard"
+        android:icon="@drawable/dashboard_icon"
+    />
+    <item
+        android:id="@+id/mainFragmentAccounts"
+        android:title="@string/accounts"
+        android:icon="@drawable/accounts_icon"
+    />
+    <item
+        android:id="@+id/mainFragmentCategories"
+        android:title="@string/categories"
+        android:icon="@drawable/categories_icon"
+    />
+    <item
+        android:id="@+id/mainFragmentSubscriptions"
+        android:title="@string/subscriptions"
+        android:icon="@drawable/subscriptions_icon"
+    />
+</menu>

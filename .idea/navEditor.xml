@@ -17,6 +17,25 @@
                             <option name="y" value="459" />
                           </Point>
                         </option>
+                        <option name="myPositions">
+                          <map>
+                            <entry key="action_mainFragmentAccounts_to_mainFragmentCategories">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
+                            <entry key="action_mainFragmentAccounts_to_mainFragmentDashboard">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
+                            <entry key="action_mainFragmentAccounts_to_mainFragmentSubscriptions">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
+                          </map>
+                        </option>
                       </LayoutPositions>
                     </value>
                   </entry>
@@ -89,6 +108,37 @@
                           <Point>
                             <option name="x" value="772" />
                             <option name="y" value="-94" />
+                          </Point>
+                        </option>
+                        <option name="myPositions">
+                          <map>
+                            <entry key="action_mainFragmentSubscriptions_to_mainFragmentAccounts">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
+                            <entry key="action_mainFragmentSubscriptions_to_mainFragmentCategories">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
+                            <entry key="action_mainFragmentSubscriptions_to_mainFragmentDashboard">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
+                          </map>
+                        </option>
+                      </LayoutPositions>
+                    </value>
+                  </entry>
+                  <entry key="settingsFragment">
+                    <value>
+                      <LayoutPositions>
+                        <option name="myPosition">
+                          <Point>
+                            <option name="x" value="94" />
+                            <option name="y" value="626" />
                           </Point>
                         </option>
                       </LayoutPositions>

@@ -1,4 +1,4 @@
-package com.marco.finbill;
+package com.marco.finbill.ui.welcome;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -19,6 +19,8 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
 import android.widget.Toast;
+
+import com.marco.finbill.R;
 
 import java.util.Objects;
 

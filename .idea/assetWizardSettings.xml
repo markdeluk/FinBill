@@ -35,7 +35,19 @@
                                             <option name="values">
                                               <map>
                                                 <entry key="color" value="000000" />
-                                                <entry key="imagePath" value="/private/var/folders/zr/hjp5vq2n0375t1p127hrx3rr0000gn/T/ic_android_black_24dp.xml" />
+                                                <entry key="imagePath" value="/private/var/folders/zr/hjp5vq2n0375t1p127hrx3rr0000gn/T/baseline_subscriptions_24.xml" />
+                                                <entry key="opacityPercent" value="60" />
+                                              </map>
+                                            </option>
+                                          </PersistentState>
+                                        </value>
+                                      </entry>
+                                      <entry key="clipartAsset">
+                                        <value>
+                                          <PersistentState>
+                                            <option name="values">
+                                              <map>
+                                                <entry key="url" value="file:$USER_HOME$/Library/Android/sdk/icons/material/materialicons/subscriptions/baseline_subscriptions_24.xml" />
                                               </map>
                                             </option>
                                           </PersistentState>
@@ -63,6 +75,11 @@
                                           </PersistentState>
                                         </value>
                                       </entry>
+                                    </map>
+                                  </option>
+                                  <option name="values">
+                                    <map>
+                                      <entry key="outputName" value="subscriptions_icon" />
                                     </map>
                                   </option>
                                 </PersistentState>
@@ -298,6 +315,11 @@
                                 </PersistentState>
                               </value>
                             </entry>
+                          </map>
+                        </option>
+                        <option name="values">
+                          <map>
+                            <entry key="outputIconType" value="ACTIONBAR" />
                           </map>
                         </option>
                       </PersistentState>

@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/welcomeFragment1"
-        android:name="com.marco.finbill.WelcomeFragment1"
+        android:name="com.marco.finbill.ui.welcome.WelcomeFragment1"
         android:label="fragment_welcome1"
         tools:layout="@layout/fragment_welcome1" >
         <action
@@ -21,7 +21,7 @@
     </fragment>
     <fragment
         android:id="@+id/welcomeFragment2"
-        android:name="com.marco.finbill.WelcomeFragment2"
+        android:name="com.marco.finbill.ui.welcome.WelcomeFragment2"
         android:label="fragment_welcome2"
         tools:layout="@layout/fragment_welcome2" >
         <action
@@ -34,7 +34,7 @@
     </fragment>
     <fragment
         android:id="@+id/welcomeFragment3"
-        android:name="com.marco.finbill.WelcomeFragment3"
+        android:name="com.marco.finbill.ui.welcome.WelcomeFragment3"
         android:label="fragment_welcome3"
         tools:layout="@layout/fragment_welcome3" />
 </navigation>

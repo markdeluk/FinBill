@@ -1,20 +1,22 @@
-package com.marco.finbill;
+package com.marco.finbill.ui.main;
 
 import android.os.Bundle;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 
-public class WelcomeFragment3 extends Fragment {
+import com.marco.finbill.R;
 
-    Button button;
+import java.util.Objects;
 
-    public WelcomeFragment3() {
+public class MainFragmentDashboard extends Fragment {
 
+    public MainFragmentDashboard() {
     }
 
     @Override
@@ -25,11 +27,7 @@ public class WelcomeFragment3 extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_welcome3, container, false);
 
-        button = view.findViewById(R.id.button4);
-        button.setOnClickListener(v -> requireActivity().finish());
-
-        return view;
+        return inflater.inflate(R.layout.fragment_main_dashboard, container, false);
     }
 }
