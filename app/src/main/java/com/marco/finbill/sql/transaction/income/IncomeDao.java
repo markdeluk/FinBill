@@ -26,10 +26,10 @@ public interface IncomeDao {
     @Query("SELECT * FROM income_table WHERE incomeId = :incomeId")
     Transaction getIncomeById(int incomeId);
 
-    @Query("SELECT * FROM expense_table")
+    @Query("SELECT * FROM income_table")
     LiveData<List<Income>> getAllIncomes();
 
-    @Query("DELETE FROM expense_table")
+    @Query("DELETE FROM income_table")
     void deleteAllIncomes();
     
 }

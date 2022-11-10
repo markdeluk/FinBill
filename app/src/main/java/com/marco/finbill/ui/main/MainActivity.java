@@ -3,6 +3,7 @@ package com.marco.finbill.ui.main;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -16,6 +17,7 @@ import android.view.MenuItem;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.marco.finbill.R;
+import com.marco.finbill.sql.model.FinBillViewModel;
 import com.marco.finbill.ui.welcome.WelcomeActivity;
 
 import java.util.Objects;
@@ -24,6 +26,8 @@ public class MainActivity extends AppCompatActivity {
 
     private NavController navController;
     private AppBarConfiguration appBarConfiguration;
+
+    private FinBillViewModel viewModel;
 
     public MainActivity() {
     }
@@ -40,6 +44,8 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
         }
 
+        // UI settings
+
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -51,6 +57,12 @@ public class MainActivity extends AppCompatActivity {
 
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationView);
         NavigationUI.setupWithNavController(bottomNavigationView, navController);
+
+        // Data settings
+
+        viewModel = new ViewModelProvider(this).get(FinBillViewModel.class);
+
+
     }
 
     @Override

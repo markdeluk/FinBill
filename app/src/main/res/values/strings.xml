@@ -28,4 +28,7 @@
     <string name="sign_placeholder" translatable="false">SIGN</string>
     <string name="amount_placeholder" translatable="false">AMOUNT</string>
     <string name="currency_placeholder" translatable="false">CURRENCY</string>
+
+    <string name="minus" translatable="false">-</string>
+    <string name="plus" translatable="false">+</string>
 </resources>

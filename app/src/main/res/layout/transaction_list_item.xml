@@ -53,7 +53,7 @@
             android:src="@drawable/from_icon" />
 
         <TextView
-            android:id="@+id/category"
+            android:id="@+id/from"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
@@ -61,6 +61,27 @@
             android:text="@string/from_placeholder"
             app:layout_constraintStart_toEndOf="@id/from_icon"
             app:layout_constraintTop_toBottomOf="@id/title_icon" />
+
+        <ImageView
+            android:id="@+id/to_icon"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginTop="8dp"
+            android:contentDescription="@string/picture_placeholder"
+            android:src="@drawable/to_icon"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/from_icon" />
+
+        <TextView
+            android:id="@+id/to"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:text="@string/to_placeholder"
+            app:layout_constraintStart_toEndOf="@id/to_icon"
+            app:layout_constraintTop_toBottomOf="@+id/from_icon" />
+
 
         <ImageView
             android:id="@+id/date_icon"
@@ -102,26 +123,6 @@
             android:text="@string/time_placeholder"
             app:layout_constraintStart_toEndOf="@id/time_icon"
             app:layout_constraintTop_toBottomOf="@id/date_icon" />
-
-        <ImageView
-            android:id="@+id/to_icon"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_marginTop="8dp"
-            android:contentDescription="@string/picture_placeholder"
-            android:src="@drawable/to_icon"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/from_icon" />
-
-        <TextView
-            android:id="@+id/to"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:text="@string/to_placeholder"
-            app:layout_constraintStart_toEndOf="@id/to_icon"
-            app:layout_constraintTop_toBottomOf="@+id/from_icon" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

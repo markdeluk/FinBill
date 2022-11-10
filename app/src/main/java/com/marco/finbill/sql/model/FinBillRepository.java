@@ -12,6 +12,10 @@ import com.marco.finbill.sql.category.CategoryDao;
 import com.marco.finbill.sql.exchange.ExchangeDao;
 import com.marco.finbill.sql.transaction.Transaction;
 import com.marco.finbill.sql.transaction.TransactionDao;
+import com.marco.finbill.sql.transaction.expense.Expense;
+import com.marco.finbill.sql.transaction.expense.ExpenseDao;
+import com.marco.finbill.sql.transaction.income.IncomeDao;
+import com.marco.finbill.sql.transaction.transfer.TransferDao;
 
 import java.util.List;
 import java.util.concurrent.ExecutorService;
@@ -30,6 +34,9 @@ public class FinBillRepository {
         CategoryDao categoryDao = database.categoryDao();
         ExchangeDao exchangeDao = database.exchangeDao();
         transactionDao = database.transactionDao();
+        ExpenseDao expenseDao = database.expenseDao();
+        IncomeDao incomeDao = database.incomeDao();
+        TransferDao transferDao = database.transferDao();
 
         ExecutorService executorService = Executors.newFixedThreadPool(2);
         Handler mainThreadHandler = HandlerCompat.createAsync(Looper.getMainLooper());
@@ -42,5 +49,9 @@ public class FinBillRepository {
 
     public LiveData<List<Transaction>> getAllTransactions() {
         return transactionDao.getAllTransactions();
+    }
+
+    public LiveData<List<Expense>> getAllExpenses() {
+        return transactionDao.getAllExpenses();
     }
 }
