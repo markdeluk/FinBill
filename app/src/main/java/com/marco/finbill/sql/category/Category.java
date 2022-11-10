@@ -16,7 +16,6 @@ public class Category {
     @PrimaryKey(autoGenerate = true)
     private int categoryId;
     private String name;
-    private Currency currency;
     private String description;
     private int type;
     private Bitmap image;
@@ -28,9 +27,8 @@ public class Category {
         EXPENSE, INCOME
     }
 
-    public Category(String name, Currency currency, String description, int type, Bitmap image, Date added, int isChildOf, int priority) {
+    public Category(String name, String description, int type, Bitmap image, Date added, int isChildOf, int priority) {
         this.name = name;
-        this.currency = currency;
         this.description = description;
         this.type = type;
         this.image = image;
@@ -53,14 +51,6 @@ public class Category {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public Currency getCurrency() {
-        return currency;
-    }
-
-    public void setCurrency(Currency currency) {
-        this.currency = currency;
     }
 
     public String getDescription() {

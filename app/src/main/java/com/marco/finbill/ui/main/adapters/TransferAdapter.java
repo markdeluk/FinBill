@@ -13,12 +13,13 @@ import com.marco.finbill.R;
 import com.marco.finbill.sql.transaction.transfer.TransactionIsTransferWithRelationships;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class TransferAdapter extends RecyclerView.Adapter<TransferAdapter.ViewHolder> {
 
-    private final ArrayList<TransactionIsTransferWithRelationships> transfers;
+    private final List<TransactionIsTransferWithRelationships> transfers;
 
-    public TransferAdapter(ArrayList<TransactionIsTransferWithRelationships> transfers) {
+    public TransferAdapter(List<TransactionIsTransferWithRelationships> transfers) {
         this.transfers = transfers;
     }
 

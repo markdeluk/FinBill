@@ -16,13 +16,7 @@ public class Transaction {
     private int transactionId;
     private String name;
     private String description;
-    private int type;/*
-    private int fromExpense;
-    private int fromIncome;
-    private int fromTransfer;
-    private int toExpense;
-    private int toIncome;
-    private int toTransfer;*/
+    private int type;
     private Currency currency;
     private float amount;
     private Date date;
@@ -54,16 +48,10 @@ public class Transaction {
         NONE, DAILY, WEEKLY, MONTHLY, YEARLY
     }
 
-    public Transaction(String name, String description, int type, int fromExpense, int fromIncome, int fromTransfer, int toExpense, int toIncome, int toTransfer, Currency currency, float amount, Date date, Time time, int frequency, String infoOnce, String infoLasting, String infoRecurrent, int notify, int notifyFrequency, String notes, Bitmap image, Location location, int priority) {
+    public Transaction(String name, String description, int type, Currency currency, float amount, Date date, Time time, int frequency, String infoOnce, String infoLasting, String infoRecurrent, int notify, int notifyFrequency, String notes, Bitmap image, Location location, int priority) {
         this.name = name;
         this.description = description;
-        this.type = type;/*
-        this.fromExpense = fromExpense;
-        this.fromIncome = fromIncome;
-        this.fromTransfer = fromTransfer;
-        this.toExpense = toExpense;
-        this.toIncome = toIncome;
-        this.toTransfer = toTransfer;*/
+        this.type = type;
         this.currency = currency;
         this.amount = amount;
         this.date = date;
@@ -113,55 +101,7 @@ public class Transaction {
     public void setType(int type) {
         this.type = type;
     }
-/*
-    public int getFromExpense() {
-        return fromExpense;
-    }
 
-    public void setFromExpense(int fromExpense) {
-        this.fromExpense = fromExpense;
-    }
-
-    public int getFromIncome() {
-        return fromIncome;
-    }
-
-    public void setFromIncome(int fromIncome) {
-        this.fromIncome = fromIncome;
-    }
-
-    public int getFromTransfer() {
-        return fromTransfer;
-    }
-
-    public void setFromTransfer(int fromTransfer) {
-        this.fromTransfer = fromTransfer;
-    }
-
-    public int getToExpense() {
-        return toExpense;
-    }
-
-    public void setToExpense(int toExpense) {
-        this.toExpense = toExpense;
-    }
-
-    public int getToIncome() {
-        return toIncome;
-    }
-
-    public void setToIncome(int toIncome) {
-        this.toIncome = toIncome;
-    }
-
-    public int getToTransfer() {
-        return toTransfer;
-    }
-
-    public void setToTransfer(int toTransfer) {
-        this.toTransfer = toTransfer;
-    }
-*/
     public Currency getCurrency() {
         return currency;
     }

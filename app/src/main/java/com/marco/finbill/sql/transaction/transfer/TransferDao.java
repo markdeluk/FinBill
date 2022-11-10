@@ -23,11 +23,13 @@ public interface TransferDao {
     @Delete
     void deleteTransfer(Transfer transfer);
 
+    @androidx.room.Transaction
     @Query("SELECT * FROM transfer_table WHERE transferId = :transferId")
-    Transaction getTransferById(int transferId);
+    TransactionIsTransferWithRelationships getTransferById(int transferId);
 
+    @androidx.room.Transaction
     @Query("SELECT * FROM transfer_table")
-    LiveData<List<Transfer>> getAllTransfers();
+    LiveData<List<TransactionIsTransferWithRelationships>> getAllTransfers();
 
     @Query("DELETE FROM transfer_table")
     void deleteAllTransfers();

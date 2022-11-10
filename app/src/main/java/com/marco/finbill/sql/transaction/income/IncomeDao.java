@@ -23,11 +23,13 @@ public interface IncomeDao {
     @Delete
     void deleteIncome(Income expense);
 
+    @androidx.room.Transaction
     @Query("SELECT * FROM income_table WHERE incomeId = :incomeId")
-    Transaction getIncomeById(int incomeId);
+    TransactionIsIncomeWithRelationships getIncomeById(int incomeId);
 
+    @androidx.room.Transaction
     @Query("SELECT * FROM income_table")
-    LiveData<List<Income>> getAllIncomes();
+    LiveData<List<TransactionIsIncomeWithRelationships>> getAllIncomes();
 
     @Query("DELETE FROM income_table")
     void deleteAllIncomes();

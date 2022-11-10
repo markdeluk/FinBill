@@ -13,12 +13,13 @@ import com.marco.finbill.R;
 import com.marco.finbill.sql.transaction.income.TransactionIsIncomeWithRelationships;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class IncomeAdapter extends RecyclerView.Adapter<IncomeAdapter.ViewHolder> {
 
-    private final ArrayList<TransactionIsIncomeWithRelationships> incomes;
+    private final List<TransactionIsIncomeWithRelationships> incomes;
 
-    public IncomeAdapter(ArrayList<TransactionIsIncomeWithRelationships> incomes) {
+    public IncomeAdapter(List<TransactionIsIncomeWithRelationships> incomes) {
         this.incomes = incomes;
     }
 

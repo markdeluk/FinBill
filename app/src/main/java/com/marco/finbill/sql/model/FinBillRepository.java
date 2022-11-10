@@ -14,7 +14,10 @@ import com.marco.finbill.sql.transaction.Transaction;
 import com.marco.finbill.sql.transaction.TransactionDao;
 import com.marco.finbill.sql.transaction.expense.Expense;
 import com.marco.finbill.sql.transaction.expense.ExpenseDao;
+import com.marco.finbill.sql.transaction.expense.TransactionIsExpenseWithRelationships;
 import com.marco.finbill.sql.transaction.income.IncomeDao;
+import com.marco.finbill.sql.transaction.income.TransactionIsIncomeWithRelationships;
+import com.marco.finbill.sql.transaction.transfer.TransactionIsTransferWithRelationships;
 import com.marco.finbill.sql.transaction.transfer.TransferDao;
 
 import java.util.List;
@@ -23,9 +26,11 @@ import java.util.concurrent.Executors;
 
 public class FinBillRepository {
 
-    private final TransactionDao transactionDao;
-
     private static FinBillRepository instance;
+
+    private ExpenseDao expenseDao;
+    private IncomeDao incomeDao;
+    private TransferDao transferDao;
 
     private FinBillRepository(Application application){
         FinBillDatabase database = FinBillDatabase.getInstance(application);
@@ -33,10 +38,9 @@ public class FinBillRepository {
         AccountDao accountDao = database.accountDao();
         CategoryDao categoryDao = database.categoryDao();
         ExchangeDao exchangeDao = database.exchangeDao();
-        transactionDao = database.transactionDao();
-        ExpenseDao expenseDao = database.expenseDao();
-        IncomeDao incomeDao = database.incomeDao();
-        TransferDao transferDao = database.transferDao();
+        expenseDao = database.expenseDao();
+        incomeDao = database.incomeDao();
+        transferDao = database.transferDao();
 
         ExecutorService executorService = Executors.newFixedThreadPool(2);
         Handler mainThreadHandler = HandlerCompat.createAsync(Looper.getMainLooper());
@@ -47,11 +51,15 @@ public class FinBillRepository {
         return instance;
     }
 
-    public LiveData<List<Transaction>> getAllTransactions() {
-        return transactionDao.getAllTransactions();
+    public LiveData<List<TransactionIsExpenseWithRelationships>> getAllExpenses() {
+        return expenseDao.getAllExpenses();
     }
 
-    public LiveData<List<Expense>> getAllExpenses() {
-        return transactionDao.getAllExpenses();
+    public LiveData<List<TransactionIsIncomeWithRelationships>> getAllIncomes() {
+        return incomeDao.getAllIncomes();
+    }
+
+    public LiveData<List<TransactionIsTransferWithRelationships>> getAllTransfers() {
+        return transferDao.getAllTransfers();
     }
 }

@@ -6,9 +6,9 @@ import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Relation;
+import androidx.room.RewriteQueriesToDropUnusedColumns;
+import androidx.room.Transaction;
 import androidx.room.Update;
-
-import com.marco.finbill.sql.transaction.Transaction;
 
 import java.util.List;
 
@@ -24,11 +24,13 @@ public interface ExpenseDao {
     @Delete
     void deleteExpense(Expense expense);
 
+    @Transaction
     @Query("SELECT * FROM expense_table WHERE expenseId = :expenseId")
-    Transaction getExpenseById(int expenseId);
+    TransactionIsExpenseWithRelationships getExpenseById(int expenseId);
 
+    @Transaction
     @Query("SELECT * FROM expense_table")
-    LiveData<List<Expense>> getAllExpenses();
+    LiveData<List<TransactionIsExpenseWithRelationships>> getAllExpenses();
 
     @Query("DELETE FROM expense_table")
     void deleteAllExpenses();

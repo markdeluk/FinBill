@@ -8,12 +8,12 @@ import com.marco.finbill.sql.transaction.Transaction;
 public class TransactionIsTransfer {
 
     @Embedded
-    Transaction transaction;
+    public Transaction transaction;
 
     @Relation(
             parentColumn = "transactionId",
             entityColumn = "transferId"
     )
-    Transfer transfer;
+    public Transfer transfer;
 
 }

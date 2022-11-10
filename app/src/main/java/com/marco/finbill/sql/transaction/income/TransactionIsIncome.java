@@ -8,11 +8,11 @@ import com.marco.finbill.sql.transaction.Transaction;
 public class TransactionIsIncome {
 
     @Embedded
-    Transaction transaction;
+    public Transaction transaction;
 
     @Relation(
             parentColumn = "transactionId",
             entityColumn = "incomeId"
     )
-    Income income;
+    public Income income;
 }

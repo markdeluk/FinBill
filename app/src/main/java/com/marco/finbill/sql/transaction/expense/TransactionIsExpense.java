@@ -7,11 +7,11 @@ import com.marco.finbill.sql.transaction.Transaction;
 
 public class TransactionIsExpense {
     @Embedded
-    Transaction transaction;
+    public Transaction transaction;
 
     @Relation(
             parentColumn = "transactionId",
             entityColumn = "expenseId"
     )
-    Expense expense;
+    public Expense expense;
 }

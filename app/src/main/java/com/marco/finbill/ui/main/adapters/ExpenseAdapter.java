@@ -13,12 +13,13 @@ import com.marco.finbill.R;
 import com.marco.finbill.sql.transaction.expense.TransactionIsExpenseWithRelationships;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class ExpenseAdapter extends RecyclerView.Adapter<ExpenseAdapter.ViewHolder> {
 
-    private final ArrayList<TransactionIsExpenseWithRelationships> expenses;
+    private final List<TransactionIsExpenseWithRelationships> expenses;
 
-    public ExpenseAdapter(ArrayList<TransactionIsExpenseWithRelationships> expenses) {
+    public ExpenseAdapter(List<TransactionIsExpenseWithRelationships> expenses) {
         this.expenses = expenses;
     }
 

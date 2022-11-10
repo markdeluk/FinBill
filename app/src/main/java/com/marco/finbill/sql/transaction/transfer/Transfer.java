@@ -6,8 +6,8 @@ import androidx.room.PrimaryKey;
 @Entity(tableName = "transfer_table")
 public class Transfer {
 
-    @PrimaryKey int transferId;
-    int fromTransfer;
-    int toTransfer;
+    @PrimaryKey public int transferId;
+    public int fromTransfer;
+    public int toTransfer;
 
 }

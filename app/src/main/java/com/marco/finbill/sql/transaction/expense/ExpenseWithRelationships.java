@@ -1,6 +1,7 @@
 package com.marco.finbill.sql.transaction.expense;
 
 import androidx.room.Embedded;
+import androidx.room.Entity;
 import androidx.room.Relation;
 
 import com.marco.finbill.sql.account.Account;
@@ -12,12 +13,14 @@ public class ExpenseWithRelationships {
     public Expense expense;
 
     @Relation(
+            entity = Account.class,
             parentColumn = "fromExpense",
             entityColumn = "accountId"
     )
     public Account fromExpense;
 
     @Relation(
+            entity = Category.class,
             parentColumn = "toExpense",
             entityColumn = "categoryId"
     )

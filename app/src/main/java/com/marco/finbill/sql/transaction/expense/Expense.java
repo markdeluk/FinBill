@@ -6,8 +6,8 @@ import androidx.room.PrimaryKey;
 @Entity(tableName = "expense_table")
 public class Expense {
 
-    @PrimaryKey int expenseId;
-    int fromExpense;
-    int toExpense;
+    @PrimaryKey public int expenseId;
+    public int fromExpense;
+    public int toExpense;
 
 }
