@@ -79,7 +79,7 @@
                                   </option>
                                   <option name="values">
                                     <map>
-                                      <entry key="outputName" value="add_icon" />
+                                      <entry key="outputName" value="to_icon" />
                                     </map>
                                   </option>
                                 </PersistentState>
@@ -328,6 +328,11 @@
                 </map>
               </option>
             </PersistentState>
+          </value>
+        </entry>
+        <entry key="vectorWizard">
+          <value>
+            <PersistentState />
           </value>
         </entry>
       </map>

@@ -1,11 +1,8 @@
 package com.marco.finbill.sql.transaction;
 
 import android.graphics.Bitmap;
-import android.graphics.Picture;
 import android.icu.util.Currency;
 import android.location.Location;
-import android.media.Image;
-import android.provider.ContactsContract;
 
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
@@ -19,13 +16,13 @@ public class Transaction {
     private int transactionId;
     private String name;
     private String description;
-    private int type;
+    private int type;/*
     private int fromExpense;
     private int fromIncome;
     private int fromTransfer;
     private int toExpense;
     private int toIncome;
-    private int toTransfer;
+    private int toTransfer;*/
     private Currency currency;
     private float amount;
     private Date date;
@@ -41,32 +38,32 @@ public class Transaction {
     private Location location;
     private int priority;
 
-    private enum Type {
+    public enum Type {
         EXPENSE, INCOME, TRANSFER
     }
 
-    private enum Frequency {
+    public enum Frequency {
         ONCE, LASTING, RECURRENT
     }
 
-    private enum Notify {
+    public enum Notify {
         NO, YES
     }
 
-    private enum NotifyFrequency {
+    public enum NotifyFrequency {
         NONE, DAILY, WEEKLY, MONTHLY, YEARLY
     }
 
     public Transaction(String name, String description, int type, int fromExpense, int fromIncome, int fromTransfer, int toExpense, int toIncome, int toTransfer, Currency currency, float amount, Date date, Time time, int frequency, String infoOnce, String infoLasting, String infoRecurrent, int notify, int notifyFrequency, String notes, Bitmap image, Location location, int priority) {
         this.name = name;
         this.description = description;
-        this.type = type;
+        this.type = type;/*
         this.fromExpense = fromExpense;
         this.fromIncome = fromIncome;
         this.fromTransfer = fromTransfer;
         this.toExpense = toExpense;
         this.toIncome = toIncome;
-        this.toTransfer = toTransfer;
+        this.toTransfer = toTransfer;*/
         this.currency = currency;
         this.amount = amount;
         this.date = date;
@@ -82,6 +79,8 @@ public class Transaction {
         this.location = location;
         this.priority = priority;
     }
+
+    // Visibility methods
 
     public int getTransactionId() {
         return transactionId;
@@ -114,7 +113,7 @@ public class Transaction {
     public void setType(int type) {
         this.type = type;
     }
-
+/*
     public int getFromExpense() {
         return fromExpense;
     }
@@ -162,7 +161,7 @@ public class Transaction {
     public void setToTransfer(int toTransfer) {
         this.toTransfer = toTransfer;
     }
-
+*/
     public Currency getCurrency() {
         return currency;
     }
@@ -274,4 +273,5 @@ public class Transaction {
     public void setPriority(int priority) {
         this.priority = priority;
     }
+
 }

@@ -18,4 +18,14 @@
     <string name="subscriptions" translatable="false">Subscriptions</string>
     <string name="backup" translatable="false">Backup and restore</string>
     <string name="fab" translatable="false">FAB</string>
+
+    <string name="picture_placeholder" translatable="false">PICTURE</string>
+    <string name="title_placeholder" translatable="false">TITLE</string>
+    <string name="from_placeholder" translatable="false">FROM</string>
+    <string name="date_placeholder" translatable="false">DATE</string>
+    <string name="time_placeholder" translatable="false">TIME</string>
+    <string name="to_placeholder" translatable="false">TO</string>
+    <string name="sign_placeholder" translatable="false">SIGN</string>
+    <string name="amount_placeholder" translatable="false">AMOUNT</string>
+    <string name="currency_placeholder" translatable="false">CURRENCY</string>
 </resources>

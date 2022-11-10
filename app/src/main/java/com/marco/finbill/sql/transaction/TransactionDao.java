@@ -7,9 +7,11 @@ import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
 
+import com.marco.finbill.sql.account.Account;
 import com.marco.finbill.sql.category.Category;
 
 import java.util.List;
+import java.util.Map;
 
 @Dao
 public interface TransactionDao {
@@ -23,8 +25,11 @@ public interface TransactionDao {
     @Delete
     void deleteTransaction(Transaction transaction);
 
-    @Query("SELECT * FROM transaction_table WHERE transactionId = :id")
-    Transaction getTransactionById(int id);
+    @Query("SELECT type FROM transaction_table WHERE transactionId = :transactionId")
+    Transaction getTransactionById(int transactionId);
+
+    @Query("SELECT type FROM transaction_table WHERE transactionId = :transactionId")
+    Transaction getTypeById(int transactionId);
 
     @Query("SELECT * FROM transaction_table")
     LiveData<List<Transaction>> getAllTransactions();
