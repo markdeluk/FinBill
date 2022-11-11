@@ -7,21 +7,36 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.DiffUtil;
+import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.marco.finbill.R;
-import com.marco.finbill.sql.transaction.expense.TransactionIsExpenseWithRelationships;
+import com.marco.finbill.sql.transaction.expense.ExpenseIsTransaction;
+import com.marco.finbill.sql.transaction.expense.ExpenseIsTransactionWithRelationships;
+import com.marco.finbill.sql.transaction.expense.ExpenseIsTransactionWithRelationshipsDao;
 
-import java.util.ArrayList;
 import java.util.List;
 
-public class ExpenseAdapter extends RecyclerView.Adapter<ExpenseAdapter.ViewHolder> {
+public class ExpenseAdapter extends ListAdapter<ExpenseIsTransactionWithRelationships, ExpenseAdapter.ViewHolder> {
 
-    private final List<TransactionIsExpenseWithRelationships> expenses;
-
-    public ExpenseAdapter(List<TransactionIsExpenseWithRelationships> expenses) {
-        this.expenses = expenses;
+    public ExpenseAdapter() {
+        super(DIFF_CALLBACK);
     }
+
+    private static final DiffUtil.ItemCallback<ExpenseIsTransactionWithRelationships> DIFF_CALLBACK = new DiffUtil.ItemCallback<ExpenseIsTransactionWithRelationships>() {
+
+        @Override
+        public boolean areItemsTheSame(ExpenseIsTransactionWithRelationships oldItem, ExpenseIsTransactionWithRelationships newItem) {
+            return oldItem.expenseId == newItem.expenseId;
+        }
+
+        @Override
+        public boolean areContentsTheSame(ExpenseIsTransactionWithRelationships oldItem, ExpenseIsTransactionWithRelationships newItem) {
+            // below line is to check the course name, description and course duration.
+            return oldItem.transaction.equals(newItem.transaction) && oldItem.fromExpense.equals(newItem.fromExpense) && oldItem.toExpense.equals(newItem.toExpense);
+        }
+    };
 
     @NonNull
     @Override
@@ -33,26 +48,25 @@ public class ExpenseAdapter extends RecyclerView.Adapter<ExpenseAdapter.ViewHold
 
     @Override
     public void onBindViewHolder(@NonNull ExpenseAdapter.ViewHolder holder, int position) {
-        TransactionIsExpenseWithRelationships transactionIsExpenseWithRelationships = expenses.get(position);
+        ExpenseIsTransactionWithRelationships expenseIsTransactionWithRelationships = getExpenseAt(position);
         // picture
-        if (transactionIsExpenseWithRelationships.transaction.getImage() == null) {
+        if (expenseIsTransactionWithRelationships.transaction.getImage() == null) {
             holder.picture.setImageResource(R.drawable.picture_icon);
         } else {
-            holder.picture.setImageBitmap(transactionIsExpenseWithRelationships.transaction.getImage());
+            holder.picture.setImageBitmap(expenseIsTransactionWithRelationships.transaction.getImage());
         }
-        holder.title.setText(transactionIsExpenseWithRelationships.transaction.getName());
-        holder.from.setText(transactionIsExpenseWithRelationships.expenseWithRelationships.fromExpense.getName());
-        holder.to.setText(transactionIsExpenseWithRelationships.expenseWithRelationships.toExpense.getName());
-        holder.date.setText(transactionIsExpenseWithRelationships.transaction.getDate().toString());
-        holder.time.setText(transactionIsExpenseWithRelationships.transaction.getTime().toString());
+        holder.title.setText(expenseIsTransactionWithRelationships.transaction.getName());
+        holder.from.setText(expenseIsTransactionWithRelationships.fromExpense.getAccountName());
+        holder.to.setText(expenseIsTransactionWithRelationships.toExpense.getCategoryName());
+        holder.date.setText(expenseIsTransactionWithRelationships.transaction.getDate().toString());
+        holder.time.setText(expenseIsTransactionWithRelationships.transaction.getTime().toString());
         holder.sign.setText(R.string.minus);
-        holder.amount.setText(String.valueOf(transactionIsExpenseWithRelationships.transaction.getAmount()));
-        holder.currency.setText(transactionIsExpenseWithRelationships.transaction.getCurrency().getCurrencyCode());
+        holder.amount.setText(String.valueOf(expenseIsTransactionWithRelationships.transaction.getAmount()));
+        holder.currency.setText(expenseIsTransactionWithRelationships.transaction.getCurrency().getCurrencyCode());
     }
 
-    @Override
-    public int getItemCount() {
-        return expenses.size();
+    public ExpenseIsTransactionWithRelationships getExpenseAt(int position) {
+        return getItem(position);
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {

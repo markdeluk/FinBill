@@ -29,7 +29,7 @@ public interface CategoryDao {
     @Query("SELECT * FROM category_table")
     LiveData<List<Category>> getAllCategories();
 
-    @Query("SELECT * FROM category_table WHERE name LIKE '%' || :query || '%'")
+    @Query("SELECT * FROM category_table WHERE categoryName LIKE '%' || :query || '%'")
     LiveData<List<Category>> searchCategory(String query);
 
     @Query("DELETE FROM category_table")

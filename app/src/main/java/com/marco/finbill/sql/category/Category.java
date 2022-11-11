@@ -15,26 +15,26 @@ import java.sql.Date;
 public class Category {
     @PrimaryKey(autoGenerate = true)
     private int categoryId;
-    private String name;
-    private String description;
-    private int type;
-    private Bitmap image;
-    private Date added;
-    private int isChildOf;
-    private int priority;
+    private String categoryName;
+    private String categoryDescription;
+    private int categoryType;
+    private Bitmap categoryImage;
+    private Date categoryAdded;
+    private int categoryIsChildOf;
+    private int categoryPriority;
 
     private enum Type {
         EXPENSE, INCOME
     }
 
-    public Category(String name, String description, int type, Bitmap image, Date added, int isChildOf, int priority) {
-        this.name = name;
-        this.description = description;
-        this.type = type;
-        this.image = image;
-        this.added = added;
-        this.isChildOf = isChildOf;
-        this.priority = priority;
+    public Category(String categoryName, String categoryDescription, int categoryType, Bitmap categoryImage, Date categoryAdded, int categoryIsChildOf, int categoryPriority) {
+        this.categoryName = categoryName;
+        this.categoryDescription = categoryDescription;
+        this.categoryType = categoryType;
+        this.categoryImage = categoryImage;
+        this.categoryAdded = categoryAdded;
+        this.categoryIsChildOf = categoryIsChildOf;
+        this.categoryPriority = categoryPriority;
     }
 
     public int getCategoryId() {
@@ -45,59 +45,70 @@ public class Category {
         this.categoryId = categoryId;
     }
 
-    public String getName() {
-        return name;
+    public String getCategoryName() {
+        return categoryName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setCategoryName(String categoryName) {
+        this.categoryName = categoryName;
     }
 
-    public String getDescription() {
-        return description;
+    public String getCategoryDescription() {
+        return categoryDescription;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setCategoryDescription(String categoryDescription) {
+        this.categoryDescription = categoryDescription;
     }
 
-    public int getType() {
-        return type;
+    public int getCategoryType() {
+        return categoryType;
     }
 
-    public void setType(int type) {
-        this.type = type;
+    public void setCategoryType(int categoryType) {
+        this.categoryType = categoryType;
     }
 
-    public Bitmap getImage() {
-        return image;
+    public Bitmap getCategoryImage() {
+        return categoryImage;
     }
 
-    public void setImage(Bitmap image) {
-        this.image = image;
+    public void setCategoryImage(Bitmap categoryImage) {
+        this.categoryImage = categoryImage;
     }
 
-    public Date getAdded() {
-        return added;
+    public Date getCategoryAdded() {
+        return categoryAdded;
     }
 
-    public void setAdded(Date added) {
-        this.added = added;
+    public void setCategoryAdded(Date categoryAdded) {
+        this.categoryAdded = categoryAdded;
     }
 
-    public int getIsChildOf() {
-        return isChildOf;
+    public int getCategoryIsChildOf() {
+        return categoryIsChildOf;
     }
 
-    public void setIsChildOf(int isChildOf) {
-        this.isChildOf = isChildOf;
+    public void setCategoryIsChildOf(int categoryIsChildOf) {
+        this.categoryIsChildOf = categoryIsChildOf;
     }
 
-    public int getPriority() {
-        return priority;
+    public int getCategoryPriority() {
+        return categoryPriority;
     }
 
-    public void setPriority(int priority) {
-        this.priority = priority;
+    public void setCategoryPriority(int categoryPriority) {
+        this.categoryPriority = categoryPriority;
+    }
+
+    public boolean equals(Category category) {
+        return this.categoryId == category.getCategoryId() &&
+                this.categoryName.equals(category.getCategoryName()) &&
+                this.categoryDescription.equals(category.getCategoryDescription()) &&
+                this.categoryType == category.getCategoryType() &&
+                this.categoryImage.equals(category.getCategoryImage()) &&
+                this.categoryAdded.equals(category.getCategoryAdded()) &&
+                this.categoryIsChildOf == category.getCategoryIsChildOf() &&
+                this.categoryPriority == category.getCategoryPriority();
     }
 }

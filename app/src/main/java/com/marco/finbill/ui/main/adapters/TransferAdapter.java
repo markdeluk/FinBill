@@ -7,21 +7,35 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.DiffUtil;
+import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.marco.finbill.R;
-import com.marco.finbill.sql.transaction.transfer.TransactionIsTransferWithRelationships;
+import com.marco.finbill.sql.transaction.expense.ExpenseIsTransactionWithRelationships;
+import com.marco.finbill.sql.transaction.transfer.TransferIsTransactionWithRelationships;
 
-import java.util.ArrayList;
 import java.util.List;
 
-public class TransferAdapter extends RecyclerView.Adapter<TransferAdapter.ViewHolder> {
+public class TransferAdapter extends ListAdapter<TransferIsTransactionWithRelationships, TransferAdapter.ViewHolder> {
 
-    private final List<TransactionIsTransferWithRelationships> transfers;
-
-    public TransferAdapter(List<TransactionIsTransferWithRelationships> transfers) {
-        this.transfers = transfers;
+    public TransferAdapter() {
+        super(DIFF_CALLBACK);
     }
+
+    private static final DiffUtil.ItemCallback<TransferIsTransactionWithRelationships> DIFF_CALLBACK = new DiffUtil.ItemCallback<TransferIsTransactionWithRelationships>() {
+
+        @Override
+        public boolean areItemsTheSame(TransferIsTransactionWithRelationships oldItem, TransferIsTransactionWithRelationships newItem) {
+            return oldItem.transferId == newItem.transferId;
+        }
+
+        @Override
+        public boolean areContentsTheSame(TransferIsTransactionWithRelationships oldItem, TransferIsTransactionWithRelationships newItem) {
+            // below line is to check the course name, description and course duration.
+            return oldItem.transaction.equals(newItem.transaction) && oldItem.fromTransfer.equals(newItem.fromTransfer) && oldItem.toTransfer.equals(newItem.toTransfer);
+        }
+    };
 
     @NonNull
     @Override
@@ -33,26 +47,25 @@ public class TransferAdapter extends RecyclerView.Adapter<TransferAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(@NonNull TransferAdapter.ViewHolder holder, int position) {
-        TransactionIsTransferWithRelationships transactionIsTransferWithRelationships = transfers.get(position);
+        TransferIsTransactionWithRelationships transferIsTransactionWithRelationships = getTransferAt(position);
         // picture
-        if (transactionIsTransferWithRelationships.transaction.getImage() == null) {
+        if (transferIsTransactionWithRelationships.transaction.getImage() == null) {
             holder.picture.setImageResource(R.drawable.picture_icon);
         } else {
-            holder.picture.setImageBitmap(transactionIsTransferWithRelationships.transaction.getImage());
+            holder.picture.setImageBitmap(transferIsTransactionWithRelationships.transaction.getImage());
         }
-        holder.title.setText(transactionIsTransferWithRelationships.transaction.getName());
-        holder.from.setText(transactionIsTransferWithRelationships.transferWithRelationships.fromTransfer.getName());
-        holder.to.setText(transactionIsTransferWithRelationships.transferWithRelationships.toTransfer.getName());
-        holder.date.setText(transactionIsTransferWithRelationships.transaction.getDate().toString());
-        holder.time.setText(transactionIsTransferWithRelationships.transaction.getTime().toString());
+        holder.title.setText(transferIsTransactionWithRelationships.transaction.getName());
+        holder.from.setText(transferIsTransactionWithRelationships.fromTransfer.getAccountName());
+        holder.to.setText(transferIsTransactionWithRelationships.toTransfer.getAccountName());
+        holder.date.setText(transferIsTransactionWithRelationships.transaction.getDate().toString());
+        holder.time.setText(transferIsTransactionWithRelationships.transaction.getTime().toString());
         holder.sign.setText(R.string.minus);
-        holder.amount.setText(String.valueOf(transactionIsTransferWithRelationships.transaction.getAmount()));
-        holder.currency.setText(transactionIsTransferWithRelationships.transaction.getCurrency().getCurrencyCode());
+        holder.amount.setText(String.valueOf(transferIsTransactionWithRelationships.transaction.getAmount()));
+        holder.currency.setText(transferIsTransactionWithRelationships.transaction.getCurrency().getCurrencyCode());
     }
 
-    @Override
-    public int getItemCount() {
-        return transfers.size();
+    public TransferIsTransactionWithRelationships getTransferAt(int position) {
+        return getItem(position);
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {

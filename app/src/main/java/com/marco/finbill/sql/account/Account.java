@@ -13,30 +13,30 @@ import java.sql.Date;
 public class Account {
     @PrimaryKey(autoGenerate = true)
     private int accountId;
-    private String name;
-    private String description;
-    private int type;
-    private Currency currency;
-    private float balance;
-    private float limit;
-    private Date added;
-    private Bitmap image;
-    private int priority;
+    private String accountName;
+    private String accountDescription;
+    private int accountType;
+    private Currency accountCurrency;
+    private float accountBalance;
+    private float accountPlatfond;
+    private Date accountAdded;
+    private Bitmap accountImage;
+    private int accountPriority;
 
     private enum Type {
         CASH, BANK, CREDIT_CARD, DEBIT_CARD, DEPOSIT, ONLINE_ACCOUNT, CRYPTO, OTHER
     }
 
-    public Account(String name, String description, int type, Currency currency, float balance, float limit, Date added, Bitmap image, int priority) {
-        this.name = name;
-        this.description = description;
-        this.type = type;
-        this.currency = currency;
-        this.balance = balance;
-        this.limit = limit;
-        this.added = added;
-        this.image = image;
-        this.priority = priority;
+    public Account(String accountName, String accountDescription, int accountType, Currency accountCurrency, float accountBalance, float accountPlatfond, Date accountAdded, Bitmap accountImage, int accountPriority) {
+        this.accountName = accountName;
+        this.accountDescription = accountDescription;
+        this.accountType = accountType;
+        this.accountCurrency = accountCurrency;
+        this.accountBalance = accountBalance;
+        this.accountPlatfond = accountPlatfond;
+        this.accountAdded = accountAdded;
+        this.accountImage = accountImage;
+        this.accountPriority = accountPriority;
     }
 
     public int getAccountId() {
@@ -47,75 +47,88 @@ public class Account {
         this.accountId = accountId;
     }
 
-    public String getName() {
-        return name;
+    public String getAccountName() {
+        return accountName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setAccountName(String accountName) {
+        this.accountName = accountName;
     }
 
-    public String getDescription() {
-        return description;
+    public String getAccountDescription() {
+        return accountDescription;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setAccountDescription(String accountDescription) {
+        this.accountDescription = accountDescription;
     }
 
-    public int getType() {
-        return type;
+    public int getAccountType() {
+        return accountType;
     }
 
-    public void setType(int type) {
-        this.type = type;
+    public void setAccountType(int accountType) {
+        this.accountType = accountType;
     }
 
-    public Currency getCurrency() {
-        return currency;
+    public Currency getAccountCurrency() {
+        return accountCurrency;
     }
 
-    public void setCurrency(Currency currency) {
-        this.currency = currency;
+    public void setAccountCurrency(Currency accountCurrency) {
+        this.accountCurrency = accountCurrency;
     }
 
-    public float getBalance() {
-        return balance;
+    public float getAccountBalance() {
+        return accountBalance;
     }
 
-    public void setBalance(float balance) {
-        this.balance = balance;
+    public void setAccountBalance(float accountBalance) {
+        this.accountBalance = accountBalance;
     }
 
-    public float getLimit() {
-        return limit;
+    public float getAccountPlatfond() {
+        return accountPlatfond;
     }
 
-    public void setLimit(float limit) {
-        this.limit = limit;
+    public void setAccountPlatfond(float accountPlatfond) {
+        this.accountPlatfond = accountPlatfond;
     }
 
-    public Date getAdded() {
-        return added;
+    public Date getAccountAdded() {
+        return accountAdded;
     }
 
-    public void setAdded(Date added) {
-        this.added = added;
+    public void setAccountAdded(Date accountAdded) {
+        this.accountAdded = accountAdded;
     }
 
-    public Bitmap getImage() {
-        return image;
+    public Bitmap getAccountImage() {
+        return accountImage;
     }
 
-    public void setImage(Bitmap image) {
-        this.image = image;
+    public void setAccountImage(Bitmap accountImage) {
+        this.accountImage = accountImage;
     }
 
-    public int getPriority() {
-        return priority;
+    public int getAccountPriority() {
+        return accountPriority;
     }
 
-    public void setPriority(int priority) {
-        this.priority = priority;
+    public void setAccountPriority(int accountPriority) {
+        this.accountPriority = accountPriority;
+    }
+
+    public boolean equals(Account account) {
+        return this.accountId == account.getAccountId() &&
+                this.accountName.equals(account.getAccountName()) &&
+                this.accountDescription.equals(account.getAccountDescription()) &&
+                this.accountType == account.getAccountType() &&
+                this.accountCurrency.equals(account.getAccountCurrency()) &&
+                this.accountBalance == account.getAccountBalance() &&
+                this.accountPlatfond == account.getAccountPlatfond() &&
+                this.accountAdded.equals(account.getAccountAdded()) &&
+                this.accountImage.equals(account.getAccountImage()) &&
+                this.accountPriority == account.getAccountPriority();
     }
 }

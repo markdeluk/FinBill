@@ -34,6 +34,10 @@ public class MainFragmentDashboard extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        expenseAdapter = new ExpenseAdapter();
+        incomeAdapter = new IncomeAdapter();
+        transferAdapter = new TransferAdapter();
+        viewModel = new ViewModelProvider(requireActivity()).get(FinBillViewModel.class);
     }
 
     @Override
@@ -51,18 +55,6 @@ public class MainFragmentDashboard extends Fragment {
         RecyclerView recyclerView = view.findViewById(R.id.recyclerView);
         recyclerView.hasFixedSize();
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-
-        viewModel.getAllExpenses().observe(getViewLifecycleOwner(), expenses -> {
-            expenseAdapter = new ExpenseAdapter(expenses);
-        });
-
-        viewModel.getAllIncomes().observe(getViewLifecycleOwner(), incomes -> {
-            incomeAdapter = new IncomeAdapter(incomes);
-        });
-
-        viewModel.getAllTransfers().observe(getViewLifecycleOwner(), transfers -> {
-            transferAdapter = new TransferAdapter(transfers);
-        });
 
         ConcatAdapter concatAdapter = new ConcatAdapter(expenseAdapter, incomeAdapter, transferAdapter);
         recyclerView.setAdapter(concatAdapter);

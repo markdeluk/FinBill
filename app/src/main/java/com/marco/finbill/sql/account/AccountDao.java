@@ -27,7 +27,7 @@ public interface AccountDao {
     @Query("SELECT * FROM account_table")
     LiveData<List<Account>> getAllAccounts();
 
-    @Query("SELECT * FROM account_table WHERE name LIKE '%' || :query || '%'")
+    @Query("SELECT * FROM account_table WHERE accountName LIKE '%' || :query || '%'")
     LiveData<List<Account>> searchAccount(String query);
 
     @Query("DELETE FROM account_table")

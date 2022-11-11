@@ -24,13 +24,11 @@ public interface ExpenseDao {
     @Delete
     void deleteExpense(Expense expense);
 
-    @Transaction
     @Query("SELECT * FROM expense_table WHERE expenseId = :expenseId")
-    TransactionIsExpenseWithRelationships getExpenseById(int expenseId);
+    Expense getExpenseById(int expenseId);
 
-    @Transaction
     @Query("SELECT * FROM expense_table")
-    LiveData<List<TransactionIsExpenseWithRelationships>> getAllExpenses();
+    LiveData<List<Expense>> getAllExpenses();
 
     @Query("DELETE FROM expense_table")
     void deleteAllExpenses();

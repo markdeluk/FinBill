@@ -214,4 +214,25 @@ public class Transaction {
         this.priority = priority;
     }
 
+    public boolean equals(Transaction transaction) {
+        return this.transactionId == transaction.transactionId &&
+                this.name.equals(transaction.name) &&
+                this.description.equals(transaction.description) &&
+                this.type == transaction.type &&
+                this.currency.equals(transaction.currency) &&
+                this.amount == transaction.amount &&
+                this.date.equals(transaction.date) &&
+                this.time.equals(transaction.time) &&
+                this.frequency == transaction.frequency
+                && this.infoOnce.equals(transaction.infoOnce) &&
+                this.infoLasting.equals(transaction.infoLasting) &&
+                this.infoRecurrent.equals(transaction.infoRecurrent) &&
+                this.notify == transaction.notify &&
+                this.notifyFrequency == transaction.notifyFrequency &&
+                this.notes.equals(transaction.notes) &&
+                this.image.equals(transaction.image) &&
+                this.location.equals(transaction.location) &&
+                this.priority == transaction.priority;
+    }
+
 }

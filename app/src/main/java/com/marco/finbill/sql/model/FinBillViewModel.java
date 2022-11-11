@@ -5,11 +5,9 @@ import android.app.Application;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
-import com.marco.finbill.sql.model.FinBillRepository;
-import com.marco.finbill.sql.transaction.Transaction;
-import com.marco.finbill.sql.transaction.expense.TransactionIsExpenseWithRelationships;
-import com.marco.finbill.sql.transaction.income.TransactionIsIncomeWithRelationships;
-import com.marco.finbill.sql.transaction.transfer.TransactionIsTransferWithRelationships;
+import com.marco.finbill.sql.transaction.expense.ExpenseIsTransactionWithRelationships;
+import com.marco.finbill.sql.transaction.income.IncomeIsTransactionWithRelationships;
+import com.marco.finbill.sql.transaction.transfer.TransferIsTransactionWithRelationships;
 
 import java.util.List;
 
@@ -20,17 +18,19 @@ public class FinBillViewModel extends AndroidViewModel {
     public FinBillViewModel(Application application) {
         super(application);
         repository = FinBillRepository.getInstance(application);
+
+
     }
 
-    public LiveData<List<TransactionIsExpenseWithRelationships>> getAllExpenses() {
+    public LiveData<List<ExpenseIsTransactionWithRelationships>> getAllExpenses() {
         return repository.getAllExpenses();
     }
 
-    public LiveData<List<TransactionIsIncomeWithRelationships>> getAllIncomes() {
+    public LiveData<List<IncomeIsTransactionWithRelationships>> getAllIncomes() {
         return repository.getAllIncomes();
     }
 
-    public LiveData<List<TransactionIsTransferWithRelationships>> getAllTransfers() {
+    public LiveData<List<TransferIsTransactionWithRelationships>> getAllTransfers() {
         return repository.getAllTransfers();
     }
 }

@@ -11,16 +11,16 @@ import java.sql.Date;
 public class Exchange {
     @PrimaryKey(autoGenerate = true)
     private int exchangeId;
-    private Currency fromCurrency;
-    private Currency toCurrency;
-    private float rate;
-    private Date lastUpdate;
+    private Currency exchangeFromCurrency;
+    private Currency exchangeToCurrency;
+    private float exchangeRate;
+    private Date exchangeLastUpdate;
 
-    public Exchange(Currency fromCurrency, Currency toCurrency, float rate, Date lastUpdate) {
-        this.fromCurrency = fromCurrency;
-        this.toCurrency = toCurrency;
-        this.rate = rate;
-        this.lastUpdate = lastUpdate;
+    public Exchange(Currency exchangeFromCurrency, Currency exchangeToCurrency, float exchangeRate, Date exchangeLastUpdate) {
+        this.exchangeFromCurrency = exchangeFromCurrency;
+        this.exchangeToCurrency = exchangeToCurrency;
+        this.exchangeRate = exchangeRate;
+        this.exchangeLastUpdate = exchangeLastUpdate;
     }
 
     public int getExchangeId() {
@@ -31,35 +31,35 @@ public class Exchange {
         this.exchangeId = exchangeId;
     }
 
-    public Currency getFromCurrency() {
-        return fromCurrency;
+    public Currency getExchangeFromCurrency() {
+        return exchangeFromCurrency;
     }
 
-    public void setFromCurrency(Currency fromCurrency) {
-        this.fromCurrency = fromCurrency;
+    public void setExchangeFromCurrency(Currency exchangeFromCurrency) {
+        this.exchangeFromCurrency = exchangeFromCurrency;
     }
 
-    public Currency getToCurrency() {
-        return toCurrency;
+    public Currency getExchangeToCurrency() {
+        return exchangeToCurrency;
     }
 
-    public void setToCurrency(Currency toCurrency) {
-        this.toCurrency = toCurrency;
+    public void setExchangeToCurrency(Currency exchangeToCurrency) {
+        this.exchangeToCurrency = exchangeToCurrency;
     }
 
-    public float getRate() {
-        return rate;
+    public float getExchangeRate() {
+        return exchangeRate;
     }
 
-    public void setRate(float rate) {
-        this.rate = rate;
+    public void setExchangeRate(float exchangeRate) {
+        this.exchangeRate = exchangeRate;
     }
 
-    public Date getLastUpdate() {
-        return lastUpdate;
+    public Date getExchangeLastUpdate() {
+        return exchangeLastUpdate;
     }
 
-    public void setLastUpdate(Date lastUpdate) {
-        this.lastUpdate = lastUpdate;
+    public void setExchangeLastUpdate(Date exchangeLastUpdate) {
+        this.exchangeLastUpdate = exchangeLastUpdate;
     }
 }
