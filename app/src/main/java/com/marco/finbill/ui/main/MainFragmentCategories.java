@@ -32,14 +32,14 @@ public class MainFragmentCategories extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_main_categories, container, false);
-        /*FloatingActionButton fab = requireActivity().findViewById(R.id.fab);
+        FloatingActionButton fab = requireActivity().findViewById(R.id.fab);
         fab.setImageDrawable(ResourcesCompat.getDrawable(getResources(), R.drawable.categories_icon, requireActivity().getTheme()));
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Snackbar.make(view, "Categories", Snackbar.LENGTH_LONG).show();
             }
-        });*/
+        });
 
         return rootView;
     }

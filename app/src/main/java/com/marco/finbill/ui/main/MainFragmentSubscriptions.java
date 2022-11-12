@@ -32,14 +32,14 @@ public class MainFragmentSubscriptions extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView =  inflater.inflate(R.layout.fragment_main_subscriptions, container, false);
-        /*FloatingActionButton fab = requireActivity().findViewById(R.id.fab);
+        FloatingActionButton fab = requireActivity().findViewById(R.id.fab);
         fab.setImageDrawable(ResourcesCompat.getDrawable(getResources(), R.drawable.subscriptions_icon, requireActivity().getTheme()));
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Snackbar.make(view, "Subscriptions", Snackbar.LENGTH_LONG).show();
             }
-        });*/
+        });
 
         return rootView;
     }

@@ -19,6 +19,11 @@
     <string name="backup" translatable="false">Backup and restore</string>
     <string name="fab" translatable="false">FAB</string>
 
+    <string name="transactions" translatable="false">Transactions</string>
+    <string name="expenses" translatable="false">Expenses</string>
+    <string name="incomes" translatable="false">Incomes</string>
+    <string name="transfers" translatable="false">Transfers</string>
+
     <string name="picture_placeholder" translatable="false">PICTURE</string>
     <string name="title_placeholder" translatable="false">TITLE</string>
     <string name="from_placeholder" translatable="false">FROM</string>
@@ -31,4 +36,9 @@
 
     <string name="minus" translatable="false">-</string>
     <string name="plus" translatable="false">+</string>
+
+    <string name="add_transaction" translatable="false">Add a new transaction</string>
+    <string name="add_expense" translatable="false">Add a new expense</string>
+    <string name="add_income" translatable="false">Add a new income</string>
+    <string name="add_transfer" translatable="false">Add a new transfer</string>
 </resources>

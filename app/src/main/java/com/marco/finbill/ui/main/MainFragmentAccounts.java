@@ -31,14 +31,14 @@ public class MainFragmentAccounts extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_main_accounts, container, false);
-        /*FloatingActionButton fab = requireActivity().findViewById(R.id.fab);
+        FloatingActionButton fab = requireActivity().findViewById(R.id.fab);
         fab.setImageDrawable(ResourcesCompat.getDrawable(getResources(), R.drawable.accounts_icon, requireActivity().getTheme()));
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Snackbar.make(view, "Accounts", Snackbar.LENGTH_LONG).show();
             }
-        });*/
+        });
 
         return rootView;
     }
