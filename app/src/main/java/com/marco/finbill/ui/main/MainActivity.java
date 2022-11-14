@@ -14,8 +14,10 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.marco.finbill.R;
 import com.marco.finbill.sql.model.FinBillViewModel;
 import com.marco.finbill.sql.transaction.expense.Expense;
@@ -63,18 +65,6 @@ public class MainActivity extends AppCompatActivity {
 
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationView);
         NavigationUI.setupWithNavController(bottomNavigationView, navController);
-        bottomNavigationView.setOnItemSelectedListener(item -> {
-            if (item.getItemId() == R.id.mainFragmentDashboard) {
-                navController.navigate(R.id.mainFragmentDashboard);
-            } else if (item.getItemId() == R.id.mainFragmentAccounts) {
-                navController.navigate(R.id.mainFragmentAccounts);
-            } else if (item.getItemId() == R.id.mainFragmentCategories) {
-                navController.navigate(R.id.mainFragmentCategories);
-            } else if (item.getItemId() == R.id.mainFragmentSubscriptions) {
-                navController.navigate(R.id.mainFragmentSubscriptions);
-            }
-            return true;
-        });
 
     }
 

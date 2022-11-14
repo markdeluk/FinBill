@@ -48,9 +48,12 @@ public class Transaction {
         NONE, DAILY, WEEKLY, MONTHLY, YEARLY
     }
 
+    public enum Priority {
+        LOW,
+    }
+
     public Transaction(String name, String description, int type, Currency currency, float amount, Date date, Time time, int frequency, String infoOnce, String infoLasting, String infoRecurrent, int notify, int notifyFrequency, String notes, Bitmap image, Location location, int priority) {
         this.name = name;
-        this.description = description;
         this.type = type;
         this.currency = currency;
         this.amount = amount;

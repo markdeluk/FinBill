@@ -8,7 +8,7 @@
     <fragment
         android:id="@+id/transactionFragment"
         android:name="com.marco.finbill.ui.main.dashboard.TransactionFragment"
-        android:label="TransactionFragment" >
+        android:label="@string/transactions" >
         <action
             android:id="@+id/action_transactionFragment_to_expenseFragment"
             app:destination="@id/expenseFragment" />
@@ -22,7 +22,7 @@
     <fragment
         android:id="@+id/incomeFragment"
         android:name="com.marco.finbill.ui.main.dashboard.IncomeFragment"
-        android:label="fragment_income"
+        android:label="@string/incomes"
         tools:layout="@layout/fragment_income" >
         <action
             android:id="@+id/action_incomeFragment_to_transactionFragment"
@@ -37,7 +37,7 @@
     <fragment
         android:id="@+id/transferFragment"
         android:name="com.marco.finbill.ui.main.dashboard.TransferFragment"
-        android:label="fragment_transfer"
+        android:label="@string/transfers"
         tools:layout="@layout/fragment_transfer" >
         <action
             android:id="@+id/action_transferFragment_to_incomeFragment"
@@ -52,7 +52,7 @@
     <fragment
         android:id="@+id/expenseFragment"
         android:name="com.marco.finbill.ui.main.dashboard.ExpenseFragment"
-        android:label="fragment_transaction"
+        android:label="@string/expenses"
         tools:layout="@layout/fragment_transaction" >
         <action
             android:id="@+id/action_expenseFragment_to_transactionFragment"

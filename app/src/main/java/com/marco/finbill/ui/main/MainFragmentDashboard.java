@@ -7,15 +7,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
-import androidx.navigation.NavController;
-import androidx.navigation.NavHost;
-import androidx.navigation.Navigation;
-import androidx.navigation.fragment.NavHostFragment;
-import androidx.navigation.ui.NavigationUI;
-import androidx.recyclerview.widget.ConcatAdapter;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
 
 import android.view.LayoutInflater;
@@ -27,14 +18,8 @@ import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 import com.marco.finbill.R;
-import com.marco.finbill.sql.model.FinBillViewModel;
-import com.marco.finbill.ui.main.adapters.ExpenseAdapter;
-import com.marco.finbill.ui.main.adapters.IncomeAdapter;
-import com.marco.finbill.ui.main.adapters.TransferAdapter;
-import com.marco.finbill.ui.addtransaction.AddTransactionActivity;
+import com.marco.finbill.ui.main.dashboard.AddTransactionDialog;
 import com.marco.finbill.ui.main.dashboard.DashboardAdapter;
-
-import java.util.Objects;
 
 public class MainFragmentDashboard extends Fragment {
 
@@ -57,21 +42,97 @@ public class MainFragmentDashboard extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_main_dashboard, container, false);
+
+        FloatingActionButton fab = requireActivity().findViewById(R.id.fab);
+        fab.setImageDrawable(ResourcesCompat.getDrawable(getResources(), R.drawable.add_icon, requireActivity().getTheme()));
+
         return rootView;
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-
         super.onViewCreated(view, savedInstanceState);
+        dashboardAdapter = new DashboardAdapter(this);
+        viewPager2 = view.findViewById(R.id.viewPager2);
+        viewPager2.setAdapter(dashboardAdapter);
 
-        NavHostFragment navHostFragment = (NavHostFragment) getChildFragmentManager().findFragmentById(R.id.fragmentContainerView);
-        NavController navController = Objects.requireNonNull(navHostFragment).getNavController();
         TabLayout tabLayout = view.findViewById(R.id.tabLayout);
-        tabLayout.addTab(tabLayout.newTab().setText(R.string.transactions));
-        tabLayout.addTab(tabLayout.newTab().setText(R.string.expenses));
-        tabLayout.addTab(tabLayout.newTab().setText(R.string.incomes));
-        tabLayout.addTab(tabLayout.newTab().setText(R.string.transfers));
-        tabLayout.
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                viewPager2.setCurrentItem(tab.getPosition());
+                FloatingActionButton fab = requireActivity().findViewById(R.id.fab);
+                switch (tab.getPosition()) {
+                    case TRANSACTIONS:
+                        fab.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                AddTransactionDialog.display(requireActivity().getSupportFragmentManager());
+                            }
+                        });
+                        fab.setOnLongClickListener(new View.OnLongClickListener() {
+                            @Override
+                            public boolean onLongClick(View view) {
+                                Snackbar.make(view, "Transactions", Snackbar.LENGTH_LONG).show();
+                                return false;
+                            }
+                        });
+                        break;
+                    case EXPENSES:
+                        fab.setOnLongClickListener(new View.OnLongClickListener() {
+                            @Override
+                            public boolean onLongClick(View view) {
+                                Snackbar.make(view, "Expenses", Snackbar.LENGTH_LONG).show();
+                                return false;
+                            }
+                        });
+                        break;
+                    case INCOMES:
+                        fab.setOnLongClickListener(new View.OnLongClickListener() {
+                            @Override
+                            public boolean onLongClick(View view) {
+                                Snackbar.make(view, "Incomes", Snackbar.LENGTH_LONG).show();
+                                return false;
+                            }
+                        });
+                        break;
+                    case TRANSFERS:
+                        fab.setOnLongClickListener(new View.OnLongClickListener() {
+                            @Override
+                            public boolean onLongClick(View view) {
+                                Snackbar.make(view, "Transfers", Snackbar.LENGTH_LONG).show();
+                                return false;
+                            }
+                        });
+                        break;
+                }
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+            }
+        });
+
+        new TabLayoutMediator(tabLayout, viewPager2, (tab, position) -> {
+            switch (position) {
+                case TRANSACTIONS:
+                    tab.setText(R.string.transactions);
+                    break;
+                case EXPENSES:
+                    tab.setText(R.string.expenses);
+                    break;
+                case INCOMES:
+                    tab.setText(R.string.incomes);
+                    break;
+                case TRANSFERS:
+                    tab.setText(R.string.transfers);
+                    break;
+            }
+        }).attach();
+
     }
 }

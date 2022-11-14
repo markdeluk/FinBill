@@ -19,7 +19,6 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.marco.finbill.R;
 import com.marco.finbill.sql.model.FinBillViewModel;
-import com.marco.finbill.ui.addtransaction.AddTransactionActivity;
 import com.marco.finbill.ui.main.adapters.ExpenseAdapter;
 import com.marco.finbill.ui.main.adapters.IncomeAdapter;
 
@@ -36,8 +35,9 @@ public class IncomeFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_income, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_income, container, false);
+
+        return rootView;
     }
 
     @Override
@@ -51,29 +51,6 @@ public class IncomeFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(incomeAdapter);
 
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-
-        FloatingActionButton fab = requireActivity().findViewById(R.id.fab);
-        fab.setImageDrawable(ResourcesCompat.getDrawable(getResources(), R.drawable.add_icon, requireActivity().getTheme()));
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getContext(), AddTransactionActivity.class);
-                intent.putExtra("type", "income");
-                startActivity(intent);
-            }
-        });
-        fab.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View view) {
-                Snackbar.make(view, R.string.add_income, Snackbar.LENGTH_LONG).show();
-                return true;
-            }
-        });
     }
 
 }
