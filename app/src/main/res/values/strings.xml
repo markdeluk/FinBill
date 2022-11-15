@@ -43,5 +43,27 @@
     <string name="add_transfer" translatable="false">Add a new transfer</string>
 
     <string name="save" translatable="false">Save</string>
+    <string name="transaction_type" translatable="false">Transaction transactionType</string>
+    <string name="name" translatable="false">Name</string>
+    <string name="description" translatable="false">Description</string>
+    <string name="amount" translatable="false">Amount</string>
+    <string name="currency" translatable="false">Currency</string>
+    <string name="date" translatable="false">Date</string>
+    <string name="time" translatable="false">Time</string>
+    <string name="frequency" translatable="false">Frequency</string>
+    <string name="estimated_years" translatable="false">Estimated years</string>
+    <string name="happens_every" translatable="false">It happens every…</string>
+    <string name="notify" translatable="false">Notify</string>
+    <string name="notify_every" translatable="false">Notify every…</string>
+    <string name="notes" translatable="false">Notes</string>
+    <string name="picture" translatable="false">Picture</string>
+    <string name="reset" translatable="false">Reset</string>
+    <string name="choose_gallery" translatable="false">Choose from gallery</string>
+    <string name="take_picture" translatable="false">Take a picture</string>
+    <string name="location" translatable="false">Location</string>
+    <string name="priority" translatable="false">Priority</string>
+    <string name="choose_option" translatable="false">Choose an option…</string>
+    <string name="from" translatable="false">From</string>
+    <string name="to" translatable="false">To</string>
 
 </resources>

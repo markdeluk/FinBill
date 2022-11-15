@@ -16,7 +16,7 @@ public class Transaction {
     private int transactionId;
     private String name;
     private String description;
-    private int type;
+    private int transactionType;
     private Currency currency;
     private float amount;
     private Date date;
@@ -32,10 +32,6 @@ public class Transaction {
     private Location location;
     private int priority;
 
-    public enum Type {
-        EXPENSE, INCOME, TRANSFER
-    }
-
     public enum Frequency {
         ONCE, LASTING, RECURRENT
     }
@@ -49,12 +45,12 @@ public class Transaction {
     }
 
     public enum Priority {
-        LOW,
+        LOW, MEDIUMLOW, MEDIUM, MEDIUMHIGH, HIGH
     }
 
-    public Transaction(String name, String description, int type, Currency currency, float amount, Date date, Time time, int frequency, String infoOnce, String infoLasting, String infoRecurrent, int notify, int notifyFrequency, String notes, Bitmap image, Location location, int priority) {
+    public Transaction(String name, String description, int transactionType, Currency currency, float amount, Date date, Time time, int frequency, String infoOnce, String infoLasting, String infoRecurrent, int notify, int notifyFrequency, String notes, Bitmap image, Location location, int priority) {
         this.name = name;
-        this.type = type;
+        this.transactionType = transactionType;
         this.currency = currency;
         this.amount = amount;
         this.date = date;
@@ -98,11 +94,11 @@ public class Transaction {
     }
 
     public int getType() {
-        return type;
+        return transactionType;
     }
 
-    public void setType(int type) {
-        this.type = type;
+    public void setType(int transactionType) {
+        this.transactionType = transactionType;
     }
 
     public Currency getCurrency() {
@@ -221,13 +217,13 @@ public class Transaction {
         return this.transactionId == transaction.transactionId &&
                 this.name.equals(transaction.name) &&
                 this.description.equals(transaction.description) &&
-                this.type == transaction.type &&
+                this.transactionType == transaction.transactionType &&
                 this.currency.equals(transaction.currency) &&
                 this.amount == transaction.amount &&
                 this.date.equals(transaction.date) &&
                 this.time.equals(transaction.time) &&
-                this.frequency == transaction.frequency
-                && this.infoOnce.equals(transaction.infoOnce) &&
+                this.frequency == transaction.frequency &&
+                this.infoOnce.equals(transaction.infoOnce) &&
                 this.infoLasting.equals(transaction.infoLasting) &&
                 this.infoRecurrent.equals(transaction.infoRecurrent) &&
                 this.notify == transaction.notify &&

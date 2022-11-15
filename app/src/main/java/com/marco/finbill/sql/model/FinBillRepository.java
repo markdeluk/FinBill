@@ -7,6 +7,7 @@ import android.os.Looper;
 import androidx.core.os.HandlerCompat;
 import androidx.lifecycle.LiveData;
 
+import com.marco.finbill.sql.account.Account;
 import com.marco.finbill.sql.account.AccountDao;
 import com.marco.finbill.sql.category.CategoryDao;
 import com.marco.finbill.sql.exchange.ExchangeDao;
@@ -31,11 +32,12 @@ public class FinBillRepository {
     private ExpenseIsTransactionWithRelationshipsDao expenseIsTransactionWithRelationshipsDao;
     private IncomeIsTransactionWithRelationshipsDao incomeIsTransactionWithRelationshipsDao;
     private TransferIsTransactionWithRelationshipsDao transferIsTransactionWithRelationshipsDao;
+    private AccountDao accountDao;
 
     private FinBillRepository(Application application){
         FinBillDatabase database = FinBillDatabase.getInstance(application);
 
-        AccountDao accountDao = database.accountDao();
+        accountDao = database.accountDao();
         CategoryDao categoryDao = database.categoryDao();
         ExchangeDao exchangeDao = database.exchangeDao();
         expenseIsTransactionWithRelationshipsDao = database.expenseIsTransactionWithRelationshipsDao();
@@ -61,5 +63,9 @@ public class FinBillRepository {
 
     public LiveData<List<TransferIsTransactionWithRelationships>> getAllTransfers() {
         return transferIsTransactionWithRelationshipsDao.getAllTransferIsTransactionWithRelationships();
+    }
+
+    public LiveData<List<Account>> getAllAccounts() {
+        return accountDao.getAllAccounts();
     }
 }

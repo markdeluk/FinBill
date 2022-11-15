@@ -1,6 +1,5 @@
 package com.marco.finbill.ui.main;
 
-import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -18,15 +17,16 @@ import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 import com.marco.finbill.R;
+import com.marco.finbill.enums.TransactionType;
 import com.marco.finbill.ui.main.dashboard.AddTransactionDialog;
 import com.marco.finbill.ui.main.dashboard.DashboardAdapter;
 
 public class MainFragmentDashboard extends Fragment {
 
     private final int TRANSACTIONS = 0;
-    public final int EXPENSES = 1;
-    public final int INCOMES = 2;
-    public final int TRANSFERS = 3;
+    private final int EXPENSES = 1;
+    private final int INCOMES = 2;
+    private final int TRANSFERS = 3;
 
     private DashboardAdapter dashboardAdapter;
     private ViewPager2 viewPager2;
@@ -62,48 +62,45 @@ public class MainFragmentDashboard extends Fragment {
             public void onTabSelected(TabLayout.Tab tab) {
                 viewPager2.setCurrentItem(tab.getPosition());
                 FloatingActionButton fab = requireActivity().findViewById(R.id.fab);
+
+                View.OnLongClickListener transactionLongClickListener = view1 -> {
+                    Snackbar.make(view1, "Transactions", Snackbar.LENGTH_LONG).show();
+                    return false;
+                };
+                View.OnLongClickListener expensesLongClickListener = view2 -> {
+                    Snackbar.make(view2, "Expenses", Snackbar.LENGTH_LONG).show();
+                    return false;
+                };
+                View.OnLongClickListener incomesLongClickListener = view3 -> {
+                    Snackbar.make(view3, "Incomes", Snackbar.LENGTH_LONG).show();
+                    return false;
+                };
+                View.OnLongClickListener transfersLongClickListener = view4 -> {
+                    Snackbar.make(view4, "Transfers", Snackbar.LENGTH_LONG).show();
+                    return false;
+                };
+
+                View.OnClickListener transactionOnClickListener = view5 -> AddTransactionDialog.display(getChildFragmentManager());
+                View.OnClickListener expensesOnClickListener = view6 -> AddTransactionDialog.display(getChildFragmentManager(), TransactionType.EXPENSE);
+                View.OnClickListener incomesOnClickListener = view7 -> AddTransactionDialog.display(getChildFragmentManager(), TransactionType.INCOME);
+                View.OnClickListener transfersOnClickListener = view8 -> AddTransactionDialog.display(getChildFragmentManager(), TransactionType.TRANSFER);
+
                 switch (tab.getPosition()) {
                     case TRANSACTIONS:
-                        fab.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                AddTransactionDialog.display(requireActivity().getSupportFragmentManager());
-                            }
-                        });
-                        fab.setOnLongClickListener(new View.OnLongClickListener() {
-                            @Override
-                            public boolean onLongClick(View view) {
-                                Snackbar.make(view, "Transactions", Snackbar.LENGTH_LONG).show();
-                                return false;
-                            }
-                        });
+                        fab.setOnClickListener(transactionOnClickListener);
+                        fab.setOnLongClickListener(transactionLongClickListener);
                         break;
                     case EXPENSES:
-                        fab.setOnLongClickListener(new View.OnLongClickListener() {
-                            @Override
-                            public boolean onLongClick(View view) {
-                                Snackbar.make(view, "Expenses", Snackbar.LENGTH_LONG).show();
-                                return false;
-                            }
-                        });
+                        fab.setOnClickListener(expensesOnClickListener);
+                        fab.setOnLongClickListener(expensesLongClickListener);
                         break;
                     case INCOMES:
-                        fab.setOnLongClickListener(new View.OnLongClickListener() {
-                            @Override
-                            public boolean onLongClick(View view) {
-                                Snackbar.make(view, "Incomes", Snackbar.LENGTH_LONG).show();
-                                return false;
-                            }
-                        });
+                        fab.setOnClickListener(incomesOnClickListener);
+                        fab.setOnLongClickListener(incomesLongClickListener);
                         break;
                     case TRANSFERS:
-                        fab.setOnLongClickListener(new View.OnLongClickListener() {
-                            @Override
-                            public boolean onLongClick(View view) {
-                                Snackbar.make(view, "Transfers", Snackbar.LENGTH_LONG).show();
-                                return false;
-                            }
-                        });
+                        fab.setOnClickListener(transfersOnClickListener);
+                        fab.setOnLongClickListener(transfersLongClickListener);
                         break;
                 }
             }
@@ -115,6 +112,7 @@ public class MainFragmentDashboard extends Fragment {
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
             }
+
         });
 
         new TabLayoutMediator(tabLayout, viewPager2, (tab, position) -> {

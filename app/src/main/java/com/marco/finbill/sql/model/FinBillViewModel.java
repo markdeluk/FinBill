@@ -5,10 +5,12 @@ import android.app.Application;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
+import com.marco.finbill.sql.account.Account;
 import com.marco.finbill.sql.transaction.expense.ExpenseIsTransactionWithRelationships;
 import com.marco.finbill.sql.transaction.income.IncomeIsTransactionWithRelationships;
 import com.marco.finbill.sql.transaction.transfer.TransferIsTransactionWithRelationships;
 
+import java.nio.channels.AcceptPendingException;
 import java.util.List;
 
 public class FinBillViewModel extends AndroidViewModel {
@@ -32,5 +34,9 @@ public class FinBillViewModel extends AndroidViewModel {
 
     public LiveData<List<TransferIsTransactionWithRelationships>> getAllTransfers() {
         return repository.getAllTransfers();
+    }
+
+    public LiveData<List<Account>> getAllAccounts() {
+        return repository.getAllAccounts();
     }
 }
