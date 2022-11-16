@@ -9,6 +9,7 @@ import androidx.lifecycle.LiveData;
 
 import com.marco.finbill.sql.account.Account;
 import com.marco.finbill.sql.account.AccountDao;
+import com.marco.finbill.sql.category.Category;
 import com.marco.finbill.sql.category.CategoryDao;
 import com.marco.finbill.sql.exchange.ExchangeDao;
 import com.marco.finbill.sql.transaction.expense.ExpenseDao;
@@ -29,16 +30,17 @@ public class FinBillRepository {
 
     private static FinBillRepository instance;
 
-    private ExpenseIsTransactionWithRelationshipsDao expenseIsTransactionWithRelationshipsDao;
-    private IncomeIsTransactionWithRelationshipsDao incomeIsTransactionWithRelationshipsDao;
-    private TransferIsTransactionWithRelationshipsDao transferIsTransactionWithRelationshipsDao;
-    private AccountDao accountDao;
+    private final ExpenseIsTransactionWithRelationshipsDao expenseIsTransactionWithRelationshipsDao;
+    private final IncomeIsTransactionWithRelationshipsDao incomeIsTransactionWithRelationshipsDao;
+    private final TransferIsTransactionWithRelationshipsDao transferIsTransactionWithRelationshipsDao;
+    private final AccountDao accountDao;
+    private CategoryDao categoryDao;
 
     private FinBillRepository(Application application){
         FinBillDatabase database = FinBillDatabase.getInstance(application);
 
         accountDao = database.accountDao();
-        CategoryDao categoryDao = database.categoryDao();
+        categoryDao = database.categoryDao();
         ExchangeDao exchangeDao = database.exchangeDao();
         expenseIsTransactionWithRelationshipsDao = database.expenseIsTransactionWithRelationshipsDao();
         incomeIsTransactionWithRelationshipsDao = database.incomeIsTransactionWithRelationshipsDao();
@@ -67,5 +69,13 @@ public class FinBillRepository {
 
     public LiveData<List<Account>> getAllAccounts() {
         return accountDao.getAllAccounts();
+    }
+
+    public LiveData<List<Category>> getAllCategories() {
+        return categoryDao.getAllCategories();
+    }
+
+    public LiveData<List<Category>> getAllCategoriesByType(int type) {
+        return categoryDao.getAllCategoriesByType(type);
     }
 }

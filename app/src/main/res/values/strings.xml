@@ -43,7 +43,7 @@
     <string name="add_transfer" translatable="false">Add a new transfer</string>
 
     <string name="save" translatable="false">Save</string>
-    <string name="transaction_type" translatable="false">Transaction transactionType</string>
+    <string name="transaction_type" translatable="false">Transaction type</string>
     <string name="name" translatable="false">Name</string>
     <string name="description" translatable="false">Description</string>
     <string name="amount" translatable="false">Amount</string>
@@ -65,5 +65,10 @@
     <string name="choose_option" translatable="false">Choose an option…</string>
     <string name="from" translatable="false">From</string>
     <string name="to" translatable="false">To</string>
-
+    <string name="choose_transaction_type" translatable="false">Choose a transaction type…</string>
+    <string name="choose_account" translatable="false">Choose an account…</string>
+    <string name="choose_category" translatable="false">Choose a category…</string>
+    <string name="choose_frequency" translatable="false">Choose a frequency…</string>
+    <string name="choose_recurrency" translatable="false">Choose a recurrency…</string>
+    <string name="choose_priority" translatable="false">Choose a priority…</string>
 </resources>

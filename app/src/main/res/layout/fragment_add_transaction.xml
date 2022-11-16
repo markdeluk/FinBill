@@ -37,6 +37,18 @@
             android:orientation="vertical">
 
             <TextView
+                android:id="@+id/transactionTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/transaction_type" />
+
+            <Spinner
+                android:id="@+id/transactionEdit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="48dp" />
+
+            <TextView
                 android:id="@+id/fromTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -59,20 +71,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:minHeight="48dp" />
-
-
-            <TextView
-                android:id="@+id/transactionTitle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/transaction_type" />
-
-            <Spinner
-                android:id="@+id/transactionEdit"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:minHeight="48dp" />
-
 
             <TextView
                 android:id="@+id/nameTitle"

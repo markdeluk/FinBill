@@ -6,6 +6,7 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
 import com.marco.finbill.sql.account.Account;
+import com.marco.finbill.sql.category.Category;
 import com.marco.finbill.sql.transaction.expense.ExpenseIsTransactionWithRelationships;
 import com.marco.finbill.sql.transaction.income.IncomeIsTransactionWithRelationships;
 import com.marco.finbill.sql.transaction.transfer.TransferIsTransactionWithRelationships;
@@ -38,5 +39,13 @@ public class FinBillViewModel extends AndroidViewModel {
 
     public LiveData<List<Account>> getAllAccounts() {
         return repository.getAllAccounts();
+    }
+
+    public LiveData<List<Category>> getAllCategories() {
+        return repository.getAllCategories();
+    }
+
+    public LiveData<List<Category>> getAllCategoriesByType(int type) {
+        return repository.getAllCategoriesByType(type);
     }
 }

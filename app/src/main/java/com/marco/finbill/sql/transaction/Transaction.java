@@ -32,22 +32,6 @@ public class Transaction {
     private Location location;
     private int priority;
 
-    public enum Frequency {
-        ONCE, LASTING, RECURRENT
-    }
-
-    public enum Notify {
-        NO, YES
-    }
-
-    public enum NotifyFrequency {
-        NONE, DAILY, WEEKLY, MONTHLY, YEARLY
-    }
-
-    public enum Priority {
-        LOW, MEDIUMLOW, MEDIUM, MEDIUMHIGH, HIGH
-    }
-
     public Transaction(String name, String description, int transactionType, Currency currency, float amount, Date date, Time time, int frequency, String infoOnce, String infoLasting, String infoRecurrent, int notify, int notifyFrequency, String notes, Bitmap image, Location location, int priority) {
         this.name = name;
         this.transactionType = transactionType;
@@ -93,11 +77,11 @@ public class Transaction {
         this.description = description;
     }
 
-    public int getType() {
+    public int getTransactionType() {
         return transactionType;
     }
 
-    public void setType(int transactionType) {
+    public void setTransactionType(int transactionType) {
         this.transactionType = transactionType;
     }
 

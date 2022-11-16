@@ -5,6 +5,7 @@ import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
+import androidx.room.RawQuery;
 import androidx.room.Update;
 
 import com.marco.finbill.sql.account.Account;
@@ -29,9 +30,14 @@ public interface CategoryDao {
     @Query("SELECT * FROM category_table")
     LiveData<List<Category>> getAllCategories();
 
+    @Query("SELECT * FROM category_table WHERE categoryType = :type")
+    LiveData<List<Category>> getAllCategoriesByType(int type);
+
     @Query("SELECT * FROM category_table WHERE categoryName LIKE '%' || :query || '%'")
     LiveData<List<Category>> searchCategory(String query);
 
     @Query("DELETE FROM category_table")
     void deleteAllCategories();
+
+
 }

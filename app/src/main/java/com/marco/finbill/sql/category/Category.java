@@ -23,10 +23,6 @@ public class Category {
     private int categoryIsChildOf;
     private int categoryPriority;
 
-    private enum Type {
-        EXPENSE, INCOME
-    }
-
     public Category(String categoryName, String categoryDescription, int categoryType, Bitmap categoryImage, Date categoryAdded, int categoryIsChildOf, int categoryPriority) {
         this.categoryName = categoryName;
         this.categoryDescription = categoryDescription;
