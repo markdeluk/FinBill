@@ -15,7 +15,7 @@ Features:
 Remember to do it!
 - [ ] Multi-language translation (at least English, Danish, German, Italian, French, Spanish)
 
-...
+
 # To save my life!!!
 
     <androidx.fragment.app.FragmentContainerView
