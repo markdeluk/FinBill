@@ -13,10 +13,10 @@ public class Exchange {
     private int exchangeId;
     private Currency exchangeFromCurrency;
     private Currency exchangeToCurrency;
-    private float exchangeRate;
+    private double exchangeRate;
     private Date exchangeLastUpdate;
 
-    public Exchange(Currency exchangeFromCurrency, Currency exchangeToCurrency, float exchangeRate, Date exchangeLastUpdate) {
+    public Exchange(Currency exchangeFromCurrency, Currency exchangeToCurrency, double exchangeRate, Date exchangeLastUpdate) {
         this.exchangeFromCurrency = exchangeFromCurrency;
         this.exchangeToCurrency = exchangeToCurrency;
         this.exchangeRate = exchangeRate;
@@ -47,11 +47,11 @@ public class Exchange {
         this.exchangeToCurrency = exchangeToCurrency;
     }
 
-    public float getExchangeRate() {
+    public double getExchangeRate() {
         return exchangeRate;
     }
 
-    public void setExchangeRate(float exchangeRate) {
+    public void setExchangeRate(double exchangeRate) {
         this.exchangeRate = exchangeRate;
     }
 

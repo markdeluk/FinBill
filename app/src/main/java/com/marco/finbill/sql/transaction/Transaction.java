@@ -7,6 +7,12 @@ import android.location.Location;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import com.marco.finbill.enums.PriorityType;
+import com.marco.finbill.enums.TransactionFrequency;
+import com.marco.finbill.enums.TransactionNotifyFrequency;
+import com.marco.finbill.enums.TransactionRecurrency;
+import com.marco.finbill.enums.TransactionType;
+
 import java.sql.Date;
 import java.sql.Time;
 
@@ -16,31 +22,30 @@ public class Transaction {
     private int transactionId;
     private String name;
     private String description;
-    private int transactionType;
+    private TransactionType transactionType;
     private Currency currency;
-    private float amount;
+    private double amount;
     private Date date;
     private Time time;
-    private int frequency;
-    private String infoOnce;
-    private String infoLasting;
-    private String infoRecurrent;
-    private int notify;
-    private int notifyFrequency;
+    private TransactionFrequency frequency;
+    private int infoLasting;
+    private TransactionRecurrency infoRecurrent;
+    private boolean notify;
+    private TransactionNotifyFrequency notifyFrequency;
     private String notes;
     private Bitmap image;
     private Location location;
-    private int priority;
+    private PriorityType priority;
 
-    public Transaction(String name, String description, int transactionType, Currency currency, float amount, Date date, Time time, int frequency, String infoOnce, String infoLasting, String infoRecurrent, int notify, int notifyFrequency, String notes, Bitmap image, Location location, int priority) {
+    public Transaction(String name, String description, TransactionType transactionType, Currency currency, double amount, Date date, Time time, TransactionFrequency frequency, int infoLasting, TransactionRecurrency infoRecurrent, boolean notify, TransactionNotifyFrequency notifyFrequency, String notes, Bitmap image, Location location, PriorityType priority) {
         this.name = name;
+        this.description = description;
         this.transactionType = transactionType;
         this.currency = currency;
         this.amount = amount;
         this.date = date;
         this.time = time;
         this.frequency = frequency;
-        this.infoOnce = infoOnce;
         this.infoLasting = infoLasting;
         this.infoRecurrent = infoRecurrent;
         this.notify = notify;
@@ -49,6 +54,25 @@ public class Transaction {
         this.image = image;
         this.location = location;
         this.priority = priority;
+    }
+
+    public Transaction() {
+        this.name = null;
+        this.description = null;
+        this.transactionType = null;
+        this.currency = null;
+        this.amount = 0;
+        this.date = null;
+        this.time = null;
+        this.frequency = null;
+        this.infoLasting = 0;
+        this.infoRecurrent = null;
+        this.notify = false;
+        this.notifyFrequency = null;
+        this.notes = null;
+        this.image = null;
+        this.location = null;
+        this.priority = null;
     }
 
     // Visibility methods
@@ -77,11 +101,11 @@ public class Transaction {
         this.description = description;
     }
 
-    public int getTransactionType() {
+    public TransactionType getTransactionType() {
         return transactionType;
     }
 
-    public void setTransactionType(int transactionType) {
+    public void setTransactionType(TransactionType transactionType) {
         this.transactionType = transactionType;
     }
 
@@ -93,11 +117,11 @@ public class Transaction {
         this.currency = currency;
     }
 
-    public float getAmount() {
+    public double getAmount() {
         return amount;
     }
 
-    public void setAmount(float amount) {
+    public void setAmount(double amount) {
         this.amount = amount;
     }
 
@@ -117,51 +141,43 @@ public class Transaction {
         this.time = time;
     }
 
-    public int getFrequency() {
+    public TransactionFrequency getFrequency() {
         return frequency;
     }
 
-    public void setFrequency(int frequency) {
+    public void setFrequency(TransactionFrequency frequency) {
         this.frequency = frequency;
     }
 
-    public String getInfoOnce() {
-        return infoOnce;
-    }
-
-    public void setInfoOnce(String infoOnce) {
-        this.infoOnce = infoOnce;
-    }
-
-    public String getInfoLasting() {
+    public int getInfoLasting() {
         return infoLasting;
     }
 
-    public void setInfoLasting(String infoLasting) {
+    public void setInfoLasting(int infoLasting) {
         this.infoLasting = infoLasting;
     }
 
-    public String getInfoRecurrent() {
+    public TransactionRecurrency getInfoRecurrent() {
         return infoRecurrent;
     }
 
-    public void setInfoRecurrent(String infoRecurrent) {
+    public void setInfoRecurrent(TransactionRecurrency infoRecurrent) {
         this.infoRecurrent = infoRecurrent;
     }
 
-    public int getNotify() {
+    public boolean getNotify() {
         return notify;
     }
 
-    public void setNotify(int notify) {
+    public void setNotify(boolean notify) {
         this.notify = notify;
     }
 
-    public int getNotifyFrequency() {
+    public TransactionNotifyFrequency getNotifyFrequency() {
         return notifyFrequency;
     }
 
-    public void setNotifyFrequency(int notifyFrequency) {
+    public void setNotifyFrequency(TransactionNotifyFrequency notifyFrequency) {
         this.notifyFrequency = notifyFrequency;
     }
 
@@ -189,11 +205,11 @@ public class Transaction {
         this.location = location;
     }
 
-    public int getPriority() {
+    public PriorityType getPriority() {
         return priority;
     }
 
-    public void setPriority(int priority) {
+    public void setPriority(PriorityType priority) {
         this.priority = priority;
     }
 
@@ -207,8 +223,7 @@ public class Transaction {
                 this.date.equals(transaction.date) &&
                 this.time.equals(transaction.time) &&
                 this.frequency == transaction.frequency &&
-                this.infoOnce.equals(transaction.infoOnce) &&
-                this.infoLasting.equals(transaction.infoLasting) &&
+                this.infoLasting == transaction.infoLasting &&
                 this.infoRecurrent.equals(transaction.infoRecurrent) &&
                 this.notify == transaction.notify &&
                 this.notifyFrequency == transaction.notifyFrequency &&
@@ -218,4 +233,16 @@ public class Transaction {
                 this.priority == transaction.priority;
     }
 
+    public boolean isValid() {
+        // Mandatory fields must be filled in
+        return this.name != null &&
+                this.transactionType != TransactionType.DEFAULT &&
+                this.currency != null &&
+                this.amount != 0 &&
+                this.date != null &&
+                (this.frequency != TransactionFrequency.DEFAULT &&
+                        (this.frequency != TransactionFrequency.LASTING || this.infoLasting != 0) &&
+                        (this.frequency != TransactionFrequency.RECURRENT || this.infoRecurrent != TransactionRecurrency.DEFAULT)) &&
+                (!this.notify || this.notifyFrequency != TransactionNotifyFrequency.DEFAULT);
+    }
 }

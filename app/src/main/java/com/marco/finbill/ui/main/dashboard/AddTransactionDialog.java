@@ -4,9 +4,9 @@ import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
-import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.icu.text.SimpleDateFormat;
 import android.icu.util.Calendar;
 import android.net.Uri;
@@ -22,6 +22,9 @@ import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentManager;
 
 import android.provider.MediaStore;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,16 +33,29 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.android.material.snackbar.Snackbar;
 import com.marco.finbill.R;
+import com.marco.finbill.enums.PriorityType;
 import com.marco.finbill.enums.TransactionFrequency;
+import com.marco.finbill.enums.TransactionNotifyFrequency;
+import com.marco.finbill.enums.TransactionRecurrency;
 import com.marco.finbill.enums.TransactionType;
 import com.marco.finbill.sql.account.Account;
 import com.marco.finbill.sql.category.Category;
 import com.marco.finbill.sql.model.FinBillViewModel;
+import com.marco.finbill.sql.transaction.Transaction;
+import com.marco.finbill.sql.transaction.expense.Expense;
+import com.marco.finbill.sql.transaction.expense.ExpenseIsTransactionWithRelationships;
+import com.marco.finbill.sql.transaction.income.Income;
+import com.marco.finbill.sql.transaction.transfer.Transfer;
 
+import java.sql.Date;
+import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -56,8 +72,32 @@ public class AddTransactionDialog extends DialogFragment {
     private FinBillViewModel viewModel;
 
     private ActivityResultLauncher<Intent> galleryLauncher;
-    private ImageView pictureEdit;
     private ActivityResultLauncher<Intent> cameraLauncher;
+
+    private Transaction transaction;
+
+    private EditText nameEdit;
+    private EditText descriptionEdit;
+    private Spinner transactionSpinner;
+    private EditText amountEdit;
+    private EditText dateEdit;
+    private EditText timeEdit;
+    private Spinner frequencyEdit;
+    private EditText infoLastingEdit;
+    private Spinner infoRecurrentEdit;
+    private SwitchCompat notifySwitch;
+    private Spinner notifyEdit;
+    private EditText notesEdit;
+    private ImageView pictureEdit;
+    private boolean pictureSelected = false;
+    private Spinner priorityEdit;
+
+    private Expense expense;
+    private Income income;
+    private Transfer transfer;
+
+    private Spinner fromSpinner;
+    private Spinner toSpinner;
 
     public AddTransactionDialog() {
     }
@@ -89,6 +129,7 @@ public class AddTransactionDialog extends DialogFragment {
                     Uri selectedImage = data.getData();
                     if (selectedImage != null) {
                         pictureEdit.setImageURI(selectedImage);
+                        pictureSelected = true;
                     }
                 }
             }
@@ -99,6 +140,7 @@ public class AddTransactionDialog extends DialogFragment {
                 Bundle extras = result.getData().getExtras();
                 Bitmap imageBitmap = (Bitmap) extras.get("data");
                 pictureEdit.setImageBitmap(imageBitmap);
+                pictureSelected = true;
             }
         });
     }
@@ -110,9 +152,11 @@ public class AddTransactionDialog extends DialogFragment {
         View rootView = inflater.inflate(R.layout.fragment_add_transaction, container, false);
         toolbar = rootView.findViewById(R.id.toolbar3);
 
-        Spinner transactionSpinner = rootView.findViewById(R.id.transactionEdit);
+        // TRANSACTION TYPE
+
+        transactionSpinner = rootView.findViewById(R.id.transactionEdit);
         List<String> transactionTypeList = new ArrayList<>();
-        transactionTypeList.add(getResources().getString(R.string.choose_transaction_type));
+        transactionTypeList.add(0, getResources().getString(R.string.choose_transaction_type));
         transactionTypeList.addAll(Arrays.asList(getResources().getStringArray(R.array.transaction_types_option)));
         ArrayAdapter<String> transactionTypeAdapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_spinner_item, transactionTypeList);
         transactionTypeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -125,33 +169,12 @@ public class AddTransactionDialog extends DialogFragment {
             transactionSpinner.setSelection(TransactionType.DEFAULT.ordinal());
         }
 
-        TextView fromTitle = rootView.findViewById(R.id.fromTitle);
-        Spinner fromSpinner = rootView.findViewById(R.id.fromEdit);
-        TextView toTitle = rootView.findViewById(R.id.toTitle);
-        Spinner toSpinner = rootView.findViewById(R.id.toEdit);
+        // TRANSACTION FIELDS
 
-        transactionSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (position != TransactionType.DEFAULT.ordinal()) {
-                    fromTitle.setVisibility(View.VISIBLE);
-                    fromSpinner.setVisibility(View.VISIBLE);
-                    toTitle.setVisibility(View.VISIBLE);
-                    toSpinner.setVisibility(View.VISIBLE);
-                }
-                else {
-                    fromTitle.setVisibility(View.GONE);
-                    fromSpinner.setVisibility(View.GONE);
-                    toTitle.setVisibility(View.GONE);
-                    toSpinner.setVisibility(View.GONE);
-                }
-            }
+        fromSpinner = rootView.findViewById(R.id.fromEdit);
+        toSpinner = rootView.findViewById(R.id.toEdit);
 
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
+        LinearLayout transactionLayout = rootView.findViewById(R.id.transactionLayout);
 
         List<String> fromList = new ArrayList<>();
         ArrayAdapter<String> fromAdapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_spinner_item, fromList);
@@ -166,58 +189,65 @@ public class AddTransactionDialog extends DialogFragment {
         transactionSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (position == TransactionType.EXPENSE.ordinal()) {
-                    // Populate spinners
-                    viewModel.getAllAccounts().observe(getViewLifecycleOwner(), accounts -> {
-                        fromList.clear();
-                        fromList.add(getResources().getString(R.string.choose_account));
-                        for (Account account : accounts) {
-                            fromList.add(account.getAccountName());
-                        }
-                        fromAdapter.notifyDataSetChanged();
-                    });
-                    viewModel.getAllCategoriesByType(TransactionType.EXPENSE.ordinal()).observe(getViewLifecycleOwner(), categories -> {
-                        toList.clear();
-                        toList.add(getResources().getString(R.string.choose_category));
-                        for (Category category : categories) {
-                            toList.add(category.getCategoryName());
-                        }
-                        toAdapter.notifyDataSetChanged();
-                    });
+                if (position == TransactionType.DEFAULT.ordinal()) {
+                    transactionLayout.setVisibility(View.GONE);
+                }
+                else {
+                    transactionLayout.setVisibility(View.VISIBLE);
 
-                } else if (position == TransactionType.INCOME.ordinal()) {
-                    viewModel.getAllCategoriesByType(TransactionType.INCOME.ordinal()).observe(getViewLifecycleOwner(), categories -> {
-                        fromList.clear();
-                        fromList.add(getResources().getString(R.string.choose_category));
-                        for (Category category : categories) {
-                            fromList.add(category.getCategoryName());
-                        }
-                        fromAdapter.notifyDataSetChanged();
-                    });
-                    viewModel.getAllAccounts().observe(getViewLifecycleOwner(), accounts -> {
-                        toList.clear();
-                        toList.add(getResources().getString(R.string.choose_account));
-                        for (Account account : accounts) {
-                            toList.add(account.getAccountName());
-                        }
-                        toAdapter.notifyDataSetChanged();
-                    });
-                } else if (position == TransactionType.TRANSFER.ordinal()) {
-                    viewModel.getAllAccounts().observe(getViewLifecycleOwner(), accounts -> {
-                        fromList.clear();
-                        fromList.add(getResources().getString(R.string.choose_account));
-                        for (Account account : accounts) {
-                            fromList.add(account.getAccountName());
-                        }
-                        fromAdapter.notifyDataSetChanged();
+                    if (position == TransactionType.EXPENSE.ordinal()) {
+                        // Populate spinners
+                        viewModel.getAllAccounts().observe(getViewLifecycleOwner(), accounts -> {
+                            fromList.clear();
+                            fromList.add(getResources().getString(R.string.choose_account));
+                            for (Account account : accounts) {
+                                fromList.add(account.getAccountName());
+                            }
+                            fromAdapter.notifyDataSetChanged();
+                        });
+                        viewModel.getAllCategoriesByType(TransactionType.EXPENSE.ordinal()).observe(getViewLifecycleOwner(), categories -> {
+                            toList.clear();
+                            toList.add(getResources().getString(R.string.choose_category));
+                            for (Category category : categories) {
+                                toList.add(category.getCategoryName());
+                            }
+                            toAdapter.notifyDataSetChanged();
+                        });
 
-                        toList.clear();
-                        toList.add(getResources().getString(R.string.choose_account));
-                        for (Account account : accounts) {
-                            toList.add(account.getAccountName());
-                        }
-                        toAdapter.notifyDataSetChanged();
-                    });
+                    } else if (position == TransactionType.INCOME.ordinal()) {
+                        viewModel.getAllCategoriesByType(TransactionType.INCOME.ordinal()).observe(getViewLifecycleOwner(), categories -> {
+                            fromList.clear();
+                            fromList.add(getResources().getString(R.string.choose_category));
+                            for (Category category : categories) {
+                                fromList.add(category.getCategoryName());
+                            }
+                            fromAdapter.notifyDataSetChanged();
+                        });
+                        viewModel.getAllAccounts().observe(getViewLifecycleOwner(), accounts -> {
+                            toList.clear();
+                            toList.add(getResources().getString(R.string.choose_account));
+                            for (Account account : accounts) {
+                                toList.add(account.getAccountName());
+                            }
+                            toAdapter.notifyDataSetChanged();
+                        });
+                    } else { // Transfer
+                        viewModel.getAllAccounts().observe(getViewLifecycleOwner(), accounts -> {
+                            fromList.clear();
+                            fromList.add(getResources().getString(R.string.choose_account));
+                            for (Account account : accounts) {
+                                fromList.add(account.getAccountName());
+                            }
+                            fromAdapter.notifyDataSetChanged();
+
+                            toList.clear();
+                            toList.add(getResources().getString(R.string.choose_account));
+                            for (Account account : accounts) {
+                                toList.add(account.getAccountName());
+                            }
+                            toAdapter.notifyDataSetChanged();
+                        });
+                    }
                 }
             }
 
@@ -226,15 +256,17 @@ public class AddTransactionDialog extends DialogFragment {
             }
         });
 
-        EditText nameEdit = rootView.findViewById(R.id.nameEdit);
-        EditText descriptionEdit = rootView.findViewById(R.id.descriptionEdit);
-        EditText amountEdit = rootView.findViewById(R.id.amountEdit);
+        nameEdit = rootView.findViewById(R.id.nameEdit);
+        descriptionEdit = rootView.findViewById(R.id.descriptionEdit);
+        amountEdit = rootView.findViewById(R.id.amountEdit);
 
         // Currency to be done later
 
-        EditText dateEdit = rootView.findViewById(R.id.dateEdit);
+        // DATE
+
+        dateEdit = rootView.findViewById(R.id.dateEdit);
         dateEdit.setOnClickListener(v -> {
-            DatePickerDialog datePickerDialog = new DatePickerDialog(requireContext(), (view, year, month, dayOfMonth) -> {
+            DatePickerDialog datePickerDialog = new DatePickerDialog(requireContext(), (view1, year, month, dayOfMonth) -> {
                 Calendar calendar = Calendar.getInstance();
                 calendar.set(year, month, dayOfMonth);
                 dateEdit.setText(new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(calendar.getTime()));
@@ -242,9 +274,11 @@ public class AddTransactionDialog extends DialogFragment {
             datePickerDialog.show();
         });
 
-        EditText timeEdit = rootView.findViewById(R.id.timeEdit);
+        // TIME
+
+        timeEdit = rootView.findViewById(R.id.timeEdit);
         timeEdit.setOnClickListener(v -> {
-            TimePickerDialog timePickerDialog = new TimePickerDialog(requireContext(), (view, hourOfDay, minute) -> {
+            TimePickerDialog timePickerDialog = new TimePickerDialog(requireContext(), (view2, hourOfDay, minute) -> {
                 Calendar calendar = Calendar.getInstance();
                 calendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
                 calendar.set(Calendar.MINUTE, minute);
@@ -253,31 +287,57 @@ public class AddTransactionDialog extends DialogFragment {
             timePickerDialog.show();
         });
 
-        Spinner frequencySpinner = rootView.findViewById(R.id.frequencyEdit);
+        // FREQUENCY
+
+        frequencyEdit = rootView.findViewById(R.id.frequencyEdit);
         List<String> frequencyList = new ArrayList<>();
         frequencyList.add(getResources().getString(R.string.choose_frequency));
         frequencyList.addAll(Arrays.asList(getResources().getStringArray(R.array.frequency_option)));
         ArrayAdapter<String> adapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_spinner_item, frequencyList);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        frequencySpinner.setAdapter(adapter);
+        frequencyEdit.setAdapter(adapter);
 
         AtomicInteger lasting = new AtomicInteger();
 
         TextView infoLastingTitle = rootView.findViewById(R.id.infoLastingTitle);
-        EditText infoLastingEdit = rootView.findViewById(R.id.infoLastingEdit);
+        infoLastingEdit = rootView.findViewById(R.id.infoLastingEdit);
+
+        // LASTING - coordination between buttons and text field
+
+        infoLastingEdit.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (s.toString().isEmpty()) {
+                    lasting.set(0);
+                } else {
+                    lasting.set(Integer.parseInt(s.toString()));
+                }
+            }
+        });
+
         Button plusButton = rootView.findViewById(R.id.plusButton);
         plusButton.setOnClickListener(v -> {
             lasting.getAndIncrement();
-            plusButton.setText(String.valueOf(lasting.get()));
+            infoLastingEdit.setText(String.valueOf(lasting.get()));
         });
         Button minusButton = rootView.findViewById(R.id.minusButton);
         minusButton.setOnClickListener(v -> {
             lasting.getAndDecrement();
-            minusButton.setText(String.valueOf(lasting.get()));
+            infoLastingEdit.setText(String.valueOf(lasting.get()));
         });
-        TextView infoRecurrentTitle = rootView.findViewById(R.id.infoRecurrentTitle);
 
-        Spinner infoRecurrentEdit = rootView.findViewById(R.id.infoRecurrentEdit);
+        // RECURRENT
+
+        TextView infoRecurrentTitle = rootView.findViewById(R.id.infoRecurrentTitle);
+        infoRecurrentEdit = rootView.findViewById(R.id.infoRecurrentEdit);
         List<String> infoRecurrentList = new ArrayList<>();
         infoRecurrentList.add(getResources().getString(R.string.choose_recurrency));
         infoRecurrentList.addAll(Arrays.asList(getResources().getStringArray(R.array.recurrency_option)));
@@ -285,20 +345,21 @@ public class AddTransactionDialog extends DialogFragment {
         infoRecurrentAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         infoRecurrentEdit.setAdapter(infoRecurrentAdapter);
 
-        SwitchCompat notifySwitch = rootView.findViewById(R.id.notifySwitch);
-        TextView notifyTitle = rootView.findViewById(R.id.notifyTitle);
+        // NOTIFY
 
+        notifySwitch = rootView.findViewById(R.id.notifySwitch);
+        TextView notifyTitle = rootView.findViewById(R.id.notifyTitle);
         Spinner notifyEdit = rootView.findViewById(R.id.notifyEdit);
+
         List<String> notifyList = new ArrayList<>();
         notifyList.add(getResources().getString(R.string.choose_recurrency));
         notifyList.addAll(Arrays.asList(getResources().getStringArray(R.array.notify_option)));
-        ArrayAdapter<String> notifyAdapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_spinner_item, infoRecurrentList);
+        ArrayAdapter<String> notifyAdapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_spinner_item, notifyList);
         notifyAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         notifyEdit.setAdapter(notifyAdapter);
 
-        notifySwitch.setChecked(false);
-        notifySwitch.setOnClickListener(v -> {
-            if (notifySwitch.isChecked()) {
+        notifySwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked) {
                 notifyTitle.setVisibility(View.VISIBLE);
                 notifyEdit.setVisibility(View.VISIBLE);
             } else {
@@ -307,17 +368,24 @@ public class AddTransactionDialog extends DialogFragment {
             }
         });
 
-        frequencySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        // The first time, visibility must be managed manually, since the default value for the switch is false
+
+        notifyTitle.setVisibility(View.GONE);
+        notifyEdit.setVisibility(View.GONE);
+
+        LinearLayout notifyLayout = rootView.findViewById(R.id.notifyLayout);
+
+        frequencyEdit.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (position == TransactionFrequency.ONCE.ordinal()) {
+                if (position == TransactionFrequency.ONCE.ordinal() || position == TransactionFrequency.DEFAULT.ordinal()) {
                     infoLastingTitle.setVisibility(View.GONE);
                     infoLastingEdit.setVisibility(View.GONE);
                     plusButton.setVisibility(View.GONE);
                     minusButton.setVisibility(View.GONE);
                     infoRecurrentTitle.setVisibility(View.GONE);
                     infoRecurrentEdit.setVisibility(View.GONE);
-                    notifySwitch.setVisibility(View.GONE);
+                    notifyLayout.setVisibility(View.GONE);
                 }
                 else if (position == TransactionFrequency.LASTING.ordinal()) {
                     infoLastingTitle.setVisibility(View.VISIBLE);
@@ -327,7 +395,7 @@ public class AddTransactionDialog extends DialogFragment {
                     minusButton.setVisibility(View.VISIBLE);
                     infoRecurrentTitle.setVisibility(View.GONE);
                     infoRecurrentEdit.setVisibility(View.GONE);
-                    notifySwitch.setVisibility(View.GONE);
+                    notifyLayout.setVisibility(View.GONE);
                 }
                 else if (position == TransactionFrequency.RECURRENT.ordinal()) {
                     infoLastingTitle.setVisibility(View.GONE);
@@ -336,7 +404,7 @@ public class AddTransactionDialog extends DialogFragment {
                     minusButton.setVisibility(View.GONE);
                     infoRecurrentTitle.setVisibility(View.VISIBLE);
                     infoRecurrentEdit.setVisibility(View.VISIBLE);
-                    notifySwitch.setVisibility(View.VISIBLE);
+                    notifyLayout.setVisibility(View.VISIBLE);
                 }
             }
 
@@ -345,14 +413,30 @@ public class AddTransactionDialog extends DialogFragment {
             }
         });
 
-        EditText notesEdit = rootView.findViewById(R.id.notesEdit);
-        ImageView pictureEdit = rootView.findViewById(R.id.pictureEdit);
+        notesEdit = rootView.findViewById(R.id.notesEdit);
+
+        // PICTURE
+
+        pictureEdit = rootView.findViewById(R.id.pictureEdit);
+
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        requireActivity().getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+        int size = displayMetrics.widthPixels / 2;
+        pictureEdit.getLayoutParams().width = size;
+        pictureEdit.getLayoutParams().height = size;
+        pictureEdit.setAdjustViewBounds(true);
+        pictureEdit.setScaleType(ImageView.ScaleType.CENTER_CROP);
+
+        // default image
+        pictureEdit.setImageResource(R.drawable.money);
+
         Button resetButton = rootView.findViewById(R.id.resetButton);
         Button galleryButton = rootView.findViewById(R.id.galleryButton);
         Button cameraButton = rootView.findViewById(R.id.cameraButton);
 
         resetButton.setOnClickListener(v -> {
-            pictureEdit.setImageResource(R.drawable.picture_icon);
+            pictureEdit.setImageResource(R.drawable.money);
+            pictureSelected = false;
         });
 
         galleryButton.setOnClickListener(v -> {
@@ -365,13 +449,13 @@ public class AddTransactionDialog extends DialogFragment {
             cameraLauncher.launch(intent);
         });
 
-        Spinner priorityEdit = rootView.findViewById(R.id.priorityEdit);
+        priorityEdit = rootView.findViewById(R.id.priorityEdit);
         List<String> priorityList = new ArrayList<>();
         priorityList.add(getResources().getString(R.string.choose_priority));
         priorityList.addAll(Arrays.asList(getResources().getStringArray(R.array.priority_option)));
-        ArrayAdapter<String> priorityAdapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_spinner_item, infoRecurrentList);
+        ArrayAdapter<String> priorityAdapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_spinner_item, priorityList);
         priorityAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        notifyEdit.setAdapter(priorityAdapter);
+        priorityEdit.setAdapter(priorityAdapter);
 
         return rootView;
     }
@@ -384,6 +468,76 @@ public class AddTransactionDialog extends DialogFragment {
         toolbar.inflateMenu(R.menu.menu_add_transaction);
         toolbar.setOnMenuItemClickListener(item -> {
             if (item.getItemId() == R.id.action_save) {
+                // Populating transaction item
+                transaction = new Transaction();
+                transaction.setName(nameEdit.getText().toString());
+                transaction.setDescription(descriptionEdit.getText().toString());
+                transaction.setTransactionType(TransactionType.values()[transactionSpinner.getSelectedItemPosition()]);
+                // transaction.setCurrency
+                if (amountEdit.getText().toString().isEmpty()) {
+                    transaction.setAmount(0);
+                } else {
+                    transaction.setAmount(Double.parseDouble(amountEdit.getText().toString()));
+                }
+                if (!dateEdit.getText().toString().isEmpty()) {
+                    transaction.setDate(Date.valueOf(dateEdit.getText().toString()));
+                }
+                if (!timeEdit.getText().toString().isEmpty()) {
+                    transaction.setTime(Time.valueOf(timeEdit.getText().toString()));
+                }
+                transaction.setFrequency(TransactionFrequency.values()[frequencyEdit.getSelectedItemPosition()]);
+                if (transaction.getFrequency().equals(TransactionFrequency.LASTING)) {
+                    transaction.setInfoLasting(Integer.parseInt(infoLastingEdit.getText().toString()));
+                }
+                else if (transaction.getFrequency().equals(TransactionFrequency.RECURRENT)) {
+                    transaction.setInfoRecurrent(TransactionRecurrency.values()[infoRecurrentEdit.getSelectedItemPosition()]);
+                    transaction.setNotify(notifySwitch.isChecked());
+                    if (transaction.getNotify()) {
+                        transaction.setNotifyFrequency(TransactionNotifyFrequency.values()[notifyEdit.getSelectedItemPosition()]);
+                    }
+                }
+                transaction.setNotes(notesEdit.getText().toString());
+                if (pictureSelected) {
+                    transaction.setImage(((BitmapDrawable)pictureEdit.getDrawable()).getBitmap());
+                }
+                else {
+                    transaction.setImage(null);
+                }
+                // transaction.setLocation
+                transaction.setPriority(PriorityType.values()[priorityEdit.getSelectedItemPosition()]);
+                if (transaction.isValid()) {
+                    // Saving transaction
+                    if (fromSpinner.getSelectedItemPosition() != 0 && toSpinner.getSelectedItemPosition() != 0) {
+                        viewModel.insertTransaction(transaction);
+                        String from = fromSpinner.getSelectedItem().toString();
+                        String to = toSpinner.getSelectedItem().toString();
+                        if (transaction.getTransactionType().equals(TransactionType.EXPENSE)) {
+                            expense = new Expense();
+                            expense.setExpenseId(transaction.getTransactionId());
+                            expense.setFromExpense(viewModel.getAccountByName(from).getAccountId());
+                            expense.setToExpense(viewModel.getCategoryByName(to).getCategoryId());
+                            viewModel.insertExpense(expense);
+                        }
+                        else if (transaction.getTransactionType().equals(TransactionType.INCOME)) {
+                            income = new Income();
+                            income.setIncomeId(transaction.getTransactionId());
+                            income.setFromIncome(viewModel.getCategoryByName(from).getCategoryId());
+                            income.setToIncome(viewModel.getAccountByName(to).getAccountId());
+                            viewModel.insertIncome(income);
+                        }
+                        else { // transfer
+                            transfer = new Transfer();
+                            transfer.setTransferId(transaction.getTransactionId());
+                            transfer.setFromTransfer(viewModel.getAccountByName(from).getAccountId());
+                            transfer.setToTransfer(viewModel.getAccountByName(to).getAccountId());
+                            viewModel.insertTransfer(transfer);
+                        }
+                    }
+                }
+                else {
+                    Snackbar.make(view, R.string.incomplete_transaction_fields, Snackbar.LENGTH_LONG).show();
+                    return false;
+                }
                 dismiss();
                 return true;
             }

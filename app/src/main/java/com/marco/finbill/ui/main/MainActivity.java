@@ -19,6 +19,10 @@ import android.view.View;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.marco.finbill.R;
+import com.marco.finbill.sql.exchange.Exchange;
+import com.marco.finbill.sql.exchange.currencyapi.ExchangeApi;
+import com.marco.finbill.sql.exchange.currencyapi.ExchangeResponse;
+import com.marco.finbill.sql.exchange.currencyapi.ServiceGenerator;
 import com.marco.finbill.sql.model.FinBillViewModel;
 import com.marco.finbill.sql.transaction.expense.Expense;
 import com.marco.finbill.ui.main.adapters.ExpenseAdapter;
@@ -26,7 +30,13 @@ import com.marco.finbill.ui.main.adapters.IncomeAdapter;
 import com.marco.finbill.ui.main.adapters.TransferAdapter;
 import com.marco.finbill.ui.welcome.WelcomeActivity;
 
+import java.util.List;
 import java.util.Objects;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.internal.EverythingIsNonNull;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -82,6 +92,26 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onSupportNavigateUp() {
         return NavigationUI.navigateUp(navController, appBarConfiguration) || super.onSupportNavigateUp();
+    }
+
+    public List<Exchange> searchForExchange(String from) {
+        ExchangeApi exchangeApi = ServiceGenerator.getExchangeApi();
+        Call<ExchangeResponse> call = exchangeApi.getExchange(from);
+        call.enqueue(new Callback<ExchangeResponse>() {
+            @EverythingIsNonNull
+            @Override
+            public void onResponse(Call<ExchangeResponse> call, Response<ExchangeResponse> response) {
+                if (response.isSuccessful()) {
+                    response.body().getExchange();
+                }
+            }
+
+            @EverythingIsNonNull
+            @Override
+            public void onFailure(Call<ExchangeResponse> call, Throwable t) {
+                System.out.println("Error: " + t.getMessage());
+            }
+        });
     }
 
 }

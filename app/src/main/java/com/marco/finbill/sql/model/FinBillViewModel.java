@@ -7,8 +7,12 @@ import androidx.lifecycle.LiveData;
 
 import com.marco.finbill.sql.account.Account;
 import com.marco.finbill.sql.category.Category;
+import com.marco.finbill.sql.transaction.Transaction;
+import com.marco.finbill.sql.transaction.expense.Expense;
 import com.marco.finbill.sql.transaction.expense.ExpenseIsTransactionWithRelationships;
+import com.marco.finbill.sql.transaction.income.Income;
 import com.marco.finbill.sql.transaction.income.IncomeIsTransactionWithRelationships;
+import com.marco.finbill.sql.transaction.transfer.Transfer;
 import com.marco.finbill.sql.transaction.transfer.TransferIsTransactionWithRelationships;
 
 import java.nio.channels.AcceptPendingException;
@@ -47,5 +51,29 @@ public class FinBillViewModel extends AndroidViewModel {
 
     public LiveData<List<Category>> getAllCategoriesByType(int type) {
         return repository.getAllCategoriesByType(type);
+    }
+
+    public void insertTransaction(Transaction transaction) {
+        repository.insertTransaction(transaction);
+    }
+
+    public void insertExpense(Expense expense) {
+        repository.insertExpense(expense);
+    }
+
+    public void insertIncome(Income income) {
+        repository.insertIncome(income);
+    }
+
+    public void insertTransfer(Transfer transfer) {
+        repository.insertTransfer(transfer);
+    }
+
+    public Account getAccountByName(String name) {
+        return repository.getAccountByName(name);
+    }
+
+    public Category getCategoryByName(String name) {
+        return repository.getCategoryByName(name);
     }
 }

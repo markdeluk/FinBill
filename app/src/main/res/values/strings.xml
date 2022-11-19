@@ -71,4 +71,5 @@
     <string name="choose_frequency" translatable="false">Choose a frequency…</string>
     <string name="choose_recurrency" translatable="false">Choose a recurrency…</string>
     <string name="choose_priority" translatable="false">Choose a priority…</string>
+    <string name="incomplete_transaction_fields" translatable="true">Error! You must complete all the mandatory fields before clicking the save button.</string>
 </resources>

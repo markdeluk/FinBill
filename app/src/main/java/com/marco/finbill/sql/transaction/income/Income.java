@@ -9,8 +9,44 @@ import com.marco.finbill.sql.category.Category;
 @Entity(tableName = "income_table")
 public class Income {
 
-    @PrimaryKey public int incomeId;
-    public int fromIncome;
-    public int toIncome;
+    @PrimaryKey private int incomeId;
+    private int fromIncome;
+    private int toIncome;
+
+    public Income(int incomeId, int fromIncome, int toIncome) {
+        this.incomeId = incomeId;
+        this.fromIncome = fromIncome;
+        this.toIncome = toIncome;
+    }
+
+    public Income() {
+        this.incomeId = 0;
+        this.fromIncome = 0;
+        this.toIncome = 0;
+    }
+
+    public int getIncomeId() {
+        return incomeId;
+    }
+
+    public void setIncomeId(int incomeId) {
+        this.incomeId = incomeId;
+    }
+
+    public int getFromIncome() {
+        return fromIncome;
+    }
+
+    public void setFromIncome(int fromIncome) {
+        this.fromIncome = fromIncome;
+    }
+
+    public int getToIncome() {
+        return toIncome;
+    }
+
+    public void setToIncome(int toIncome) {
+        this.toIncome = toIncome;
+    }
 
 }

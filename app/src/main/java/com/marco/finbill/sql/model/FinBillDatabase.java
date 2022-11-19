@@ -14,6 +14,7 @@ import com.marco.finbill.sql.category.CategoryDao;
 import com.marco.finbill.sql.exchange.Exchange;
 import com.marco.finbill.sql.exchange.ExchangeDao;
 import com.marco.finbill.sql.transaction.Transaction;
+import com.marco.finbill.sql.transaction.TransactionDao;
 import com.marco.finbill.sql.transaction.expense.Expense;
 import com.marco.finbill.sql.transaction.expense.ExpenseDao;
 import com.marco.finbill.sql.transaction.expense.ExpenseIsTransactionWithRelationshipsDao;
@@ -39,6 +40,10 @@ public abstract class FinBillDatabase extends RoomDatabase {
     public abstract ExpenseIsTransactionWithRelationshipsDao expenseIsTransactionWithRelationshipsDao();
     public abstract IncomeIsTransactionWithRelationshipsDao incomeIsTransactionWithRelationshipsDao();
     public abstract TransferIsTransactionWithRelationshipsDao transferIsTransactionWithRelationshipsDao();
+    public abstract TransactionDao transactionDao();
+    public abstract ExpenseDao expenseDao();
+    public abstract IncomeDao incomeDao();
+    public abstract TransferDao transferDao();
 
     public static synchronized FinBillDatabase getInstance(Context context){
         if(instance == null) {

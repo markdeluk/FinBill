@@ -4,12 +4,15 @@ import android.graphics.Bitmap;
 import android.icu.util.Currency;
 import android.media.Image;
 
+import androidx.annotation.NonNull;
+import androidx.room.ColumnInfo;
 import androidx.room.Entity;
+import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
 import java.sql.Date;
 
-@Entity(tableName = "account_table")
+@Entity(tableName = "account_table", indices = {@Index(value = {"accountName"}, unique = true)})
 public class Account {
     @PrimaryKey(autoGenerate = true)
     private int accountId;

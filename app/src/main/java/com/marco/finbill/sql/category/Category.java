@@ -6,12 +6,14 @@ import android.icu.util.Currency;
 import android.media.Image;
 import android.provider.ContactsContract;
 
+import androidx.room.ColumnInfo;
 import androidx.room.Entity;
+import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
 import java.sql.Date;
 
-@Entity(tableName = "category_table")
+@Entity(tableName = "category_table", indices = {@Index(value = {"categoryName"}, unique = true)})
 public class Category {
     @PrimaryKey(autoGenerate = true)
     private int categoryId;
