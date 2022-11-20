@@ -11,7 +11,10 @@ import com.marco.finbill.sql.account.Account;
 import com.marco.finbill.sql.account.AccountDao;
 import com.marco.finbill.sql.category.Category;
 import com.marco.finbill.sql.category.CategoryDao;
+import com.marco.finbill.sql.exchange.Exchange;
 import com.marco.finbill.sql.exchange.ExchangeDao;
+import com.marco.finbill.sql.exchange.exchange_latest_update.ExchangeLatestUpdate;
+import com.marco.finbill.sql.exchange.exchange_latest_update.ExchangeLatestUpdateDao;
 import com.marco.finbill.sql.transaction.Transaction;
 import com.marco.finbill.sql.transaction.TransactionDao;
 import com.marco.finbill.sql.transaction.expense.Expense;
@@ -27,6 +30,7 @@ import com.marco.finbill.sql.transaction.transfer.TransferDao;
 import com.marco.finbill.sql.transaction.transfer.TransferIsTransactionWithRelationships;
 import com.marco.finbill.sql.transaction.transfer.TransferIsTransactionWithRelationshipsDao;
 
+import java.sql.Date;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -44,13 +48,16 @@ public class FinBillRepository {
     private TransferDao transferDao;
     private AccountDao accountDao;
     private CategoryDao categoryDao;
+    private ExchangeDao exchangeDao;
+    private ExchangeLatestUpdateDao exchangeLatestUpdateDao;
 
     private FinBillRepository(Application application){
         FinBillDatabase database = FinBillDatabase.getInstance(application);
 
         accountDao = database.accountDao();
         categoryDao = database.categoryDao();
-        ExchangeDao exchangeDao = database.exchangeDao();
+        exchangeDao = database.exchangeDao();
+        exchangeLatestUpdateDao = database.exchangeLatestUpdateDao();
         expenseIsTransactionWithRelationshipsDao = database.expenseIsTransactionWithRelationshipsDao();
         incomeIsTransactionWithRelationshipsDao = database.incomeIsTransactionWithRelationshipsDao();
         transferIsTransactionWithRelationshipsDao = database.transferIsTransactionWithRelationshipsDao();
@@ -114,5 +121,25 @@ public class FinBillRepository {
 
     public Category getCategoryByName(String name) {
         return categoryDao.getCategoryName(name);
+    }
+
+    public void insertExchange(Exchange exchange) {
+        exchangeDao.insertExchange(exchange);
+    }
+
+    public void updateExchange(Exchange exchange) {
+        exchangeDao.updateExchange(exchange);
+    }
+
+    public ExchangeLatestUpdate getExchangeLatestUpdate() {
+        return exchangeLatestUpdateDao.getExchangeLatestUpdate();
+    }
+
+    public void insertExchangeLatestUpdate(ExchangeLatestUpdate exchangeLatestUpdate) {
+        exchangeLatestUpdateDao.insertExchangeLatestUpdate(exchangeLatestUpdate);
+    }
+
+    public void updateExchangeLatestUpdate(ExchangeLatestUpdate exchangeLatestUpdate) {
+        exchangeLatestUpdateDao.updateExchangeLatestUpdate(exchangeLatestUpdate);
     }
 }

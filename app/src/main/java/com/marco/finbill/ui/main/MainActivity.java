@@ -11,37 +11,34 @@ import androidx.navigation.ui.NavigationUI;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.icu.util.Currency;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.marco.finbill.R;
+import com.marco.finbill.sql.exchange.exchange_api.SearchForExchange;
 import com.marco.finbill.sql.exchange.Exchange;
-import com.marco.finbill.sql.exchange.currencyapi.ExchangeApi;
-import com.marco.finbill.sql.exchange.currencyapi.ExchangeResponse;
-import com.marco.finbill.sql.exchange.currencyapi.ServiceGenerator;
+import com.marco.finbill.sql.exchange.exchange_latest_update.ExchangeLatestUpdate;
 import com.marco.finbill.sql.model.FinBillViewModel;
-import com.marco.finbill.sql.transaction.expense.Expense;
-import com.marco.finbill.ui.main.adapters.ExpenseAdapter;
-import com.marco.finbill.ui.main.adapters.IncomeAdapter;
-import com.marco.finbill.ui.main.adapters.TransferAdapter;
 import com.marco.finbill.ui.welcome.WelcomeActivity;
 
+import java.sql.Date;
 import java.util.List;
 import java.util.Objects;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.internal.EverythingIsNonNull;
+import java.util.Set;
 
 public class MainActivity extends AppCompatActivity {
 
     private NavController navController;
     private AppBarConfiguration appBarConfiguration;
+
+    private FinBillViewModel viewModel;
+
+    private enum Action {
+        INSERT, UPDATE
+    }
 
     public MainActivity() {
     }
@@ -60,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
 
         // Data settings
 
-        FinBillViewModel viewModel = new ViewModelProvider(this).get(FinBillViewModel.class);
+        viewModel = new ViewModelProvider(this).get(FinBillViewModel.class);
 
         // UI settings
 
@@ -76,6 +73,7 @@ public class MainActivity extends AppCompatActivity {
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationView);
         NavigationUI.setupWithNavController(bottomNavigationView, navController);
 
+        updateExchanges();
     }
 
     @Override
@@ -94,24 +92,39 @@ public class MainActivity extends AppCompatActivity {
         return NavigationUI.navigateUp(navController, appBarConfiguration) || super.onSupportNavigateUp();
     }
 
-    public List<Exchange> searchForExchange(String from) {
-        ExchangeApi exchangeApi = ServiceGenerator.getExchangeApi();
-        Call<ExchangeResponse> call = exchangeApi.getExchange(from);
-        call.enqueue(new Callback<ExchangeResponse>() {
-            @EverythingIsNonNull
-            @Override
-            public void onResponse(Call<ExchangeResponse> call, Response<ExchangeResponse> response) {
-                if (response.isSuccessful()) {
-                    response.body().getExchange();
+    private void updateExchanges() {
+        ExchangeLatestUpdate exchangeLatestUpdate = viewModel.getExchangeLatestUpdate();
+        Date today = new Date(System.);
+        Set<Currency> currencySet = Currency.getAvailableCurrencies();
+        if (exchangeLatestUpdate == null) {
+            exchangeLatestUpdate = new ExchangeLatestUpdate(today);
+            viewModel.insertExchangeLatestUpdate(exchangeLatestUpdate);
+            modifyExchange(currencySet, Action.INSERT);
+        }
+        else {
+            if (exchangeLatestUpdate.getExchangeLatestUpdate().before(today)) {
+                exchangeLatestUpdate.setExchangeLatestUpdate(today);
+                viewModel.updateExchangeLatestUpdate(exchangeLatestUpdate);
+                modifyExchange(currencySet, Action.UPDATE);
+            }
+        }
+    }
+
+    private void modifyExchange(Set<Currency> currencySet, Action action) {
+        for (Currency fromCurrency : currencySet) {
+            SearchForExchange searchForExchange = new SearchForExchange(fromCurrency);
+            List<Exchange> exchangeList = searchForExchange.getExchangesFromCurrencyToCurrencies();
+            if (exchangeList != null) {
+                for (Exchange exchange: exchangeList) {
+                    if (action == Action.INSERT) {
+                        viewModel.insertExchange(exchange);
+                    }
+                    else {
+                        viewModel.updateExchange(exchange);
+                    }
                 }
             }
-
-            @EverythingIsNonNull
-            @Override
-            public void onFailure(Call<ExchangeResponse> call, Throwable t) {
-                System.out.println("Error: " + t.getMessage());
-            }
-        });
+        }
     }
 
 }

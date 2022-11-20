@@ -7,6 +7,8 @@ import androidx.lifecycle.LiveData;
 
 import com.marco.finbill.sql.account.Account;
 import com.marco.finbill.sql.category.Category;
+import com.marco.finbill.sql.exchange.Exchange;
+import com.marco.finbill.sql.exchange.exchange_latest_update.ExchangeLatestUpdate;
 import com.marco.finbill.sql.transaction.Transaction;
 import com.marco.finbill.sql.transaction.expense.Expense;
 import com.marco.finbill.sql.transaction.expense.ExpenseIsTransactionWithRelationships;
@@ -16,6 +18,7 @@ import com.marco.finbill.sql.transaction.transfer.Transfer;
 import com.marco.finbill.sql.transaction.transfer.TransferIsTransactionWithRelationships;
 
 import java.nio.channels.AcceptPendingException;
+import java.sql.Date;
 import java.util.List;
 
 public class FinBillViewModel extends AndroidViewModel {
@@ -75,5 +78,25 @@ public class FinBillViewModel extends AndroidViewModel {
 
     public Category getCategoryByName(String name) {
         return repository.getCategoryByName(name);
+    }
+
+    public void insertExchange(Exchange exchange) {
+        repository.insertExchange(exchange);
+    }
+
+    public void updateExchange(Exchange exchange) {
+        repository.updateExchange(exchange);
+    }
+
+    public ExchangeLatestUpdate getExchangeLatestUpdate() {
+        return repository.getExchangeLatestUpdate();
+    }
+
+    public void insertExchangeLatestUpdate(ExchangeLatestUpdate exchangeLatestUpdate) {
+        repository.insertExchangeLatestUpdate(exchangeLatestUpdate);
+    }
+
+    public void updateExchangeLatestUpdate(ExchangeLatestUpdate exchangeLatestUpdate) {
+        repository.updateExchangeLatestUpdate(exchangeLatestUpdate);
     }
 }
