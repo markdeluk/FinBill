@@ -5,6 +5,7 @@ import android.icu.util.Currency;
 import com.marco.finbill.sql.exchange.Exchange;
 
 import java.util.List;
+import java.util.Map;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -12,7 +13,7 @@ import retrofit2.Response;
 import retrofit2.internal.EverythingIsNonNull;
 
 public class SearchForExchange {
-    private List<Exchange> exchangesFromCurrencyToCurrencies;
+    private Map<String, Double> exchangesFromCurrencyToCurrencies;
 
     public SearchForExchange(Currency fromCurrency) {
         exchangesFromCurrencyToCurrencies = null;
@@ -35,7 +36,7 @@ public class SearchForExchange {
         });
     }
 
-    public List<Exchange> getExchangesFromCurrencyToCurrencies() {
+    public Map<String, Double> getExchangesFromCurrencyToCurrencies() {
         return exchangesFromCurrencyToCurrencies;
     }
 }

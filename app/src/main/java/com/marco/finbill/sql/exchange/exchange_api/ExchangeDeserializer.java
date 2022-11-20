@@ -19,15 +19,12 @@ public class ExchangeDeserializer implements JsonDeserializer<ExchangeResponse> 
         ExchangeResponse exchangeResponse = new ExchangeResponse();
         JsonObject jsonObject = json.getAsJsonObject();
         Set<String> keys = jsonObject.keySet();
-        for (String key : keys) {
+        for (String key : keys) { // executed only twice
             if (!key.equals("date")) {
-                exchangeResponse.fromCurrency = Currency.getInstance(key.toUpperCase());
                 JsonObject rates = jsonObject.get(key).getAsJsonObject();
                 Set<String> ratesKeys = rates.keySet();
                 for (String rateKey : ratesKeys) {
-                    if (Currency.getAvailableCurrencies().stream().map(Currency::getCurrencyCode).anyMatch(Predicate.isEqual(rateKey.toUpperCase()))) {
-                        exchangeResponse.rates.put(Currency.getInstance(rateKey.toUpperCase()), rates.get(rateKey).getAsDouble());
-                    }
+                    exchangeResponse.rates.put(rateKey, rates.get(rateKey).getAsDouble());
                 }
             }
         }

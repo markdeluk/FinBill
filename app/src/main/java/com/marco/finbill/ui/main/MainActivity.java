@@ -8,6 +8,12 @@ import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
+import androidx.room.Update;
+import androidx.work.Constraints;
+import androidx.work.Data;
+import androidx.work.NetworkType;
+import androidx.work.PeriodicWorkRequest;
+import androidx.work.WorkManager;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -18,6 +24,7 @@ import android.view.MenuItem;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.marco.finbill.R;
+import com.marco.finbill.sql.exchange.UpdateExchangeWorker;
 import com.marco.finbill.sql.exchange.exchange_api.SearchForExchange;
 import com.marco.finbill.sql.exchange.Exchange;
 import com.marco.finbill.sql.exchange.exchange_latest_update.ExchangeLatestUpdate;
@@ -26,8 +33,10 @@ import com.marco.finbill.ui.welcome.WelcomeActivity;
 
 import java.sql.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -35,6 +44,8 @@ public class MainActivity extends AppCompatActivity {
     private AppBarConfiguration appBarConfiguration;
 
     private FinBillViewModel viewModel;
+
+    private Map<String, Object> exchanges;
 
     private enum Action {
         INSERT, UPDATE
@@ -59,6 +70,17 @@ public class MainActivity extends AppCompatActivity {
 
         viewModel = new ViewModelProvider(this).get(FinBillViewModel.class);
 
+        Constraints constraints = new Constraints.Builder().setRequiredNetworkType(NetworkType.CONNECTED).build();
+        PeriodicWorkRequest periodicWorkRequest = new PeriodicWorkRequest.Builder(UpdateExchangeWorker.class, 1, TimeUnit.DAYS).setConstraints(constraints).build();
+        WorkManager workManager = WorkManager.getInstance(this);
+        workManager.enqueue(periodicWorkRequest);
+        workManager.getWorkInfoByIdLiveData(periodicWorkRequest.getId()).observe(this, workInfo -> {
+            if (workInfo != null && workInfo.getState().isFinished()) {
+                exchanges = workInfo.getOutputData().getKeyValueMap();
+                updateExchanges();
+            }
+        });
+
         // UI settings
 
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -73,7 +95,6 @@ public class MainActivity extends AppCompatActivity {
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationView);
         NavigationUI.setupWithNavController(bottomNavigationView, navController);
 
-        updateExchanges();
     }
 
     @Override
@@ -94,35 +115,34 @@ public class MainActivity extends AppCompatActivity {
 
     private void updateExchanges() {
         ExchangeLatestUpdate exchangeLatestUpdate = viewModel.getExchangeLatestUpdate();
-        Date today = new Date(System.);
+        Date today = new Date(System.currentTimeMillis());
         Set<Currency> currencySet = Currency.getAvailableCurrencies();
         if (exchangeLatestUpdate == null) {
             exchangeLatestUpdate = new ExchangeLatestUpdate(today);
             viewModel.insertExchangeLatestUpdate(exchangeLatestUpdate);
-            modifyExchange(currencySet, Action.INSERT);
+            modifyExchange(Action.INSERT);
         }
         else {
             if (exchangeLatestUpdate.getExchangeLatestUpdate().before(today)) {
                 exchangeLatestUpdate.setExchangeLatestUpdate(today);
                 viewModel.updateExchangeLatestUpdate(exchangeLatestUpdate);
-                modifyExchange(currencySet, Action.UPDATE);
+                modifyExchange(Action.UPDATE);
             }
         }
     }
 
-    private void modifyExchange(Set<Currency> currencySet, Action action) {
-        for (Currency fromCurrency : currencySet) {
-            SearchForExchange searchForExchange = new SearchForExchange(fromCurrency);
-            List<Exchange> exchangeList = searchForExchange.getExchangesFromCurrencyToCurrencies();
-            if (exchangeList != null) {
-                for (Exchange exchange: exchangeList) {
-                    if (action == Action.INSERT) {
-                        viewModel.insertExchange(exchange);
-                    }
-                    else {
-                        viewModel.updateExchange(exchange);
-                    }
-                }
+    private void modifyExchange(Action action) {
+        for (Map.Entry<String, Object> entry : exchanges.entrySet()) {
+            String[] keys = entry.getKey().split("_");
+            Currency from = Currency.getInstance(keys[0].toUpperCase());
+            Currency to = Currency.getInstance(keys[1].toUpperCase());
+            Double rate = (Double) entry.getValue();
+            Exchange exchange = new Exchange(from, to, rate);
+            if (action == Action.INSERT) {
+                viewModel.insertExchange(exchange);
+            }
+            else {
+                viewModel.updateExchange(exchange);
             }
         }
     }
