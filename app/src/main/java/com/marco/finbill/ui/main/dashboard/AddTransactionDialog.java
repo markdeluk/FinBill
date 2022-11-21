@@ -5,10 +5,12 @@ import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
+import android.database.DataSetObserver;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.icu.text.SimpleDateFormat;
 import android.icu.util.Calendar;
+import android.icu.util.Currency;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -18,8 +20,10 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.SwitchCompat;
 import androidx.appcompat.widget.Toolbar;
+import androidx.compose.ui.node.MergedViewAdapter;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.recyclerview.widget.ConcatAdapter;
 
 import android.provider.MediaStore;
 import android.text.Editable;
@@ -28,6 +32,7 @@ import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -53,6 +58,7 @@ import com.marco.finbill.sql.transaction.expense.Expense;
 import com.marco.finbill.sql.transaction.expense.ExpenseIsTransactionWithRelationships;
 import com.marco.finbill.sql.transaction.income.Income;
 import com.marco.finbill.sql.transaction.transfer.Transfer;
+import com.marco.finbill.ui.main.adapters.CurrencyAdapter;
 
 import java.sql.Date;
 import java.sql.Time;
@@ -61,6 +67,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Collectors;
 
 public class AddTransactionDialog extends DialogFragment {
 
@@ -260,7 +267,12 @@ public class AddTransactionDialog extends DialogFragment {
         descriptionEdit = rootView.findViewById(R.id.descriptionEdit);
         amountEdit = rootView.findViewById(R.id.amountEdit);
 
-        // Currency to be done later
+        // CURRENCY
+
+        Spinner currencyEdit = rootView.findViewById(R.id.currencyEdit);
+        List<Currency> currencyList = new ArrayList<>(Currency.getAvailableCurrencies());
+        CurrencyAdapter currencyAdapter = new CurrencyAdapter(requireContext(), currencyList);
+        currencyEdit.setAdapter(currencyAdapter);
 
         // DATE
 
@@ -349,7 +361,7 @@ public class AddTransactionDialog extends DialogFragment {
 
         notifySwitch = rootView.findViewById(R.id.notifySwitch);
         TextView notifyTitle = rootView.findViewById(R.id.notifyTitle);
-        Spinner notifyEdit = rootView.findViewById(R.id.notifyEdit);
+        notifyEdit = rootView.findViewById(R.id.notifyEdit);
 
         List<String> notifyList = new ArrayList<>();
         notifyList.add(getResources().getString(R.string.choose_recurrency));

@@ -68,8 +68,12 @@
     <string name="choose_transaction_type" translatable="false">Choose a transaction type…</string>
     <string name="choose_account" translatable="false">Choose an account…</string>
     <string name="choose_category" translatable="false">Choose a category…</string>
+    <string name="choose_currency" translatable="false">Choose a currency…</string>
     <string name="choose_frequency" translatable="false">Choose a frequency…</string>
     <string name="choose_recurrency" translatable="false">Choose a recurrency…</string>
     <string name="choose_priority" translatable="false">Choose a priority…</string>
-    <string name="incomplete_transaction_fields" translatable="true">Error! You must complete all the mandatory fields before clicking the save button.</string>
+    <string name="incomplete_transaction_fields" translatable="false">Error! You must complete all the mandatory fields before clicking the save button.</string>
+    <string name="inserted_exchange_rates" translatable="false">Inserted exchange rates!</string>
+    <string name="updated_exchange_rates" translatable="false">Updated exchange rates!</string>
+    <string name="transaction_picture" translatable="false">Transaction picture</string>
 </resources>

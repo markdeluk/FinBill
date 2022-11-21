@@ -8,34 +8,26 @@ import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
-import androidx.room.Update;
 import androidx.work.Constraints;
-import androidx.work.Data;
 import androidx.work.NetworkType;
 import androidx.work.PeriodicWorkRequest;
 import androidx.work.WorkManager;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.icu.util.Currency;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.marco.finbill.R;
-import com.marco.finbill.sql.exchange.UpdateExchangeWorker;
-import com.marco.finbill.sql.exchange.exchange_api.SearchForExchange;
-import com.marco.finbill.sql.exchange.Exchange;
-import com.marco.finbill.sql.exchange.exchange_latest_update.ExchangeLatestUpdate;
+import com.marco.finbill.sql.exchange.exchange_api.ExchangeUpdateAllCurrenciesWorker;
 import com.marco.finbill.sql.model.FinBillViewModel;
 import com.marco.finbill.ui.welcome.WelcomeActivity;
 
-import java.sql.Date;
-import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 public class MainActivity extends AppCompatActivity {
@@ -44,12 +36,10 @@ public class MainActivity extends AppCompatActivity {
     private AppBarConfiguration appBarConfiguration;
 
     private FinBillViewModel viewModel;
+    private SharedPreferences sharedPreferences;
 
     private Map<String, Object> exchanges;
-
-    private enum Action {
-        INSERT, UPDATE
-    }
+    private boolean exchangeFirstUpdate;
 
     public MainActivity() {
     }
@@ -59,27 +49,11 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        SharedPreferences sharedPreferences = getSharedPreferences("sharedPrefs", MODE_PRIVATE);
-        boolean firstStart = sharedPreferences.getBoolean("firstStart", true);
-        if (firstStart) {
-            Intent intent = new Intent(MainActivity.this, WelcomeActivity.class);
-            startActivity(intent);
-        }
-
         // Data settings
 
+        startWelcomeActivity();
         viewModel = new ViewModelProvider(this).get(FinBillViewModel.class);
-
-        Constraints constraints = new Constraints.Builder().setRequiredNetworkType(NetworkType.CONNECTED).build();
-        PeriodicWorkRequest periodicWorkRequest = new PeriodicWorkRequest.Builder(UpdateExchangeWorker.class, 1, TimeUnit.DAYS).setConstraints(constraints).build();
-        WorkManager workManager = WorkManager.getInstance(this);
-        workManager.enqueue(periodicWorkRequest);
-        workManager.getWorkInfoByIdLiveData(periodicWorkRequest.getId()).observe(this, workInfo -> {
-            if (workInfo != null && workInfo.getState().isFinished()) {
-                exchanges = workInfo.getOutputData().getKeyValueMap();
-                updateExchanges();
-            }
-        });
+        insertExchanges();
 
         // UI settings
 
@@ -113,38 +87,26 @@ public class MainActivity extends AppCompatActivity {
         return NavigationUI.navigateUp(navController, appBarConfiguration) || super.onSupportNavigateUp();
     }
 
-    private void updateExchanges() {
-        ExchangeLatestUpdate exchangeLatestUpdate = viewModel.getExchangeLatestUpdate();
-        Date today = new Date(System.currentTimeMillis());
-        Set<Currency> currencySet = Currency.getAvailableCurrencies();
-        if (exchangeLatestUpdate == null) {
-            exchangeLatestUpdate = new ExchangeLatestUpdate(today);
-            viewModel.insertExchangeLatestUpdate(exchangeLatestUpdate);
-            modifyExchange(Action.INSERT);
-        }
-        else {
-            if (exchangeLatestUpdate.getExchangeLatestUpdate().before(today)) {
-                exchangeLatestUpdate.setExchangeLatestUpdate(today);
-                viewModel.updateExchangeLatestUpdate(exchangeLatestUpdate);
-                modifyExchange(Action.UPDATE);
-            }
+    private void startWelcomeActivity() {
+        sharedPreferences = getSharedPreferences("sharedPrefs", MODE_PRIVATE);
+        boolean firstStart = sharedPreferences.getBoolean("firstStart", true);
+        if (firstStart) {
+            Intent intent = new Intent(MainActivity.this, WelcomeActivity.class);
+            startActivity(intent);
         }
     }
 
-    private void modifyExchange(Action action) {
-        for (Map.Entry<String, Object> entry : exchanges.entrySet()) {
-            String[] keys = entry.getKey().split("_");
-            Currency from = Currency.getInstance(keys[0].toUpperCase());
-            Currency to = Currency.getInstance(keys[1].toUpperCase());
-            Double rate = (Double) entry.getValue();
-            Exchange exchange = new Exchange(from, to, rate);
-            if (action == Action.INSERT) {
-                viewModel.insertExchange(exchange);
+    private void insertExchanges() {
+        // periodic update of exchange rates
+        Constraints constraints = new Constraints.Builder().setRequiredNetworkType(NetworkType.CONNECTED).build();
+        PeriodicWorkRequest periodicWorkRequest = new PeriodicWorkRequest.Builder(ExchangeUpdateAllCurrenciesWorker.class, 1, TimeUnit.DAYS).setConstraints(constraints).build();
+        WorkManager workManager = WorkManager.getInstance(this);
+        workManager.enqueue(periodicWorkRequest);
+        workManager.getWorkInfoByIdLiveData(periodicWorkRequest.getId()).observe(this, workInfo -> {
+            if (workInfo != null && workInfo.getState().isFinished()) {
+                Toast.makeText(this, getResources().getString(R.string.updated_exchange_rates), Toast.LENGTH_SHORT).show();
             }
-            else {
-                viewModel.updateExchange(exchange);
-            }
-        }
+        });
     }
 
 }

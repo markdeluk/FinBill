@@ -5,13 +5,21 @@ import java.util.Map;
 
 
 public class ExchangeResponse {
-    public Map<String, Double> rates;
+    private Map<String, Double> rates;
 
     public ExchangeResponse() {
         this.rates = new HashMap<>();
     }
 
-    public Map<String, Double> getExchanges() {
+    public Map<String, Double> getRates() {
         return rates;
+    }
+
+    public void setRates(Map<String, Double> rates) {
+        this.rates = rates;
+    }
+
+    public void putRates(String key, Double value) {
+        this.rates.put(key, value);
     }
 }

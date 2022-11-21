@@ -13,8 +13,6 @@ import com.marco.finbill.sql.category.Category;
 import com.marco.finbill.sql.category.CategoryDao;
 import com.marco.finbill.sql.exchange.Exchange;
 import com.marco.finbill.sql.exchange.ExchangeDao;
-import com.marco.finbill.sql.exchange.exchange_latest_update.ExchangeLatestUpdate;
-import com.marco.finbill.sql.exchange.exchange_latest_update.ExchangeLatestUpdateDao;
 import com.marco.finbill.sql.transaction.Transaction;
 import com.marco.finbill.sql.transaction.TransactionDao;
 import com.marco.finbill.sql.transaction.expense.Expense;
@@ -32,14 +30,13 @@ import com.marco.finbill.sql.type_converters.DateTypeConverter;
 import com.marco.finbill.sql.type_converters.LocationTypeConverter;
 import com.marco.finbill.sql.type_converters.TimeTypeConverter;
 
-@Database(entities = {Account.class, Category.class, Exchange.class, ExchangeLatestUpdate.class ,Expense.class, Income.class, Transfer.class, Transaction.class}, version = 1)
+@Database(entities = {Account.class, Category.class, Exchange.class, Expense.class, Income.class, Transfer.class, Transaction.class}, version = 2)
 @TypeConverters({CurrencyTypeConverter.class, DateTypeConverter.class, TimeTypeConverter.class, LocationTypeConverter.class, BitmapTypeConverter.class})
 public abstract class FinBillDatabase extends RoomDatabase {
     private static FinBillDatabase instance;
     public abstract AccountDao accountDao();
     public abstract CategoryDao categoryDao();
     public abstract ExchangeDao exchangeDao();
-    public abstract ExchangeLatestUpdateDao exchangeLatestUpdateDao();
     public abstract ExpenseIsTransactionWithRelationshipsDao expenseIsTransactionWithRelationshipsDao();
     public abstract IncomeIsTransactionWithRelationshipsDao incomeIsTransactionWithRelationshipsDao();
     public abstract TransferIsTransactionWithRelationshipsDao transferIsTransactionWithRelationshipsDao();

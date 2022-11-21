@@ -13,8 +13,6 @@ import com.marco.finbill.sql.category.Category;
 import com.marco.finbill.sql.category.CategoryDao;
 import com.marco.finbill.sql.exchange.Exchange;
 import com.marco.finbill.sql.exchange.ExchangeDao;
-import com.marco.finbill.sql.exchange.exchange_latest_update.ExchangeLatestUpdate;
-import com.marco.finbill.sql.exchange.exchange_latest_update.ExchangeLatestUpdateDao;
 import com.marco.finbill.sql.transaction.Transaction;
 import com.marco.finbill.sql.transaction.TransactionDao;
 import com.marco.finbill.sql.transaction.expense.Expense;
@@ -49,7 +47,9 @@ public class FinBillRepository {
     private AccountDao accountDao;
     private CategoryDao categoryDao;
     private ExchangeDao exchangeDao;
-    private ExchangeLatestUpdateDao exchangeLatestUpdateDao;
+
+    private ExecutorService executorService;
+    private Handler mainThreadHandler;
 
     private FinBillRepository(Application application){
         FinBillDatabase database = FinBillDatabase.getInstance(application);
@@ -57,7 +57,6 @@ public class FinBillRepository {
         accountDao = database.accountDao();
         categoryDao = database.categoryDao();
         exchangeDao = database.exchangeDao();
-        exchangeLatestUpdateDao = database.exchangeLatestUpdateDao();
         expenseIsTransactionWithRelationshipsDao = database.expenseIsTransactionWithRelationshipsDao();
         incomeIsTransactionWithRelationshipsDao = database.incomeIsTransactionWithRelationshipsDao();
         transferIsTransactionWithRelationshipsDao = database.transferIsTransactionWithRelationshipsDao();
@@ -66,8 +65,8 @@ public class FinBillRepository {
         incomeDao = database.incomeDao();
         transferDao = database.transferDao();
 
-        ExecutorService executorService = Executors.newFixedThreadPool(2);
-        Handler mainThreadHandler = HandlerCompat.createAsync(Looper.getMainLooper());
+        executorService = Executors.newFixedThreadPool(2);
+        mainThreadHandler = HandlerCompat.createAsync(Looper.getMainLooper());
     }
 
     public static FinBillRepository getInstance(Application application){
@@ -100,19 +99,19 @@ public class FinBillRepository {
     }
 
     public void insertTransaction(Transaction transaction) {
-        transactionDao.insertTransaction(transaction);
+        executorService.execute(() -> transactionDao.insertTransaction(transaction));
     }
 
     public void insertExpense(Expense expense) {
-        expenseDao.insertExpense(expense);
+        executorService.execute(() -> expenseDao.insertExpense(expense));
     }
 
     public void insertIncome(Income income) {
-        incomeDao.insertIncome(income);
+        executorService.execute(() -> incomeDao.insertIncome(income));
     }
 
     public void insertTransfer(Transfer transfer) {
-        transferDao.insertTransfer(transfer);
+        executorService.execute(() -> transferDao.insertTransfer(transfer));
     }
 
     public Account getAccountByName(String name) {
@@ -124,22 +123,15 @@ public class FinBillRepository {
     }
 
     public void insertExchange(Exchange exchange) {
-        exchangeDao.insertExchange(exchange);
+        executorService.execute(() -> exchangeDao.insertExchange(exchange));
     }
 
     public void updateExchange(Exchange exchange) {
-        exchangeDao.updateExchange(exchange);
+        executorService.execute(() -> exchangeDao.updateExchange(exchange));
     }
 
-    public ExchangeLatestUpdate getExchangeLatestUpdate() {
-        return exchangeLatestUpdateDao.getExchangeLatestUpdate();
+    public void deleteAllExchanges() {
+        executorService.execute(() -> exchangeDao.deleteAllExchanges());
     }
 
-    public void insertExchangeLatestUpdate(ExchangeLatestUpdate exchangeLatestUpdate) {
-        exchangeLatestUpdateDao.insertExchangeLatestUpdate(exchangeLatestUpdate);
-    }
-
-    public void updateExchangeLatestUpdate(ExchangeLatestUpdate exchangeLatestUpdate) {
-        exchangeLatestUpdateDao.updateExchangeLatestUpdate(exchangeLatestUpdate);
-    }
 }

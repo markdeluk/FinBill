@@ -2,46 +2,41 @@ package com.marco.finbill.sql.exchange;
 
 import android.icu.util.Currency;
 
+import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
 import java.sql.Date;
 
-@Entity(tableName = "exchange_table")
+@Entity(tableName = "exchange_table", primaryKeys = {"exchangeFromCurrency", "exchangeToCurrency"})
 public class Exchange {
-    @PrimaryKey(autoGenerate = true)
-    private int exchangeId;
+    @NonNull
     private Currency exchangeFromCurrency;
+    @NonNull
     private Currency exchangeToCurrency;
     private double exchangeRate;
 
-    public Exchange(Currency exchangeFromCurrency, Currency exchangeToCurrency, double exchangeRate) {
+    public Exchange(@NonNull Currency exchangeFromCurrency, @NonNull Currency exchangeToCurrency, double exchangeRate) {
         this.exchangeFromCurrency = exchangeFromCurrency;
         this.exchangeToCurrency = exchangeToCurrency;
         this.exchangeRate = exchangeRate;
     }
 
-    public int getExchangeId() {
-        return exchangeId;
-    }
-
-    public void setExchangeId(int exchangeId) {
-        this.exchangeId = exchangeId;
-    }
-
+    @NonNull
     public Currency getExchangeFromCurrency() {
         return exchangeFromCurrency;
     }
 
-    public void setExchangeFromCurrency(Currency exchangeFromCurrency) {
+    public void setExchangeFromCurrency(@NonNull Currency exchangeFromCurrency) {
         this.exchangeFromCurrency = exchangeFromCurrency;
     }
 
+    @NonNull
     public Currency getExchangeToCurrency() {
         return exchangeToCurrency;
     }
 
-    public void setExchangeToCurrency(Currency exchangeToCurrency) {
+    public void setExchangeToCurrency(@NonNull Currency exchangeToCurrency) {
         this.exchangeToCurrency = exchangeToCurrency;
     }
 

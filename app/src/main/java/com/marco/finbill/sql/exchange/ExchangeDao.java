@@ -1,5 +1,7 @@
 package com.marco.finbill.sql.exchange;
 
+import android.icu.util.Currency;
+
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Delete;
@@ -23,8 +25,8 @@ public interface ExchangeDao {
     @Delete
     void deleteExchange(Exchange exchange);
 
-    @Query("SELECT * FROM exchange_table WHERE exchangeId = :id")
-    Exchange getExchangeById(int id);
+    @Query("SELECT * FROM exchange_table WHERE exchangeFromCurrency = :exchangeFromCurrency AND exchangeToCurrency = :exchangeToCurrency")
+    Exchange getExchangeById(Currency exchangeFromCurrency, Currency exchangeToCurrency);
 
     @Query("SELECT * FROM exchange_table")
     LiveData<List<Exchange>> getAllExchanges();

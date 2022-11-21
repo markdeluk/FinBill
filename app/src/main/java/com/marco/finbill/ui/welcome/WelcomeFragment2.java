@@ -4,8 +4,6 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
@@ -17,19 +15,15 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.SpinnerAdapter;
-import android.widget.Toast;
 
 import com.marco.finbill.R;
-
-import java.util.Objects;
 
 public class WelcomeFragment2 extends Fragment {
 
     EditText name;
 
-    Spinner spinner;
-    SpinnerAdapter spinnerAdapter;
+    Spinner appNeedSpinner;
+    ArrayAdapter<CharSequence> appNeedAdapter;
 
     Button next;
 
@@ -50,11 +44,12 @@ public class WelcomeFragment2 extends Fragment {
 
         name = rootView.findViewById(R.id.editTextTextPersonName);
 
-        spinner = rootView.findViewById(R.id.spinner);
-        spinnerAdapter = ArrayAdapter.createFromResource(getActivity(), R.array.app_need_option, android.R.layout.simple_spinner_item);
-        spinner.setAdapter(spinnerAdapter);
+        appNeedSpinner = rootView.findViewById(R.id.spinner);
+        appNeedAdapter = ArrayAdapter.createFromResource(getActivity(), R.array.app_need_option, android.R.layout.simple_spinner_item);
+        appNeedAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        appNeedSpinner.setAdapter(appNeedAdapter);
 
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        appNeedSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
             }
@@ -71,7 +66,7 @@ public class WelcomeFragment2 extends Fragment {
         next.setOnClickListener(v -> {
             editor.putBoolean("firstStart", false);
             editor.putString("name", name.getText().toString());
-            editor.putInt("app_need", (int) spinner.getSelectedItemId());
+            editor.putInt("app_need", (int) appNeedSpinner.getSelectedItemId());
             editor.apply();
 
             Navigation.findNavController(rootView).navigate(R.id.action_welcomeFragment2_to_welcomeFragment3);
