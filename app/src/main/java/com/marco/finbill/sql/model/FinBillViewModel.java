@@ -4,10 +4,15 @@ import android.app.Application;
 
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
+import androidx.work.Constraints;
+import androidx.work.NetworkType;
+import androidx.work.PeriodicWorkRequest;
+import androidx.work.WorkManager;
 
 import com.marco.finbill.sql.account.Account;
 import com.marco.finbill.sql.category.Category;
 import com.marco.finbill.sql.exchange.Exchange;
+import com.marco.finbill.sql.exchange.exchange_api.ExchangeUpdateWorker;
 import com.marco.finbill.sql.transaction.Transaction;
 import com.marco.finbill.sql.transaction.expense.Expense;
 import com.marco.finbill.sql.transaction.expense.ExpenseIsTransactionWithRelationships;
@@ -19,6 +24,7 @@ import com.marco.finbill.sql.transaction.transfer.TransferIsTransactionWithRelat
 import java.nio.channels.AcceptPendingException;
 import java.sql.Date;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 public class FinBillViewModel extends AndroidViewModel {
 
@@ -27,8 +33,6 @@ public class FinBillViewModel extends AndroidViewModel {
     public FinBillViewModel(Application application) {
         super(application);
         repository = FinBillRepository.getInstance(application);
-
-
     }
 
     public LiveData<List<ExpenseIsTransactionWithRelationships>> getAllExpenses() {
@@ -90,4 +94,5 @@ public class FinBillViewModel extends AndroidViewModel {
     public void deleteAllExchanges() {
         repository.deleteAllExchanges();
     }
+
 }

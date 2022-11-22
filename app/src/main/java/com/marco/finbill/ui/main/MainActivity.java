@@ -16,18 +16,21 @@ import androidx.work.WorkManager;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.marco.finbill.R;
-import com.marco.finbill.sql.exchange.exchange_api.ExchangeUpdateAllCurrenciesWorker;
+import com.marco.finbill.sql.exchange.exchange_api.ExchangeUpdateWorker;
 import com.marco.finbill.sql.model.FinBillViewModel;
 import com.marco.finbill.ui.welcome.WelcomeActivity;
 
 import java.util.Map;
 import java.util.Objects;
+import java.util.concurrent.ExecutorService;
 import java.util.concurrent.TimeUnit;
 
 public class MainActivity extends AppCompatActivity {
@@ -40,6 +43,9 @@ public class MainActivity extends AppCompatActivity {
 
     private Map<String, Object> exchanges;
     private boolean exchangeFirstUpdate;
+
+    private ExecutorService executorService;
+    private Handler handler;
 
     public MainActivity() {
     }
@@ -97,16 +103,20 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void insertExchanges() {
+
         // periodic update of exchange rates
         Constraints constraints = new Constraints.Builder().setRequiredNetworkType(NetworkType.CONNECTED).build();
-        PeriodicWorkRequest periodicWorkRequest = new PeriodicWorkRequest.Builder(ExchangeUpdateAllCurrenciesWorker.class, 1, TimeUnit.DAYS).setConstraints(constraints).build();
+        PeriodicWorkRequest periodicWorkRequest = new PeriodicWorkRequest.Builder(ExchangeUpdateWorker.class, 1, TimeUnit.DAYS).setConstraints(constraints).build();
+
         WorkManager workManager = WorkManager.getInstance(this);
         workManager.enqueue(periodicWorkRequest);
+        Log.e("MainActivity", "insertExchanges: " + periodicWorkRequest.getId());
         workManager.getWorkInfoByIdLiveData(periodicWorkRequest.getId()).observe(this, workInfo -> {
             if (workInfo != null && workInfo.getState().isFinished()) {
                 Toast.makeText(this, getResources().getString(R.string.updated_exchange_rates), Toast.LENGTH_SHORT).show();
             }
         });
+
     }
 
 }
