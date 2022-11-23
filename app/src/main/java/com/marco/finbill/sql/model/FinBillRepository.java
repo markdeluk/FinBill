@@ -3,6 +3,7 @@ package com.marco.finbill.sql.model;
 import android.app.Application;
 import android.os.Handler;
 import android.os.Looper;
+import android.util.Log;
 
 import androidx.core.os.HandlerCompat;
 import androidx.lifecycle.LiveData;
@@ -123,7 +124,14 @@ public class FinBillRepository {
     }
 
     public void insertExchange(Exchange exchange) {
-        executorService.execute(() -> exchangeDao.insertExchange(exchange));
+        executorService.execute(new Runnable() {
+            @Override
+            public void run() {
+                exchangeDao.insertExchange(exchange);
+                Log.e("FinBillRepository", "insertExchange: " + exchange.getExchangeFromCurrency().getCurrencyCode() + "_" + exchange.getExchangeToCurrency().getCurrencyCode() + ": " + exchange.getExchangeRate());
+            }
+        });
+        //executorService.execute(() -> exchangeDao.insertExchange(exchange));
     }
 
     public void updateExchange(Exchange exchange) {

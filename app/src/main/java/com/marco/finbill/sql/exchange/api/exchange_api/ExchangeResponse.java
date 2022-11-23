@@ -1,14 +1,13 @@
-package com.marco.finbill.sql.exchange.exchange_api;
+package com.marco.finbill.sql.exchange.api.exchange_api;
 
 import java.util.HashMap;
 import java.util.Map;
-
 
 public class ExchangeResponse {
     private Map<String, Double> rates;
 
     public ExchangeResponse() {
-        this.rates = new HashMap<>();
+        rates = new HashMap<>();
     }
 
     public Map<String, Double> getRates() {
@@ -19,7 +18,7 @@ public class ExchangeResponse {
         this.rates = rates;
     }
 
-    public void putRates(String key, Double value) {
-        this.rates.put(key, value);
+    public void putRate(String key, Double value) {
+        rates.put(key, value);
     }
 }

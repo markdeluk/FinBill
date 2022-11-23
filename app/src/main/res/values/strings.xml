@@ -75,5 +75,6 @@
     <string name="incomplete_transaction_fields" translatable="false">Error! You must complete all the mandatory fields before clicking the save button.</string>
     <string name="inserted_exchange_rates" translatable="false">Inserted exchange rates!</string>
     <string name="updated_exchange_rates" translatable="false">Updated exchange rates!</string>
+    <string name="updating_exchange_rates" translatable="false">Updating exchange rates…</string>
     <string name="transaction_picture" translatable="false">Transaction picture</string>
 </resources>

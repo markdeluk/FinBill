@@ -9,7 +9,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.work.ListenableWorker;
 import androidx.work.testing.TestWorkerBuilder;
 
-import com.marco.finbill.sql.exchange.exchange_api.ExchangeUpdateWorker;
+import com.marco.finbill.sql.exchange.api.ExchangeUpdateWorker;
 
 import org.junit.Before;
 import org.junit.Test;

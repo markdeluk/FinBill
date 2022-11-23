@@ -1,4 +1,4 @@
-package com.marco.finbill.sql.exchange.exchange_api;
+package com.marco.finbill.sql.exchange.api.exchange_api;
 
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
@@ -7,6 +7,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 
 import java.lang.reflect.Type;
+import java.util.Locale;
 import java.util.Set;
 
 public class ExchangeDeserializer implements JsonDeserializer<ExchangeResponse> {
@@ -17,10 +18,10 @@ public class ExchangeDeserializer implements JsonDeserializer<ExchangeResponse> 
         Set<String> keys = jsonObject.keySet();
         for (String key : keys) { // executed only twice
             if (!key.equals("date")) {
-                JsonObject rates = jsonObject.get(key).getAsJsonObject();
+                JsonObject rates = jsonObject.getAsJsonObject(key);
                 Set<String> ratesKeys = rates.keySet();
-                for (String rateKey : ratesKeys) {
-                    exchangeResponse.putRates(rateKey, rates.get(rateKey).getAsDouble());
+                for (String ratesKey : ratesKeys) {
+                    exchangeResponse.putRate(ratesKey.toUpperCase(), rates.get(ratesKey).getAsDouble());
                 }
             }
         }

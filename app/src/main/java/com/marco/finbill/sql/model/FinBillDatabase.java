@@ -30,7 +30,7 @@ import com.marco.finbill.sql.type_converters.DateTypeConverter;
 import com.marco.finbill.sql.type_converters.LocationTypeConverter;
 import com.marco.finbill.sql.type_converters.TimeTypeConverter;
 
-@Database(entities = {Account.class, Category.class, Exchange.class, Expense.class, Income.class, Transfer.class, Transaction.class}, version = 2)
+@Database(entities = {Account.class, Category.class, Exchange.class, Expense.class, Income.class, Transfer.class, Transaction.class}, version = 1)
 @TypeConverters({CurrencyTypeConverter.class, DateTypeConverter.class, TimeTypeConverter.class, LocationTypeConverter.class, BitmapTypeConverter.class})
 public abstract class FinBillDatabase extends RoomDatabase {
     private static FinBillDatabase instance;
