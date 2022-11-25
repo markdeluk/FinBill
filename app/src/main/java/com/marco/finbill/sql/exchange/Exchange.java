@@ -11,32 +11,32 @@ import java.sql.Date;
 @Entity(tableName = "exchange_table", primaryKeys = {"exchangeFromCurrency", "exchangeToCurrency"})
 public class Exchange {
     @NonNull
-    private Currency exchangeFromCurrency;
+    private String exchangeFromCurrency;
     @NonNull
-    private Currency exchangeToCurrency;
+    private String exchangeToCurrency;
     private double exchangeRate;
 
-    public Exchange(@NonNull Currency exchangeFromCurrency, @NonNull Currency exchangeToCurrency, double exchangeRate) {
+    public Exchange(@NonNull String exchangeFromCurrency, @NonNull String exchangeToCurrency, double exchangeRate) {
         this.exchangeFromCurrency = exchangeFromCurrency;
         this.exchangeToCurrency = exchangeToCurrency;
         this.exchangeRate = exchangeRate;
     }
 
     @NonNull
-    public Currency getExchangeFromCurrency() {
+    public String getExchangeFromCurrency() {
         return exchangeFromCurrency;
     }
 
-    public void setExchangeFromCurrency(@NonNull Currency exchangeFromCurrency) {
+    public void setExchangeFromCurrency(@NonNull String exchangeFromCurrency) {
         this.exchangeFromCurrency = exchangeFromCurrency;
     }
 
     @NonNull
-    public Currency getExchangeToCurrency() {
+    public String getExchangeToCurrency() {
         return exchangeToCurrency;
     }
 
-    public void setExchangeToCurrency(@NonNull Currency exchangeToCurrency) {
+    public void setExchangeToCurrency(@NonNull String exchangeToCurrency) {
         this.exchangeToCurrency = exchangeToCurrency;
     }
 

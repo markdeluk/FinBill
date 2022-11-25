@@ -26,7 +26,7 @@ public interface ExchangeDao {
     void deleteExchange(Exchange exchange);
 
     @Query("SELECT * FROM exchange_table WHERE exchangeFromCurrency = :exchangeFromCurrency AND exchangeToCurrency = :exchangeToCurrency")
-    Exchange getExchangeById(Currency exchangeFromCurrency, Currency exchangeToCurrency);
+    Exchange getExchangeById(String exchangeFromCurrency, String exchangeToCurrency);
 
     @Query("SELECT * FROM exchange_table")
     LiveData<List<Exchange>> getAllExchanges();

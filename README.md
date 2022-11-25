@@ -32,3 +32,11 @@ Remember to do it!
     
     NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.fragmentContainerView);
     navController = navHostFragment.getNavController();
+
+# For the future!!!
+// periodic update of exchange rates
+Constraints constraints = new Constraints.Builder().setRequiredNetworkType(NetworkType.CONNECTED).build();
+PeriodicWorkRequest periodicWorkRequest = new PeriodicWorkRequest.Builder(ExchangeUpdateWorker.class, 1, TimeUnit.DAYS).setConstraints(constraints).build();
+
+        WorkManager workManager = WorkManager.getInstance(this);
+        workManager.enqueue(periodicWorkRequest);

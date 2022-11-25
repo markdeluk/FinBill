@@ -147,7 +147,7 @@
                             android:id="@+id/currencyTitle"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="@string/currency" />
+                            android:text="@string/currencyCode" />
 
                         <Spinner
                             android:id="@+id/currencyEdit"

@@ -19,7 +19,6 @@ public class Account {
     private String accountName;
     private String accountDescription;
     private int accountType;
-    private Currency accountCurrency;
     private float accountBalance;
     private float accountPlatfond;
     private Date accountAdded;
@@ -27,14 +26,13 @@ public class Account {
     private int accountPriority;
 
     private enum Type {
-        CASH, BANK, CREDIT_CARD, DEBIT_CARD, DEPOSIT, ONLINE_ACCOUNT, CRYPTO, OTHER
+        CASH, BANK, CREDIT_CARD, DEBIT_CARD, DEPOSIT, ONLINE_ACCOUNT, OTHER
     }
 
-    public Account(String accountName, String accountDescription, int accountType, Currency accountCurrency, float accountBalance, float accountPlatfond, Date accountAdded, Bitmap accountImage, int accountPriority) {
+    public Account(String accountName, String accountDescription, int accountType, float accountBalance, float accountPlatfond, Date accountAdded, Bitmap accountImage, int accountPriority) {
         this.accountName = accountName;
         this.accountDescription = accountDescription;
         this.accountType = accountType;
-        this.accountCurrency = accountCurrency;
         this.accountBalance = accountBalance;
         this.accountPlatfond = accountPlatfond;
         this.accountAdded = accountAdded;
@@ -72,14 +70,6 @@ public class Account {
 
     public void setAccountType(int accountType) {
         this.accountType = accountType;
-    }
-
-    public Currency getAccountCurrency() {
-        return accountCurrency;
-    }
-
-    public void setAccountCurrency(Currency accountCurrency) {
-        this.accountCurrency = accountCurrency;
     }
 
     public float getAccountBalance() {
@@ -127,7 +117,6 @@ public class Account {
                 this.accountName.equals(account.getAccountName()) &&
                 this.accountDescription.equals(account.getAccountDescription()) &&
                 this.accountType == account.getAccountType() &&
-                this.accountCurrency.equals(account.getAccountCurrency()) &&
                 this.accountBalance == account.getAccountBalance() &&
                 this.accountPlatfond == account.getAccountPlatfond() &&
                 this.accountAdded.equals(account.getAccountAdded()) &&

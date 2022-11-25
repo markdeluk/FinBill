@@ -14,33 +14,33 @@ import androidx.annotation.NonNull;
 import com.marco.finbill.R;
 
 import java.util.List;
+import java.util.Locale;
 
 public class CurrencyAdapter extends ArrayAdapter<Currency> {
 
     Context context;
+    int resource;
     List<Currency> currencies;
 
-    public CurrencyAdapter(@NonNull Context context, @NonNull List<Currency> objects) {
-        super(context, R.layout.currency_list_item, objects);
+    public CurrencyAdapter(@NonNull Context context, int resource, @NonNull List<Currency> objects) {
+        super(context, resource, objects);
         this.context = context;
+        this.resource = resource;
         this.currencies = objects;
     }
 
     @Override
-    public View getDropDownView(int position, View convertView, @NonNull ViewGroup parent) {
-        return getCustomView(position, convertView, parent);
-    }
-
-    public View getCustomView(int position, View convertView, ViewGroup parent) {
-        LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View row = inflater.inflate(R.layout.currency_list_item, parent, false);
-        TextView currencySymbol = row.findViewById(R.id.currencySymbol);
-        TextView currencyCode = row.findViewById(R.id.currencyCode);
-        TextView currencyName = row.findViewById(R.id.currencyName);
-        Currency currency = currencies.get(position);
+    public View getView(int position, View convertView, ViewGroup parent) {
+        Currency currency = getItem(position);
+        if (convertView == null) {
+            convertView = LayoutInflater.from(getContext()).inflate(resource, parent, false);
+        }
+        TextView currencySymbol = convertView.findViewById(R.id.currencySymbol);
+        TextView currencyName = convertView.findViewById(R.id.currencyName);
+        TextView currencyCode = convertView.findViewById(R.id.currencyCode);
         currencySymbol.setText(currency.getSymbol());
-        currencyCode.setText(currency.getCurrencyCode());
         currencyName.setText(currency.getDisplayName());
-        return row;
+        currencyCode.setText(currency.getCurrencyCode());
+        return convertView;
     }
 }

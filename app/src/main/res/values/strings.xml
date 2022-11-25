@@ -47,7 +47,7 @@
     <string name="name" translatable="false">Name</string>
     <string name="description" translatable="false">Description</string>
     <string name="amount" translatable="false">Amount</string>
-    <string name="currency" translatable="false">Currency</string>
+    <string name="currencyCode" translatable="false">Currency</string>
     <string name="date" translatable="false">Date</string>
     <string name="time" translatable="false">Time</string>
     <string name="frequency" translatable="false">Frequency</string>
@@ -68,7 +68,7 @@
     <string name="choose_transaction_type" translatable="false">Choose a transaction type…</string>
     <string name="choose_account" translatable="false">Choose an account…</string>
     <string name="choose_category" translatable="false">Choose a category…</string>
-    <string name="choose_currency" translatable="false">Choose a currency…</string>
+    <string name="choose_currency" translatable="false">Choose a currencyCode…</string>
     <string name="choose_frequency" translatable="false">Choose a frequency…</string>
     <string name="choose_recurrency" translatable="false">Choose a recurrency…</string>
     <string name="choose_priority" translatable="false">Choose a priority…</string>

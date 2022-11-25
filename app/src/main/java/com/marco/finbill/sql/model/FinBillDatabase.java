@@ -11,6 +11,8 @@ import com.marco.finbill.sql.account.Account;
 import com.marco.finbill.sql.account.AccountDao;
 import com.marco.finbill.sql.category.Category;
 import com.marco.finbill.sql.category.CategoryDao;
+import com.marco.finbill.sql.currency_code.CurrencyCode;
+import com.marco.finbill.sql.currency_code.CurrencyCodeDao;
 import com.marco.finbill.sql.exchange.Exchange;
 import com.marco.finbill.sql.exchange.ExchangeDao;
 import com.marco.finbill.sql.transaction.Transaction;
@@ -25,17 +27,17 @@ import com.marco.finbill.sql.transaction.transfer.Transfer;
 import com.marco.finbill.sql.transaction.transfer.TransferDao;
 import com.marco.finbill.sql.transaction.transfer.TransferIsTransactionWithRelationshipsDao;
 import com.marco.finbill.sql.type_converters.BitmapTypeConverter;
-import com.marco.finbill.sql.type_converters.CurrencyTypeConverter;
 import com.marco.finbill.sql.type_converters.DateTypeConverter;
 import com.marco.finbill.sql.type_converters.LocationTypeConverter;
 import com.marco.finbill.sql.type_converters.TimeTypeConverter;
 
-@Database(entities = {Account.class, Category.class, Exchange.class, Expense.class, Income.class, Transfer.class, Transaction.class}, version = 1)
-@TypeConverters({CurrencyTypeConverter.class, DateTypeConverter.class, TimeTypeConverter.class, LocationTypeConverter.class, BitmapTypeConverter.class})
+@Database(entities = {Account.class, Category.class, CurrencyCode.class, Exchange.class, Expense.class, Income.class, Transfer.class, Transaction.class}, version = 1)
+@TypeConverters({DateTypeConverter.class, TimeTypeConverter.class, LocationTypeConverter.class, BitmapTypeConverter.class})
 public abstract class FinBillDatabase extends RoomDatabase {
     private static FinBillDatabase instance;
     public abstract AccountDao accountDao();
     public abstract CategoryDao categoryDao();
+    public abstract CurrencyCodeDao currencyCodeDao();
     public abstract ExchangeDao exchangeDao();
     public abstract ExpenseIsTransactionWithRelationshipsDao expenseIsTransactionWithRelationshipsDao();
     public abstract IncomeIsTransactionWithRelationshipsDao incomeIsTransactionWithRelationshipsDao();

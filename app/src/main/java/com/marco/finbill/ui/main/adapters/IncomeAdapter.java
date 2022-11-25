@@ -63,7 +63,7 @@ public class IncomeAdapter extends ListAdapter<IncomeIsTransactionWithRelationsh
         holder.time.setText(incomeIsTransactionWithRelationships.transaction.getTime().toString());
         holder.sign.setText(R.string.minus);
         holder.amount.setText(String.valueOf(incomeIsTransactionWithRelationships.transaction.getAmount()));
-        holder.currency.setText(incomeIsTransactionWithRelationships.transaction.getCurrency().getCurrencyCode());
+        holder.currency.setText(incomeIsTransactionWithRelationships.transaction.getCurrencyString());
     }
 
     public IncomeIsTransactionWithRelationships getIncomeAt(int position) {
@@ -92,7 +92,7 @@ public class IncomeAdapter extends ListAdapter<IncomeIsTransactionWithRelationsh
             time = itemView.findViewById(R.id.time);
             sign = itemView.findViewById(R.id.sign);
             amount = itemView.findViewById(R.id.amount);
-            currency = itemView.findViewById(R.id.currency);
+            currency = itemView.findViewById(R.id.currencyTransactionSymbol);
         }
     }
 

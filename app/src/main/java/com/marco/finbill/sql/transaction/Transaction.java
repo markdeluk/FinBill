@@ -23,7 +23,7 @@ public class Transaction {
     private String name;
     private String description;
     private TransactionType transactionType;
-    private Currency currency;
+    private String currencyString;
     private double amount;
     private Date date;
     private Time time;
@@ -37,11 +37,11 @@ public class Transaction {
     private Location location;
     private PriorityType priority;
 
-    public Transaction(String name, String description, TransactionType transactionType, Currency currency, double amount, Date date, Time time, TransactionFrequency frequency, int infoLasting, TransactionRecurrency infoRecurrent, boolean notify, TransactionNotifyFrequency notifyFrequency, String notes, Bitmap image, Location location, PriorityType priority) {
+    public Transaction(String name, String description, TransactionType transactionType, String currencyString, double amount, Date date, Time time, TransactionFrequency frequency, int infoLasting, TransactionRecurrency infoRecurrent, boolean notify, TransactionNotifyFrequency notifyFrequency, String notes, Bitmap image, Location location, PriorityType priority) {
         this.name = name;
         this.description = description;
         this.transactionType = transactionType;
-        this.currency = currency;
+        this.currencyString = currencyString;
         this.amount = amount;
         this.date = date;
         this.time = time;
@@ -60,7 +60,7 @@ public class Transaction {
         this.name = null;
         this.description = null;
         this.transactionType = null;
-        this.currency = null;
+        this.currencyString = null;
         this.amount = 0;
         this.date = null;
         this.time = null;
@@ -109,12 +109,12 @@ public class Transaction {
         this.transactionType = transactionType;
     }
 
-    public Currency getCurrency() {
-        return currency;
+    public String getCurrencyString() {
+        return currencyString;
     }
 
-    public void setCurrency(Currency currency) {
-        this.currency = currency;
+    public void setCurrencyString(String currencyString) {
+        this.currencyString = currencyString;
     }
 
     public double getAmount() {
@@ -218,7 +218,7 @@ public class Transaction {
                 this.name.equals(transaction.name) &&
                 this.description.equals(transaction.description) &&
                 this.transactionType == transaction.transactionType &&
-                this.currency.equals(transaction.currency) &&
+                this.currencyString.equals(transaction.currencyString) &&
                 this.amount == transaction.amount &&
                 this.date.equals(transaction.date) &&
                 this.time.equals(transaction.time) &&
@@ -237,7 +237,7 @@ public class Transaction {
         // Mandatory fields must be filled in
         return this.name != null &&
                 this.transactionType != TransactionType.DEFAULT &&
-                this.currency != null &&
+                this.currencyString != null &&
                 this.amount != 0 &&
                 this.date != null &&
                 (this.frequency != TransactionFrequency.DEFAULT &&

@@ -61,7 +61,7 @@ public class TransferAdapter extends ListAdapter<TransferIsTransactionWithRelati
         holder.time.setText(transferIsTransactionWithRelationships.transaction.getTime().toString());
         holder.sign.setText(R.string.minus);
         holder.amount.setText(String.valueOf(transferIsTransactionWithRelationships.transaction.getAmount()));
-        holder.currency.setText(transferIsTransactionWithRelationships.transaction.getCurrency().getCurrencyCode());
+        holder.currency.setText(transferIsTransactionWithRelationships.transaction.getCurrencyString());
     }
 
     public TransferIsTransactionWithRelationships getTransferAt(int position) {
@@ -90,7 +90,7 @@ public class TransferAdapter extends ListAdapter<TransferIsTransactionWithRelati
             time = itemView.findViewById(R.id.time);
             sign = itemView.findViewById(R.id.sign);
             amount = itemView.findViewById(R.id.amount);
-            currency = itemView.findViewById(R.id.currency);
+            currency = itemView.findViewById(R.id.currencyTransactionSymbol);
         }
     }
 

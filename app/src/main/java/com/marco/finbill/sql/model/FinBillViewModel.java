@@ -7,6 +7,7 @@ import androidx.lifecycle.LiveData;
 
 import com.marco.finbill.sql.account.Account;
 import com.marco.finbill.sql.category.Category;
+import com.marco.finbill.sql.currency_code.CurrencyCode;
 import com.marco.finbill.sql.exchange.Exchange;
 import com.marco.finbill.sql.transaction.Transaction;
 import com.marco.finbill.sql.transaction.expense.Expense;
@@ -85,6 +86,18 @@ public class FinBillViewModel extends AndroidViewModel {
 
     public void deleteAllExchanges() {
         repository.deleteAllExchanges();
+    }
+
+    public void insertCurrencyCode(CurrencyCode currencyCode) {
+        repository.insertCurrencyCode(currencyCode);
+    }
+
+    public void deleteAllCurrencyCodes() {
+        repository.deleteAllCurrencyCodes();
+    }
+
+    public LiveData<List<CurrencyCode>> getAllCurrencyCodes() {
+        return repository.getAllCurrencyCodes();
     }
 
 }

@@ -3,7 +3,6 @@ package com.marco.finbill.sql.model;
 import android.app.Application;
 import android.os.Handler;
 import android.os.Looper;
-import android.util.Log;
 
 import androidx.core.os.HandlerCompat;
 import androidx.lifecycle.LiveData;
@@ -12,6 +11,8 @@ import com.marco.finbill.sql.account.Account;
 import com.marco.finbill.sql.account.AccountDao;
 import com.marco.finbill.sql.category.Category;
 import com.marco.finbill.sql.category.CategoryDao;
+import com.marco.finbill.sql.currency_code.CurrencyCode;
+import com.marco.finbill.sql.currency_code.CurrencyCodeDao;
 import com.marco.finbill.sql.exchange.Exchange;
 import com.marco.finbill.sql.exchange.ExchangeDao;
 import com.marco.finbill.sql.transaction.Transaction;
@@ -29,7 +30,6 @@ import com.marco.finbill.sql.transaction.transfer.TransferDao;
 import com.marco.finbill.sql.transaction.transfer.TransferIsTransactionWithRelationships;
 import com.marco.finbill.sql.transaction.transfer.TransferIsTransactionWithRelationshipsDao;
 
-import java.sql.Date;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -47,6 +47,7 @@ public class FinBillRepository {
     private TransferDao transferDao;
     private AccountDao accountDao;
     private CategoryDao categoryDao;
+    private CurrencyCodeDao currencyCodeDao;
     private ExchangeDao exchangeDao;
 
     private ExecutorService executorService;
@@ -57,6 +58,7 @@ public class FinBillRepository {
 
         accountDao = database.accountDao();
         categoryDao = database.categoryDao();
+        currencyCodeDao = database.currencyCodeDao();
         exchangeDao = database.exchangeDao();
         expenseIsTransactionWithRelationshipsDao = database.expenseIsTransactionWithRelationshipsDao();
         incomeIsTransactionWithRelationshipsDao = database.incomeIsTransactionWithRelationshipsDao();
@@ -124,14 +126,7 @@ public class FinBillRepository {
     }
 
     public void insertExchange(Exchange exchange) {
-        executorService.execute(new Runnable() {
-            @Override
-            public void run() {
-                exchangeDao.insertExchange(exchange);
-                Log.e("FinBillRepository", "insertExchange: " + exchange.getExchangeFromCurrency().getCurrencyCode() + "_" + exchange.getExchangeToCurrency().getCurrencyCode() + ": " + exchange.getExchangeRate());
-            }
-        });
-        //executorService.execute(() -> exchangeDao.insertExchange(exchange));
+        executorService.execute(() -> exchangeDao.insertExchange(exchange));
     }
 
     public void updateExchange(Exchange exchange) {
@@ -140,6 +135,18 @@ public class FinBillRepository {
 
     public void deleteAllExchanges() {
         executorService.execute(() -> exchangeDao.deleteAllExchanges());
+    }
+
+    public void insertCurrencyCode(CurrencyCode currencyCode) {
+        executorService.execute(() -> currencyCodeDao.insertCurrencyCode(currencyCode));
+    }
+
+    public LiveData<List<CurrencyCode>> getAllCurrencyCodes() {
+        return currencyCodeDao.getAllCurrencyCodes();
+    }
+
+    public void deleteAllCurrencyCodes() {
+        executorService.execute(() -> currencyCodeDao.deleteAllCurrencyCodes());
     }
 
 }

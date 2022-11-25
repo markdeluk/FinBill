@@ -62,7 +62,7 @@ public class ExpenseAdapter extends ListAdapter<ExpenseIsTransactionWithRelation
         holder.time.setText(expenseIsTransactionWithRelationships.transaction.getTime().toString());
         holder.sign.setText(R.string.minus);
         holder.amount.setText(String.valueOf(expenseIsTransactionWithRelationships.transaction.getAmount()));
-        holder.currency.setText(expenseIsTransactionWithRelationships.transaction.getCurrency().getCurrencyCode());
+        holder.currency.setText(expenseIsTransactionWithRelationships.transaction.getCurrencyString());
     }
 
     public ExpenseIsTransactionWithRelationships getExpenseAt(int position) {
@@ -91,7 +91,7 @@ public class ExpenseAdapter extends ListAdapter<ExpenseIsTransactionWithRelation
             time = itemView.findViewById(R.id.time);
             sign = itemView.findViewById(R.id.sign);
             amount = itemView.findViewById(R.id.amount);
-            currency = itemView.findViewById(R.id.currency);
+            currency = itemView.findViewById(R.id.currencyTransactionSymbol);
         }
     }
 }

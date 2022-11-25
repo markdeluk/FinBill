@@ -5,7 +5,6 @@ import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
-import android.database.DataSetObserver;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.icu.text.SimpleDateFormat;
@@ -23,7 +22,6 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.compose.ui.node.MergedViewAdapter;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentManager;
-import androidx.recyclerview.widget.ConcatAdapter;
 
 import android.provider.MediaStore;
 import android.text.Editable;
@@ -32,7 +30,6 @@ import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -41,7 +38,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.material.snackbar.Snackbar;
 import com.marco.finbill.R;
@@ -52,10 +48,10 @@ import com.marco.finbill.enums.TransactionRecurrency;
 import com.marco.finbill.enums.TransactionType;
 import com.marco.finbill.sql.account.Account;
 import com.marco.finbill.sql.category.Category;
+import com.marco.finbill.sql.currency_code.CurrencyCode;
 import com.marco.finbill.sql.model.FinBillViewModel;
 import com.marco.finbill.sql.transaction.Transaction;
 import com.marco.finbill.sql.transaction.expense.Expense;
-import com.marco.finbill.sql.transaction.expense.ExpenseIsTransactionWithRelationships;
 import com.marco.finbill.sql.transaction.income.Income;
 import com.marco.finbill.sql.transaction.transfer.Transfer;
 import com.marco.finbill.ui.main.adapters.CurrencyAdapter;
@@ -67,7 +63,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.stream.Collectors;
 
 public class AddTransactionDialog extends DialogFragment {
 
@@ -270,9 +265,16 @@ public class AddTransactionDialog extends DialogFragment {
         // CURRENCY
 
         Spinner currencyEdit = rootView.findViewById(R.id.currencyEdit);
-        List<Currency> currencyList = new ArrayList<>(Currency.getAvailableCurrencies());
-        CurrencyAdapter currencyAdapter = new CurrencyAdapter(requireContext(), currencyList);
+        List<Currency> currencyList = new ArrayList<>();
+        CurrencyAdapter currencyAdapter = new CurrencyAdapter(requireContext(), R.layout.currency_list_item, currencyList);
         currencyEdit.setAdapter(currencyAdapter);
+        viewModel.getAllCurrencyCodes().observe(getViewLifecycleOwner(), currencyCodes -> {
+            currencyList.clear();
+            for (CurrencyCode currencyCode: currencyCodes) {
+                currencyList.add(Currency.getInstance(currencyCode.getCurrencyString()));
+            }
+            currencyAdapter.notifyDataSetChanged();
+        });
 
         // DATE
 
