@@ -1,4 +1,4 @@
-package com.marco.finbill.ui.main.dashboard;
+package com.marco.finbill.ui.main.fragments;
 
 import android.content.Intent;
 import android.os.Bundle;

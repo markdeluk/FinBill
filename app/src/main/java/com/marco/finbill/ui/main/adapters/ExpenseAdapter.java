@@ -12,11 +12,7 @@ import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.marco.finbill.R;
-import com.marco.finbill.sql.transaction.expense.ExpenseIsTransaction;
 import com.marco.finbill.sql.transaction.expense.ExpenseIsTransactionWithRelationships;
-import com.marco.finbill.sql.transaction.expense.ExpenseIsTransactionWithRelationshipsDao;
-
-import java.util.List;
 
 public class ExpenseAdapter extends ListAdapter<ExpenseIsTransactionWithRelationships, ExpenseAdapter.ViewHolder> {
 
@@ -50,19 +46,19 @@ public class ExpenseAdapter extends ListAdapter<ExpenseIsTransactionWithRelation
     public void onBindViewHolder(@NonNull ExpenseAdapter.ViewHolder holder, int position) {
         ExpenseIsTransactionWithRelationships expenseIsTransactionWithRelationships = getExpenseAt(position);
         // picture
-        if (expenseIsTransactionWithRelationships.transaction.getImage() == null) {
+        if (expenseIsTransactionWithRelationships.transaction.getTransactionImage() == null) {
             holder.picture.setImageResource(R.drawable.picture_icon);
         } else {
-            holder.picture.setImageBitmap(expenseIsTransactionWithRelationships.transaction.getImage());
+            holder.picture.setImageBitmap(expenseIsTransactionWithRelationships.transaction.getTransactionImage());
         }
-        holder.title.setText(expenseIsTransactionWithRelationships.transaction.getName());
+        holder.title.setText(expenseIsTransactionWithRelationships.transaction.getTransactionName());
         holder.from.setText(expenseIsTransactionWithRelationships.fromExpense.getAccountName());
         holder.to.setText(expenseIsTransactionWithRelationships.toExpense.getCategoryName());
-        holder.date.setText(expenseIsTransactionWithRelationships.transaction.getDate().toString());
-        holder.time.setText(expenseIsTransactionWithRelationships.transaction.getTime().toString());
+        holder.date.setText(expenseIsTransactionWithRelationships.transaction.getTransactionDate().toString());
+        holder.time.setText(expenseIsTransactionWithRelationships.transaction.getTransactionTime().toString());
         holder.sign.setText(R.string.minus);
-        holder.amount.setText(String.valueOf(expenseIsTransactionWithRelationships.transaction.getAmount()));
-        holder.currency.setText(expenseIsTransactionWithRelationships.transaction.getCurrencyString());
+        holder.amount.setText(String.valueOf(expenseIsTransactionWithRelationships.transaction.getTransactionAmount()));
+        holder.currency.setText(expenseIsTransactionWithRelationships.transaction.getTransactionCurrencyString());
     }
 
     public ExpenseIsTransactionWithRelationships getExpenseAt(int position) {

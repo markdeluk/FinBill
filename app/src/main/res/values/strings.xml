@@ -68,13 +68,26 @@
     <string name="choose_transaction_type" translatable="false">Choose a transaction type…</string>
     <string name="choose_account" translatable="false">Choose an account…</string>
     <string name="choose_category" translatable="false">Choose a category…</string>
-    <string name="choose_currency" translatable="false">Choose a currencyCode…</string>
+    <string name="choose_currency" translatable="false">Choose a currency…</string>
     <string name="choose_frequency" translatable="false">Choose a frequency…</string>
     <string name="choose_recurrency" translatable="false">Choose a recurrency…</string>
     <string name="choose_priority" translatable="false">Choose a priority…</string>
-    <string name="incomplete_transaction_fields" translatable="false">Error! You must complete all the mandatory fields before clicking the save button.</string>
+    <string name="incomplete_fields" translatable="false">Error! You must complete all the mandatory fields before clicking the save button.</string>
     <string name="inserted_exchange_rates" translatable="false">Inserted exchange rates!</string>
     <string name="updated_exchange_rates" translatable="false">Updated exchange rates!</string>
     <string name="updating_exchange_rates" translatable="false">Updating exchange rates…</string>
     <string name="transaction_picture" translatable="false">Transaction picture</string>
+    <string name="add_account" translatable="false">Add a new account</string>
+    <string name="account_type" translatable="false">Account type</string>
+    <string name="balance" translatable="false">Balance</string>
+    <string name="platfond" translatable="false">Platfond</string>
+    <string name="account_picture" translatable="false">Account picture</string>
+    <string name="choose_account_type" translatable="false">Choose an account type…</string>
+    <string name="category_type" translatable="false">Category type</string>
+    <string name="choose_category_type" translatable="false">Choose a category type…</string>
+    <string name="is_child_of" translatable="false">Is child of</string>
+    <string name="choose_category_is_child_of" translatable="false">Choose a parent category…</string>
+    <string name="no_one" translatable="false">No one</string>
+    <string name="account_already_present" translatable="false">Error! An account with the same name is already present in the database. Change it!</string>
+    <string name="add_category" translatable="false">Add a new category</string>
 </resources>

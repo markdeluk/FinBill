@@ -1,14 +1,14 @@
 package com.marco.finbill.sql.account;
 
 import android.graphics.Bitmap;
-import android.icu.util.Currency;
-import android.media.Image;
 
 import androidx.annotation.NonNull;
-import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
+
+import com.marco.finbill.enums.AccountType;
+import com.marco.finbill.enums.PriorityType;
 
 import java.sql.Date;
 
@@ -18,24 +18,40 @@ public class Account {
     private int accountId;
     private String accountName;
     private String accountDescription;
-    private int accountType;
-    private float accountBalance;
-    private float accountPlatfond;
+    private AccountType accountType;
+    private double accountBalance;
+    private String accountBalanceCurrency;
+    private double accountPlatfond;
+    private String accountPlatfondCurrency;
     private Date accountAdded;
+    private Date accountCreated;
     private Bitmap accountImage;
-    private int accountPriority;
+    private PriorityType accountPriority;
 
-    private enum Type {
-        CASH, BANK, CREDIT_CARD, DEBIT_CARD, DEPOSIT, ONLINE_ACCOUNT, OTHER
+    public Account() {
+        this.accountName = null;
+        this.accountDescription = null;
+        this.accountType = null;
+        this.accountBalance = Integer.MIN_VALUE;
+        this.accountBalanceCurrency = null;
+        this.accountPlatfond = Integer.MIN_VALUE;
+        this.accountPlatfondCurrency = null;
+        this.accountAdded = null;
+        this.accountCreated = null;
+        this.accountImage = null;
+        this.accountPriority = null;
+
     }
 
-    public Account(String accountName, String accountDescription, int accountType, float accountBalance, float accountPlatfond, Date accountAdded, Bitmap accountImage, int accountPriority) {
+    public Account(String accountName, String accountDescription, AccountType accountType, double accountBalance, String accountBalanceCurrency, double accountPlatfond, Date accountAdded, Date accountCreated, Bitmap accountImage, PriorityType accountPriority) {
         this.accountName = accountName;
         this.accountDescription = accountDescription;
         this.accountType = accountType;
         this.accountBalance = accountBalance;
+        this.accountBalanceCurrency = accountBalanceCurrency;
         this.accountPlatfond = accountPlatfond;
         this.accountAdded = accountAdded;
+        this.accountCreated = accountCreated;
         this.accountImage = accountImage;
         this.accountPriority = accountPriority;
     }
@@ -64,28 +80,44 @@ public class Account {
         this.accountDescription = accountDescription;
     }
 
-    public int getAccountType() {
+    public AccountType getAccountType() {
         return accountType;
     }
 
-    public void setAccountType(int accountType) {
+    public void setAccountType(AccountType accountType) {
         this.accountType = accountType;
     }
 
-    public float getAccountBalance() {
+    public double getAccountBalance() {
         return accountBalance;
     }
 
-    public void setAccountBalance(float accountBalance) {
+    public void setAccountBalance(double accountBalance) {
         this.accountBalance = accountBalance;
     }
 
-    public float getAccountPlatfond() {
+    public String getAccountBalanceCurrency() {
+        return accountBalanceCurrency;
+    }
+
+    public void setAccountBalanceCurrency(String accountBalanceCurrency) {
+        this.accountBalanceCurrency = accountBalanceCurrency;
+    }
+
+    public double getAccountPlatfond() {
         return accountPlatfond;
     }
 
-    public void setAccountPlatfond(float accountPlatfond) {
+    public void setAccountPlatfond(double accountPlatfond) {
         this.accountPlatfond = accountPlatfond;
+    }
+
+    public String getAccountPlatfondCurrency() {
+        return accountPlatfondCurrency;
+    }
+
+    public void setAccountPlatfondCurrency(String accountPlatfondCurrency) {
+        this.accountPlatfondCurrency = accountPlatfondCurrency;
     }
 
     public Date getAccountAdded() {
@@ -96,6 +128,14 @@ public class Account {
         this.accountAdded = accountAdded;
     }
 
+    public Date getAccountCreated() {
+        return accountCreated;
+    }
+
+    public void setAccountCreated(Date accountCreated) {
+        this.accountCreated = accountCreated;
+    }
+
     public Bitmap getAccountImage() {
         return accountImage;
     }
@@ -104,11 +144,11 @@ public class Account {
         this.accountImage = accountImage;
     }
 
-    public int getAccountPriority() {
+    public PriorityType getAccountPriority() {
         return accountPriority;
     }
 
-    public void setAccountPriority(int accountPriority) {
+    public void setAccountPriority(PriorityType accountPriority) {
         this.accountPriority = accountPriority;
     }
 
@@ -116,11 +156,20 @@ public class Account {
         return this.accountId == account.getAccountId() &&
                 this.accountName.equals(account.getAccountName()) &&
                 this.accountDescription.equals(account.getAccountDescription()) &&
-                this.accountType == account.getAccountType() &&
+                this.accountType.equals(account.getAccountType()) &&
                 this.accountBalance == account.getAccountBalance() &&
                 this.accountPlatfond == account.getAccountPlatfond() &&
                 this.accountAdded.equals(account.getAccountAdded()) &&
                 this.accountImage.equals(account.getAccountImage()) &&
                 this.accountPriority == account.getAccountPriority();
+    }
+
+    public boolean isValid() {
+        return this.accountName != null &&
+                this.accountType != null &&
+                this.accountBalance != Integer.MIN_VALUE &&
+                this.accountBalanceCurrency != null &&
+                this.accountPlatfond != Integer.MIN_VALUE &&
+                this.accountPlatfondCurrency != null;
     }
 }

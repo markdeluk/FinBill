@@ -8,6 +8,7 @@ import androidx.room.Query;
 import androidx.room.RawQuery;
 import androidx.room.Update;
 
+import com.marco.finbill.enums.CategoryType;
 import com.marco.finbill.sql.account.Account;
 
 import java.util.List;
@@ -34,7 +35,7 @@ public interface CategoryDao {
     LiveData<List<Category>> getAllCategories();
 
     @Query("SELECT * FROM category_table WHERE categoryType = :type")
-    LiveData<List<Category>> getAllCategoriesByType(int type);
+    LiveData<List<Category>> getAllCategoriesByType(CategoryType type);
 
     @Query("SELECT * FROM category_table WHERE categoryName LIKE '%' || :query || '%'")
     LiveData<List<Category>> searchCategory(String query);

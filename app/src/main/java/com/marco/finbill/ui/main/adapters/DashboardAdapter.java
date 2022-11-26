@@ -1,10 +1,15 @@
-package com.marco.finbill.ui.main.dashboard;
+package com.marco.finbill.ui.main.adapters;
 
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
+
+import com.marco.finbill.ui.main.fragments.ExpenseFragment;
+import com.marco.finbill.ui.main.fragments.IncomeFragment;
+import com.marco.finbill.ui.main.fragments.TransactionFragment;
+import com.marco.finbill.ui.main.fragments.TransferFragment;
 
 public class DashboardAdapter extends FragmentStateAdapter {
 

@@ -12,12 +12,7 @@ import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.marco.finbill.R;
-import com.marco.finbill.sql.transaction.expense.ExpenseIsTransactionWithRelationships;
-import com.marco.finbill.sql.transaction.income.Income;
 import com.marco.finbill.sql.transaction.income.IncomeIsTransactionWithRelationships;
-import com.marco.finbill.sql.transaction.income.IncomeIsTransactionWithRelationshipsDao;
-
-import java.util.List;
 
 public class IncomeAdapter extends ListAdapter<IncomeIsTransactionWithRelationships, IncomeAdapter.ViewHolder> {
 
@@ -51,19 +46,19 @@ public class IncomeAdapter extends ListAdapter<IncomeIsTransactionWithRelationsh
     public void onBindViewHolder(@NonNull IncomeAdapter.ViewHolder holder, int position) {
         IncomeIsTransactionWithRelationships incomeIsTransactionWithRelationships = getIncomeAt(position);
         // picture
-        if (incomeIsTransactionWithRelationships.transaction.getImage() == null) {
+        if (incomeIsTransactionWithRelationships.transaction.getTransactionImage() == null) {
             holder.picture.setImageResource(R.drawable.picture_icon);
         } else {
-            holder.picture.setImageBitmap(incomeIsTransactionWithRelationships.transaction.getImage());
+            holder.picture.setImageBitmap(incomeIsTransactionWithRelationships.transaction.getTransactionImage());
         }
-        holder.title.setText(incomeIsTransactionWithRelationships.transaction.getName());
+        holder.title.setText(incomeIsTransactionWithRelationships.transaction.getTransactionName());
         holder.from.setText(incomeIsTransactionWithRelationships.fromIncome.getCategoryName());
         holder.to.setText(incomeIsTransactionWithRelationships.toIncome.getAccountName());
-        holder.date.setText(incomeIsTransactionWithRelationships.transaction.getDate().toString());
-        holder.time.setText(incomeIsTransactionWithRelationships.transaction.getTime().toString());
+        holder.date.setText(incomeIsTransactionWithRelationships.transaction.getTransactionDate().toString());
+        holder.time.setText(incomeIsTransactionWithRelationships.transaction.getTransactionTime().toString());
         holder.sign.setText(R.string.minus);
-        holder.amount.setText(String.valueOf(incomeIsTransactionWithRelationships.transaction.getAmount()));
-        holder.currency.setText(incomeIsTransactionWithRelationships.transaction.getCurrencyString());
+        holder.amount.setText(String.valueOf(incomeIsTransactionWithRelationships.transaction.getTransactionAmount()));
+        holder.currency.setText(incomeIsTransactionWithRelationships.transaction.getTransactionCurrencyString());
     }
 
     public IncomeIsTransactionWithRelationships getIncomeAt(int position) {

@@ -7,6 +7,7 @@ import android.os.Looper;
 import androidx.core.os.HandlerCompat;
 import androidx.lifecycle.LiveData;
 
+import com.marco.finbill.enums.CategoryType;
 import com.marco.finbill.sql.account.Account;
 import com.marco.finbill.sql.account.AccountDao;
 import com.marco.finbill.sql.category.Category;
@@ -97,7 +98,7 @@ public class FinBillRepository {
         return categoryDao.getAllCategories();
     }
 
-    public LiveData<List<Category>> getAllCategoriesByType(int type) {
+    public LiveData<List<Category>> getAllCategoriesByType(CategoryType type) {
         return categoryDao.getAllCategoriesByType(type);
     }
 
@@ -147,6 +148,14 @@ public class FinBillRepository {
 
     public void deleteAllCurrencyCodes() {
         executorService.execute(() -> currencyCodeDao.deleteAllCurrencyCodes());
+    }
+
+    public void insertAccount(Account account) {
+        executorService.execute(() -> accountDao.insertAccount(account));
+    }
+
+    public void insertCategory(Category category) {
+        executorService.execute(() -> categoryDao.insertCategory(category));
     }
 
 }

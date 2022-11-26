@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/mainFragmentDashboard"
-        android:name="com.marco.finbill.ui.main.MainFragmentDashboard"
+        android:name="com.marco.finbill.ui.main.fragments.MainFragmentDashboard"
         android:label="@string/dashboard"
         tools:layout="@layout/fragment_main_dashboard">
         <action
@@ -48,7 +48,7 @@
     </fragment>
     <fragment
         android:id="@+id/mainFragmentAccounts"
-        android:name="com.marco.finbill.ui.main.MainFragmentAccounts"
+        android:name="com.marco.finbill.ui.main.fragments.MainFragmentAccounts"
         android:label="@string/accounts"
         tools:layout="@layout/fragment_main_accounts">
         <action
@@ -89,7 +89,7 @@
     </fragment>
     <fragment
         android:id="@+id/mainFragmentCategories"
-        android:name="com.marco.finbill.ui.main.MainFragmentCategories"
+        android:name="com.marco.finbill.ui.main.fragments.MainFragmentCategories"
         android:label="@string/categories"
         tools:layout="@layout/fragment_main_categories">
         <action
@@ -130,7 +130,7 @@
     </fragment>
     <fragment
         android:id="@+id/mainFragmentSubscriptions"
-        android:name="com.marco.finbill.ui.main.MainFragmentSubscriptions"
+        android:name="com.marco.finbill.ui.main.fragments.MainFragmentSubscriptions"
         android:label="@string/subscriptions"
         tools:layout="@layout/fragment_main_subscriptions">
         <action

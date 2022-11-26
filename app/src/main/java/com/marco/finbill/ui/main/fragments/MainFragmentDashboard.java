@@ -1,4 +1,4 @@
-package com.marco.finbill.ui.main;
+package com.marco.finbill.ui.main.fragments;
 
 import android.os.Bundle;
 
@@ -18,8 +18,8 @@ import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 import com.marco.finbill.R;
 import com.marco.finbill.enums.TransactionType;
-import com.marco.finbill.ui.main.dashboard.AddTransactionDialog;
-import com.marco.finbill.ui.main.dashboard.DashboardAdapter;
+import com.marco.finbill.ui.main.dialogs.AddTransactionDialog;
+import com.marco.finbill.ui.main.adapters.DashboardAdapter;
 
 public class MainFragmentDashboard extends Fragment {
 
@@ -44,7 +44,6 @@ public class MainFragmentDashboard extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_main_dashboard, container, false);
 
         FloatingActionButton fab = requireActivity().findViewById(R.id.fab);
-        fab.setImageDrawable(ResourcesCompat.getDrawable(getResources(), R.drawable.add_icon, requireActivity().getTheme()));
 
         return rootView;
     }
@@ -64,19 +63,19 @@ public class MainFragmentDashboard extends Fragment {
                 FloatingActionButton fab = requireActivity().findViewById(R.id.fab);
 
                 View.OnLongClickListener transactionLongClickListener = view1 -> {
-                    Snackbar.make(view1, "Transactions", Snackbar.LENGTH_LONG).show();
+                    Snackbar.make(view1, R.string.add_transaction, Snackbar.LENGTH_LONG).show();
                     return false;
                 };
                 View.OnLongClickListener expensesLongClickListener = view2 -> {
-                    Snackbar.make(view2, "Expenses", Snackbar.LENGTH_LONG).show();
+                    Snackbar.make(view2, R.string.add_expense, Snackbar.LENGTH_LONG).show();
                     return false;
                 };
                 View.OnLongClickListener incomesLongClickListener = view3 -> {
-                    Snackbar.make(view3, "Incomes", Snackbar.LENGTH_LONG).show();
+                    Snackbar.make(view3, R.string.add_income, Snackbar.LENGTH_LONG).show();
                     return false;
                 };
                 View.OnLongClickListener transfersLongClickListener = view4 -> {
-                    Snackbar.make(view4, "Transfers", Snackbar.LENGTH_LONG).show();
+                    Snackbar.make(view4, R.string.add_transfer, Snackbar.LENGTH_LONG).show();
                     return false;
                 };
 

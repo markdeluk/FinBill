@@ -1,4 +1,4 @@
-package com.marco.finbill.ui.main;
+package com.marco.finbill.ui.main.fragments;
 
 import android.os.Bundle;
 
@@ -17,26 +17,26 @@ import com.marco.finbill.R;
 
 import java.util.Objects;
 
-public class MainFragmentAccounts extends Fragment {
+public class MainFragmentSubscriptions extends Fragment {
 
-    public MainFragmentAccounts() {
+    public MainFragmentSubscriptions() {
         // Required empty public constructor
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_main_accounts, container, false);
+        View rootView =  inflater.inflate(R.layout.fragment_main_subscriptions, container, false);
         FloatingActionButton fab = requireActivity().findViewById(R.id.fab);
-        fab.setImageDrawable(ResourcesCompat.getDrawable(getResources(), R.drawable.accounts_icon, requireActivity().getTheme()));
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Accounts", Snackbar.LENGTH_LONG).show();
+                Snackbar.make(view, "Subscriptions", Snackbar.LENGTH_LONG).show();
             }
         });
 

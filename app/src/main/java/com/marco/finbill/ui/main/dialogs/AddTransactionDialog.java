@@ -1,4 +1,4 @@
-package com.marco.finbill.ui.main.dashboard;
+package com.marco.finbill.ui.main.dialogs;
 
 import android.app.Activity;
 import android.app.DatePickerDialog;
@@ -9,7 +9,6 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.icu.text.SimpleDateFormat;
 import android.icu.util.Calendar;
-import android.icu.util.Currency;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -19,7 +18,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.SwitchCompat;
 import androidx.appcompat.widget.Toolbar;
-import androidx.compose.ui.node.MergedViewAdapter;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentManager;
 
@@ -41,6 +39,7 @@ import android.widget.TextView;
 
 import com.google.android.material.snackbar.Snackbar;
 import com.marco.finbill.R;
+import com.marco.finbill.enums.CategoryType;
 import com.marco.finbill.enums.PriorityType;
 import com.marco.finbill.enums.TransactionFrequency;
 import com.marco.finbill.enums.TransactionNotifyFrequency;
@@ -54,7 +53,6 @@ import com.marco.finbill.sql.transaction.Transaction;
 import com.marco.finbill.sql.transaction.expense.Expense;
 import com.marco.finbill.sql.transaction.income.Income;
 import com.marco.finbill.sql.transaction.transfer.Transfer;
-import com.marco.finbill.ui.main.adapters.CurrencyAdapter;
 
 import java.sql.Date;
 import java.sql.Time;
@@ -93,6 +91,7 @@ public class AddTransactionDialog extends DialogFragment {
     private ImageView pictureEdit;
     private boolean pictureSelected = false;
     private Spinner priorityEdit;
+    private Spinner currencyEdit;
 
     private Expense expense;
     private Income income;
@@ -152,11 +151,11 @@ public class AddTransactionDialog extends DialogFragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
         View rootView = inflater.inflate(R.layout.fragment_add_transaction, container, false);
-        toolbar = rootView.findViewById(R.id.toolbar3);
+        toolbar = rootView.findViewById(R.id.toolbarAddTransaction);
 
         // TRANSACTION TYPE
 
-        transactionSpinner = rootView.findViewById(R.id.transactionEdit);
+        transactionSpinner = rootView.findViewById(R.id.transactionTypeEdit);
         List<String> transactionTypeList = new ArrayList<>();
         transactionTypeList.add(0, getResources().getString(R.string.choose_transaction_type));
         transactionTypeList.addAll(Arrays.asList(getResources().getStringArray(R.array.transaction_types_option)));
@@ -179,7 +178,7 @@ public class AddTransactionDialog extends DialogFragment {
         LinearLayout transactionLayout = rootView.findViewById(R.id.transactionLayout);
 
         List<String> fromList = new ArrayList<>();
-        ArrayAdapter<String> fromAdapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_spinner_item, fromList);
+        ArrayAdapter<String> fromAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, fromList);
         fromAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         fromSpinner.setAdapter(fromAdapter);
 
@@ -207,7 +206,7 @@ public class AddTransactionDialog extends DialogFragment {
                             }
                             fromAdapter.notifyDataSetChanged();
                         });
-                        viewModel.getAllCategoriesByType(TransactionType.EXPENSE.ordinal()).observe(getViewLifecycleOwner(), categories -> {
+                        viewModel.getAllCategoriesByType(CategoryType.EXPENSE).observe(getViewLifecycleOwner(), categories -> {
                             toList.clear();
                             toList.add(getResources().getString(R.string.choose_category));
                             for (Category category : categories) {
@@ -217,7 +216,7 @@ public class AddTransactionDialog extends DialogFragment {
                         });
 
                     } else if (position == TransactionType.INCOME.ordinal()) {
-                        viewModel.getAllCategoriesByType(TransactionType.INCOME.ordinal()).observe(getViewLifecycleOwner(), categories -> {
+                        viewModel.getAllCategoriesByType(CategoryType.INCOME).observe(getViewLifecycleOwner(), categories -> {
                             fromList.clear();
                             fromList.add(getResources().getString(R.string.choose_category));
                             for (Category category : categories) {
@@ -264,16 +263,18 @@ public class AddTransactionDialog extends DialogFragment {
 
         // CURRENCY
 
-        Spinner currencyEdit = rootView.findViewById(R.id.currencyEdit);
-        List<Currency> currencyList = new ArrayList<>();
-        CurrencyAdapter currencyAdapter = new CurrencyAdapter(requireContext(), R.layout.currency_list_item, currencyList);
-        currencyEdit.setAdapter(currencyAdapter);
+        currencyEdit = rootView.findViewById(R.id.currencyEdit);
+        List<String> currencyStringList = new ArrayList<>();
+        ArrayAdapter<String> currencyStringAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, currencyStringList);
+        currencyStringAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        currencyEdit.setAdapter(currencyStringAdapter);
         viewModel.getAllCurrencyCodes().observe(getViewLifecycleOwner(), currencyCodes -> {
-            currencyList.clear();
-            for (CurrencyCode currencyCode: currencyCodes) {
-                currencyList.add(Currency.getInstance(currencyCode.getCurrencyString()));
+            currencyStringList.clear();
+            currencyStringList.add(0, getResources().getString(R.string.choose_currency));
+            for (CurrencyCode currencyCode : currencyCodes) {
+                currencyStringList.add(currencyCode.getCurrencyString());
             }
-            currencyAdapter.notifyDataSetChanged();
+            currencyStringAdapter.notifyDataSetChanged();
         });
 
         // DATE
@@ -463,6 +464,8 @@ public class AddTransactionDialog extends DialogFragment {
             cameraLauncher.launch(intent);
         });
 
+
+        // PRIORITY
         priorityEdit = rootView.findViewById(R.id.priorityEdit);
         List<String> priorityList = new ArrayList<>();
         priorityList.add(getResources().getString(R.string.choose_priority));
@@ -479,46 +482,48 @@ public class AddTransactionDialog extends DialogFragment {
         super.onViewCreated(view, savedInstanceState);
         toolbar.setNavigationOnClickListener(v -> dismiss());
         toolbar.setTitle(R.string.add_transaction);
-        toolbar.inflateMenu(R.menu.menu_add_transaction);
+        toolbar.inflateMenu(R.menu.menu_add_item);
         toolbar.setOnMenuItemClickListener(item -> {
             if (item.getItemId() == R.id.action_save) {
                 // Populating transaction item
                 transaction = new Transaction();
-                transaction.setName(nameEdit.getText().toString());
-                transaction.setDescription(descriptionEdit.getText().toString());
+                transaction.setTransactionName(nameEdit.getText().toString());
+                transaction.setTransactionDescription(descriptionEdit.getText().toString());
                 transaction.setTransactionType(TransactionType.values()[transactionSpinner.getSelectedItemPosition()]);
-                // transaction.setCurrency
+                if (currencyEdit.getSelectedItemPosition() != 0) {
+                    transaction.setTransactionCurrencyString(currencyEdit.getSelectedItem().toString());
+                }
                 if (amountEdit.getText().toString().isEmpty()) {
-                    transaction.setAmount(0);
+                    transaction.setTransactionAmount(0);
                 } else {
-                    transaction.setAmount(Double.parseDouble(amountEdit.getText().toString()));
+                    transaction.setTransactionAmount(Double.parseDouble(amountEdit.getText().toString()));
                 }
                 if (!dateEdit.getText().toString().isEmpty()) {
-                    transaction.setDate(Date.valueOf(dateEdit.getText().toString()));
+                    transaction.setTransactionDate(Date.valueOf(dateEdit.getText().toString()));
                 }
                 if (!timeEdit.getText().toString().isEmpty()) {
-                    transaction.setTime(Time.valueOf(timeEdit.getText().toString()));
+                    transaction.setTransactionTime(Time.valueOf(timeEdit.getText().toString()));
                 }
-                transaction.setFrequency(TransactionFrequency.values()[frequencyEdit.getSelectedItemPosition()]);
-                if (transaction.getFrequency().equals(TransactionFrequency.LASTING)) {
-                    transaction.setInfoLasting(Integer.parseInt(infoLastingEdit.getText().toString()));
+                transaction.setTransactionFrequency(TransactionFrequency.values()[frequencyEdit.getSelectedItemPosition()]);
+                if (transaction.getTransactionFrequency().equals(TransactionFrequency.LASTING)) {
+                    transaction.setTransactionInfoLasting(Integer.parseInt(infoLastingEdit.getText().toString()));
                 }
-                else if (transaction.getFrequency().equals(TransactionFrequency.RECURRENT)) {
-                    transaction.setInfoRecurrent(TransactionRecurrency.values()[infoRecurrentEdit.getSelectedItemPosition()]);
-                    transaction.setNotify(notifySwitch.isChecked());
-                    if (transaction.getNotify()) {
-                        transaction.setNotifyFrequency(TransactionNotifyFrequency.values()[notifyEdit.getSelectedItemPosition()]);
+                else if (transaction.getTransactionFrequency().equals(TransactionFrequency.RECURRENT)) {
+                    transaction.setTransactionInfoRecurrent(TransactionRecurrency.values()[infoRecurrentEdit.getSelectedItemPosition()]);
+                    transaction.setTransactionNotify(notifySwitch.isChecked());
+                    if (transaction.getTransactionNotify()) {
+                        transaction.setTransactionNotifyFrequency(TransactionNotifyFrequency.values()[notifyEdit.getSelectedItemPosition()]);
                     }
                 }
-                transaction.setNotes(notesEdit.getText().toString());
+                transaction.setTransactionNotes(notesEdit.getText().toString());
                 if (pictureSelected) {
-                    transaction.setImage(((BitmapDrawable)pictureEdit.getDrawable()).getBitmap());
+                    transaction.setTransactionImage(((BitmapDrawable)pictureEdit.getDrawable()).getBitmap());
                 }
                 else {
-                    transaction.setImage(null);
+                    transaction.setTransactionImage(null);
                 }
                 // transaction.setLocation
-                transaction.setPriority(PriorityType.values()[priorityEdit.getSelectedItemPosition()]);
+                transaction.setTransactionPriority(PriorityType.values()[priorityEdit.getSelectedItemPosition()]);
                 if (transaction.isValid()) {
                     // Saving transaction
                     if (fromSpinner.getSelectedItemPosition() != 0 && toSpinner.getSelectedItemPosition() != 0) {
@@ -549,7 +554,7 @@ public class AddTransactionDialog extends DialogFragment {
                     }
                 }
                 else {
-                    Snackbar.make(view, R.string.incomplete_transaction_fields, Snackbar.LENGTH_LONG).show();
+                    Snackbar.make(view, R.string.incomplete_fields, Snackbar.LENGTH_LONG).show();
                     return false;
                 }
                 dismiss();

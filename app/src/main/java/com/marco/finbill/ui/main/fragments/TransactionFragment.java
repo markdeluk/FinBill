@@ -1,4 +1,4 @@
-package com.marco.finbill.ui.main.dashboard;
+package com.marco.finbill.ui.main.fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -21,11 +21,12 @@ import com.google.android.material.snackbar.Snackbar;
 import com.marco.finbill.R;
 import com.marco.finbill.sql.model.FinBillViewModel;
 import com.marco.finbill.ui.main.adapters.ExpenseAdapter;
+import com.marco.finbill.ui.main.adapters.IncomeAdapter;
+import com.marco.finbill.ui.main.adapters.TransferAdapter;
 
-public class ExpenseFragment extends Fragment {
+public class TransactionFragment extends Fragment {
 
-    public ExpenseFragment() {
-        // Required empty public constructor
+    public TransactionFragment() {
     }
 
     @Override
@@ -36,8 +37,7 @@ public class ExpenseFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_expense, container, false);
-
+        View rootView = inflater.inflate(R.layout.fragment_transaction, container, false);
 
 
         return rootView;
@@ -49,10 +49,13 @@ public class ExpenseFragment extends Fragment {
 
         FinBillViewModel viewModel = new ViewModelProvider(requireActivity()).get(FinBillViewModel.class);
         ExpenseAdapter expenseAdapter = new ExpenseAdapter();
-        RecyclerView recyclerView = view.findViewById(R.id.expense_recycler_view);
+        IncomeAdapter incomeAdapter = new IncomeAdapter();
+        TransferAdapter transferAdapter = new TransferAdapter();
+        ConcatAdapter concatAdapter = new ConcatAdapter(expenseAdapter, incomeAdapter, transferAdapter);
+        RecyclerView recyclerView = view.findViewById(R.id.transaction_recycler_view);
         recyclerView.hasFixedSize();
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        recyclerView.setAdapter(expenseAdapter);
+        recyclerView.setAdapter(concatAdapter);
 
     }
 

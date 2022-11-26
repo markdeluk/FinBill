@@ -1,4 +1,4 @@
-package com.marco.finbill.ui.main;
+package com.marco.finbill.ui.main.fragments;
 
 import android.os.Bundle;
 
@@ -14,12 +14,14 @@ import android.view.ViewGroup;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.marco.finbill.R;
+import com.marco.finbill.ui.main.dialogs.AddAccountDialog;
+import com.marco.finbill.ui.main.dialogs.AddTransactionDialog;
 
 import java.util.Objects;
 
-public class MainFragmentCategories extends Fragment {
+public class MainFragmentAccounts extends Fragment {
 
-    public MainFragmentCategories() {
+    public MainFragmentAccounts() {
         // Required empty public constructor
     }
 
@@ -29,16 +31,13 @@ public class MainFragmentCategories extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_main_categories, container, false);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View rootView = inflater.inflate(R.layout.fragment_main_accounts, container, false);
         FloatingActionButton fab = requireActivity().findViewById(R.id.fab);
-        fab.setImageDrawable(ResourcesCompat.getDrawable(getResources(), R.drawable.categories_icon, requireActivity().getTheme()));
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Categories", Snackbar.LENGTH_LONG).show();
-            }
+        fab.setOnClickListener(v -> AddAccountDialog.display(getChildFragmentManager()));
+        fab.setOnLongClickListener(view -> {
+            Snackbar.make(view, R.string.add_account, Snackbar.LENGTH_LONG).show();
+            return true;
         });
 
         return rootView;

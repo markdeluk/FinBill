@@ -35,7 +35,7 @@ public interface TransactionDao {
     @Query("SELECT * FROM transaction_table")
     LiveData<List<Transaction>> getAllTransactions();
 
-    @Query("SELECT * FROM transaction_table WHERE name LIKE '%' || :query || '%'")
+    @Query("SELECT * FROM transaction_table WHERE transactionName LIKE '%' || :query || '%'")
     LiveData<List<Transaction>> searchTransaction(String query);
 
     @Query("DELETE FROM transaction_table")

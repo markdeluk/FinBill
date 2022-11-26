@@ -1,15 +1,13 @@
 package com.marco.finbill.sql.category;
 
 import android.graphics.Bitmap;
-import android.graphics.Picture;
-import android.icu.util.Currency;
-import android.media.Image;
-import android.provider.ContactsContract;
 
-import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
+
+import com.marco.finbill.enums.CategoryType;
+import com.marco.finbill.enums.PriorityType;
 
 import java.sql.Date;
 
@@ -19,13 +17,13 @@ public class Category {
     private int categoryId;
     private String categoryName;
     private String categoryDescription;
-    private int categoryType;
+    private CategoryType categoryType;
     private Bitmap categoryImage;
     private Date categoryAdded;
     private int categoryIsChildOf;
-    private int categoryPriority;
+    private PriorityType categoryPriority;
 
-    public Category(String categoryName, String categoryDescription, int categoryType, Bitmap categoryImage, Date categoryAdded, int categoryIsChildOf, int categoryPriority) {
+    public Category(String categoryName, String categoryDescription, CategoryType categoryType, Bitmap categoryImage, Date categoryAdded, int categoryIsChildOf, PriorityType categoryPriority) {
         this.categoryName = categoryName;
         this.categoryDescription = categoryDescription;
         this.categoryType = categoryType;
@@ -33,6 +31,16 @@ public class Category {
         this.categoryAdded = categoryAdded;
         this.categoryIsChildOf = categoryIsChildOf;
         this.categoryPriority = categoryPriority;
+    }
+
+    public Category() {
+        this.categoryName = null;
+        this.categoryDescription = null;
+        this.categoryType = null;
+        this.categoryImage = null;
+        this.categoryAdded = null;
+        this.categoryIsChildOf = 0;
+        this.categoryPriority = null;
     }
 
     public int getCategoryId() {
@@ -59,11 +67,11 @@ public class Category {
         this.categoryDescription = categoryDescription;
     }
 
-    public int getCategoryType() {
+    public CategoryType getCategoryType() {
         return categoryType;
     }
 
-    public void setCategoryType(int categoryType) {
+    public void setCategoryType(CategoryType categoryType) {
         this.categoryType = categoryType;
     }
 
@@ -91,11 +99,11 @@ public class Category {
         this.categoryIsChildOf = categoryIsChildOf;
     }
 
-    public int getCategoryPriority() {
+    public PriorityType getCategoryPriority() {
         return categoryPriority;
     }
 
-    public void setCategoryPriority(int categoryPriority) {
+    public void setCategoryPriority(PriorityType categoryPriority) {
         this.categoryPriority = categoryPriority;
     }
 
@@ -108,5 +116,10 @@ public class Category {
                 this.categoryAdded.equals(category.getCategoryAdded()) &&
                 this.categoryIsChildOf == category.getCategoryIsChildOf() &&
                 this.categoryPriority == category.getCategoryPriority();
+    }
+
+    public boolean isValid() {
+        return this.categoryName != null &&
+                this.categoryType != null;
     }
 }

@@ -5,6 +5,7 @@ import android.app.Application;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
+import com.marco.finbill.enums.CategoryType;
 import com.marco.finbill.sql.account.Account;
 import com.marco.finbill.sql.category.Category;
 import com.marco.finbill.sql.currency_code.CurrencyCode;
@@ -48,7 +49,7 @@ public class FinBillViewModel extends AndroidViewModel {
         return repository.getAllCategories();
     }
 
-    public LiveData<List<Category>> getAllCategoriesByType(int type) {
+    public LiveData<List<Category>> getAllCategoriesByType(CategoryType type) {
         return repository.getAllCategoriesByType(type);
     }
 
@@ -98,6 +99,14 @@ public class FinBillViewModel extends AndroidViewModel {
 
     public LiveData<List<CurrencyCode>> getAllCurrencyCodes() {
         return repository.getAllCurrencyCodes();
+    }
+
+    public void insertAccount(Account account) {
+        repository.insertAccount(account);
+    }
+
+    public void insertCategory(Category category) {
+        repository.insertCategory(category);
     }
 
 }

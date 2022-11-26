@@ -56,7 +56,6 @@ public abstract class FinBillDatabase extends RoomDatabase {
                     .addTypeConverter(new TimeTypeConverter())
                     .addTypeConverter(new LocationTypeConverter())
                     .addTypeConverter(new BitmapTypeConverter())*/
-                    .fallbackToDestructiveMigration()
                     .build();
         }
         return instance;

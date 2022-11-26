@@ -12,10 +12,7 @@ import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.marco.finbill.R;
-import com.marco.finbill.sql.transaction.expense.ExpenseIsTransactionWithRelationships;
 import com.marco.finbill.sql.transaction.transfer.TransferIsTransactionWithRelationships;
-
-import java.util.List;
 
 public class TransferAdapter extends ListAdapter<TransferIsTransactionWithRelationships, TransferAdapter.ViewHolder> {
 
@@ -49,19 +46,19 @@ public class TransferAdapter extends ListAdapter<TransferIsTransactionWithRelati
     public void onBindViewHolder(@NonNull TransferAdapter.ViewHolder holder, int position) {
         TransferIsTransactionWithRelationships transferIsTransactionWithRelationships = getTransferAt(position);
         // picture
-        if (transferIsTransactionWithRelationships.transaction.getImage() == null) {
+        if (transferIsTransactionWithRelationships.transaction.getTransactionImage() == null) {
             holder.picture.setImageResource(R.drawable.picture_icon);
         } else {
-            holder.picture.setImageBitmap(transferIsTransactionWithRelationships.transaction.getImage());
+            holder.picture.setImageBitmap(transferIsTransactionWithRelationships.transaction.getTransactionImage());
         }
-        holder.title.setText(transferIsTransactionWithRelationships.transaction.getName());
+        holder.title.setText(transferIsTransactionWithRelationships.transaction.getTransactionName());
         holder.from.setText(transferIsTransactionWithRelationships.fromTransfer.getAccountName());
         holder.to.setText(transferIsTransactionWithRelationships.toTransfer.getAccountName());
-        holder.date.setText(transferIsTransactionWithRelationships.transaction.getDate().toString());
-        holder.time.setText(transferIsTransactionWithRelationships.transaction.getTime().toString());
+        holder.date.setText(transferIsTransactionWithRelationships.transaction.getTransactionDate().toString());
+        holder.time.setText(transferIsTransactionWithRelationships.transaction.getTransactionTime().toString());
         holder.sign.setText(R.string.minus);
-        holder.amount.setText(String.valueOf(transferIsTransactionWithRelationships.transaction.getAmount()));
-        holder.currency.setText(transferIsTransactionWithRelationships.transaction.getCurrencyString());
+        holder.amount.setText(String.valueOf(transferIsTransactionWithRelationships.transaction.getTransactionAmount()));
+        holder.currency.setText(transferIsTransactionWithRelationships.transaction.getTransactionCurrencyString());
     }
 
     public TransferIsTransactionWithRelationships getTransferAt(int position) {

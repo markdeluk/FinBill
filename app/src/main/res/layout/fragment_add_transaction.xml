@@ -5,14 +5,14 @@
     android:id="@+id/frameLayout7"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.main.dashboard.AddTransactionDialog">
+    tools:context=".ui.main.dialogs.AddTransactionDialog">
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar3"
+            android:id="@+id/toolbarAddTransaction"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
@@ -37,16 +37,17 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/transactionTitle"
+                android:id="@+id/transactionTypeTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/transaction_type" />
 
             <Spinner
-                android:id="@+id/transactionEdit"
+                android:id="@+id/transactionTypeEdit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:minHeight="48dp" />
+                android:minHeight="48dp"
+                tools:ignore="SpeakableTextPresentCheck" />
 
             <LinearLayout
                 android:id="@+id/transactionLayout"
@@ -64,7 +65,8 @@
                     android:id="@+id/fromEdit"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:minHeight="48dp" />
+                    android:minHeight="48dp"
+                    tools:ignore="SpeakableTextPresentCheck" />
 
                 <TextView
                     android:id="@+id/toTitle"
@@ -76,7 +78,8 @@
                     android:id="@+id/toEdit"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:minHeight="48dp" />
+                    android:minHeight="48dp"
+                    tools:ignore="SpeakableTextPresentCheck" />
 
                 <TextView
                     android:id="@+id/nameTitle"
@@ -89,9 +92,11 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:ems="10"
+                    android:hint="@string/name"
                     android:inputType="textPersonName"
                     android:minHeight="48dp"
-                    android:hint="@string/name" />
+                    tools:ignore="DuplicateSpeakableTextCheck"
+                    android:autofillHints="" />
 
                 <TextView
                     android:id="@+id/descriptionName"
@@ -104,9 +109,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:ems="10"
+                    android:hint="@string/description"
                     android:inputType="textPersonName"
                     android:minHeight="48dp"
-                    android:hint="@string/description"/>
+                    tools:ignore="DuplicateSpeakableTextCheck" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -132,9 +138,11 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:ems="10"
+                            android:hint="@string/amount"
                             android:inputType="numberDecimal"
                             android:minHeight="48dp"
-                            android:hint="@string/amount"/>
+                            tools:ignore="DuplicateSpeakableTextCheck"
+                            android:autofillHints="" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -153,7 +161,8 @@
                             android:id="@+id/currencyEdit"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            tools:ignore="TouchTargetSizeCheck" />
+                            android:minHeight="48dp"
+                            tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
                     </LinearLayout>
 
                 </LinearLayout>
@@ -181,10 +190,12 @@
                             android:id="@+id/dateEdit"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:autofillHints=""
                             android:ems="10"
+                            android:hint="@string/date"
                             android:inputType="date"
                             android:minHeight="48dp"
-                            android:hint="@string/date" />
+                            tools:ignore="DuplicateSpeakableTextCheck" />
 
                     </LinearLayout>
 
@@ -206,9 +217,11 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:ems="10"
+                            android:hint="@string/time"
                             android:inputType="time"
                             android:minHeight="48dp"
-                            android:hint="@string/time" />
+                            tools:ignore="DuplicateSpeakableTextCheck"
+                            android:autofillHints="" />
                     </LinearLayout>
 
                 </LinearLayout>
@@ -223,7 +236,8 @@
                     android:id="@+id/frequencyEdit"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:minHeight="48dp" />
+                    android:minHeight="48dp"
+                    tools:ignore="SpeakableTextPresentCheck" />
 
                 <TextView
                     android:id="@+id/infoLastingTitle"
@@ -242,22 +256,27 @@
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:ems="10"
+                        android:hint="@string/estimated_years"
                         android:inputType="number"
                         android:minHeight="48dp"
-                        android:hint="@string/estimated_years" />
+                        tools:ignore="DuplicateSpeakableTextCheck,TextContrastCheck"
+                        android:autofillHints="" />
 
                     <Button
                         android:id="@+id/plusButton"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="0"
-                        android:text="@string/plus" />
+                        android:minHeight="48dp"
+                        android:text="@string/plus"
+                        tools:ignore="TouchTargetSizeCheck" />
 
                     <Button
                         android:id="@+id/minusButton"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="0"
+                        android:minHeight="48dp"
                         android:text="@string/minus" />
 
                 </LinearLayout>
@@ -272,7 +291,8 @@
                     android:id="@+id/infoRecurrentEdit"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:minHeight="48dp" />
+                    android:minHeight="48dp"
+                    tools:ignore="SpeakableTextPresentCheck" />
 
                 <LinearLayout
                     android:id="@+id/notifyLayout"

@@ -1,7 +1,6 @@
 package com.marco.finbill.sql.transaction;
 
 import android.graphics.Bitmap;
-import android.icu.util.Currency;
 import android.location.Location;
 
 import androidx.room.Entity;
@@ -20,59 +19,59 @@ import java.sql.Time;
 public class Transaction {
     @PrimaryKey(autoGenerate = true)
     private int transactionId;
-    private String name;
-    private String description;
+    private String transactionName;
+    private String transactionDescription;
     private TransactionType transactionType;
-    private String currencyString;
-    private double amount;
-    private Date date;
-    private Time time;
-    private TransactionFrequency frequency;
-    private int infoLasting;
-    private TransactionRecurrency infoRecurrent;
-    private boolean notify;
-    private TransactionNotifyFrequency notifyFrequency;
-    private String notes;
-    private Bitmap image;
-    private Location location;
-    private PriorityType priority;
+    private String transactionCurrencyString;
+    private double transactionAmount;
+    private Date transactionDate;
+    private Time transactionTime;
+    private TransactionFrequency transactionFrequency;
+    private int transactionInfoLasting;
+    private TransactionRecurrency transactionInfoRecurrent;
+    private boolean transactionNotify;
+    private TransactionNotifyFrequency transactionNotifyFrequency;
+    private String transactionNotes;
+    private Bitmap transactionImage;
+    private Location transactionLocation;
+    private PriorityType transactionPriority;
 
-    public Transaction(String name, String description, TransactionType transactionType, String currencyString, double amount, Date date, Time time, TransactionFrequency frequency, int infoLasting, TransactionRecurrency infoRecurrent, boolean notify, TransactionNotifyFrequency notifyFrequency, String notes, Bitmap image, Location location, PriorityType priority) {
-        this.name = name;
-        this.description = description;
+    public Transaction(String transactionName, String transactionDescription, TransactionType transactionType, String transactionCurrencyString, double transactionAmount, Date transactionDate, Time transactionTime, TransactionFrequency transactionFrequency, int transactionInfoLasting, TransactionRecurrency transactionInfoRecurrent, boolean transactionNotify, TransactionNotifyFrequency transactionNotifyFrequency, String transactionNotes, Bitmap transactionImage, Location transactionLocation, PriorityType transactionPriority) {
+        this.transactionName = transactionName;
+        this.transactionDescription = transactionDescription;
         this.transactionType = transactionType;
-        this.currencyString = currencyString;
-        this.amount = amount;
-        this.date = date;
-        this.time = time;
-        this.frequency = frequency;
-        this.infoLasting = infoLasting;
-        this.infoRecurrent = infoRecurrent;
-        this.notify = notify;
-        this.notifyFrequency = notifyFrequency;
-        this.notes = notes;
-        this.image = image;
-        this.location = location;
-        this.priority = priority;
+        this.transactionCurrencyString = transactionCurrencyString;
+        this.transactionAmount = transactionAmount;
+        this.transactionDate = transactionDate;
+        this.transactionTime = transactionTime;
+        this.transactionFrequency = transactionFrequency;
+        this.transactionInfoLasting = transactionInfoLasting;
+        this.transactionInfoRecurrent = transactionInfoRecurrent;
+        this.transactionNotify = transactionNotify;
+        this.transactionNotifyFrequency = transactionNotifyFrequency;
+        this.transactionNotes = transactionNotes;
+        this.transactionImage = transactionImage;
+        this.transactionLocation = transactionLocation;
+        this.transactionPriority = transactionPriority;
     }
 
     public Transaction() {
-        this.name = null;
-        this.description = null;
+        this.transactionName = null;
+        this.transactionDescription = null;
         this.transactionType = null;
-        this.currencyString = null;
-        this.amount = 0;
-        this.date = null;
-        this.time = null;
-        this.frequency = null;
-        this.infoLasting = 0;
-        this.infoRecurrent = null;
-        this.notify = false;
-        this.notifyFrequency = null;
-        this.notes = null;
-        this.image = null;
-        this.location = null;
-        this.priority = null;
+        this.transactionCurrencyString = null;
+        this.transactionAmount = 0;
+        this.transactionDate = null;
+        this.transactionTime = null;
+        this.transactionFrequency = null;
+        this.transactionInfoLasting = 0;
+        this.transactionInfoRecurrent = null;
+        this.transactionNotify = false;
+        this.transactionNotifyFrequency = null;
+        this.transactionNotes = null;
+        this.transactionImage = null;
+        this.transactionLocation = null;
+        this.transactionPriority = null;
     }
 
     // Visibility methods
@@ -85,20 +84,20 @@ public class Transaction {
         this.transactionId = transactionId;
     }
 
-    public String getName() {
-        return name;
+    public String getTransactionName() {
+        return transactionName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setTransactionName(String transactionName) {
+        this.transactionName = transactionName;
     }
 
-    public String getDescription() {
-        return description;
+    public String getTransactionDescription() {
+        return transactionDescription;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setTransactionDescription(String transactionDescription) {
+        this.transactionDescription = transactionDescription;
     }
 
     public TransactionType getTransactionType() {
@@ -109,140 +108,140 @@ public class Transaction {
         this.transactionType = transactionType;
     }
 
-    public String getCurrencyString() {
-        return currencyString;
+    public String getTransactionCurrencyString() {
+        return transactionCurrencyString;
     }
 
-    public void setCurrencyString(String currencyString) {
-        this.currencyString = currencyString;
+    public void setTransactionCurrencyString(String transactionCurrencyString) {
+        this.transactionCurrencyString = transactionCurrencyString;
     }
 
-    public double getAmount() {
-        return amount;
+    public double getTransactionAmount() {
+        return transactionAmount;
     }
 
-    public void setAmount(double amount) {
-        this.amount = amount;
+    public void setTransactionAmount(double transactionAmount) {
+        this.transactionAmount = transactionAmount;
     }
 
-    public Date getDate() {
-        return date;
+    public Date getTransactionDate() {
+        return transactionDate;
     }
 
-    public void setDate(Date date) {
-        this.date = date;
+    public void setTransactionDate(Date transactionDate) {
+        this.transactionDate = transactionDate;
     }
 
-    public Time getTime() {
-        return time;
+    public Time getTransactionTime() {
+        return transactionTime;
     }
 
-    public void setTime(Time time) {
-        this.time = time;
+    public void setTransactionTime(Time transactionTime) {
+        this.transactionTime = transactionTime;
     }
 
-    public TransactionFrequency getFrequency() {
-        return frequency;
+    public TransactionFrequency getTransactionFrequency() {
+        return transactionFrequency;
     }
 
-    public void setFrequency(TransactionFrequency frequency) {
-        this.frequency = frequency;
+    public void setTransactionFrequency(TransactionFrequency transactionFrequency) {
+        this.transactionFrequency = transactionFrequency;
     }
 
-    public int getInfoLasting() {
-        return infoLasting;
+    public int getTransactionInfoLasting() {
+        return transactionInfoLasting;
     }
 
-    public void setInfoLasting(int infoLasting) {
-        this.infoLasting = infoLasting;
+    public void setTransactionInfoLasting(int transactionInfoLasting) {
+        this.transactionInfoLasting = transactionInfoLasting;
     }
 
-    public TransactionRecurrency getInfoRecurrent() {
-        return infoRecurrent;
+    public TransactionRecurrency getTransactionInfoRecurrent() {
+        return transactionInfoRecurrent;
     }
 
-    public void setInfoRecurrent(TransactionRecurrency infoRecurrent) {
-        this.infoRecurrent = infoRecurrent;
+    public void setTransactionInfoRecurrent(TransactionRecurrency transactionInfoRecurrent) {
+        this.transactionInfoRecurrent = transactionInfoRecurrent;
     }
 
-    public boolean getNotify() {
-        return notify;
+    public boolean getTransactionNotify() {
+        return transactionNotify;
     }
 
-    public void setNotify(boolean notify) {
-        this.notify = notify;
+    public void setTransactionNotify(boolean transactionNotify) {
+        this.transactionNotify = transactionNotify;
     }
 
-    public TransactionNotifyFrequency getNotifyFrequency() {
-        return notifyFrequency;
+    public TransactionNotifyFrequency getTransactionNotifyFrequency() {
+        return transactionNotifyFrequency;
     }
 
-    public void setNotifyFrequency(TransactionNotifyFrequency notifyFrequency) {
-        this.notifyFrequency = notifyFrequency;
+    public void setTransactionNotifyFrequency(TransactionNotifyFrequency transactionNotifyFrequency) {
+        this.transactionNotifyFrequency = transactionNotifyFrequency;
     }
 
-    public String getNotes() {
-        return notes;
+    public String getTransactionNotes() {
+        return transactionNotes;
     }
 
-    public void setNotes(String notes) {
-        this.notes = notes;
+    public void setTransactionNotes(String transactionNotes) {
+        this.transactionNotes = transactionNotes;
     }
 
-    public Bitmap getImage() {
-        return image;
+    public Bitmap getTransactionImage() {
+        return transactionImage;
     }
 
-    public void setImage(Bitmap image) {
-        this.image = image;
+    public void setTransactionImage(Bitmap transactionImage) {
+        this.transactionImage = transactionImage;
     }
 
-    public Location getLocation() {
-        return location;
+    public Location getTransactionLocation() {
+        return transactionLocation;
     }
 
-    public void setLocation(Location location) {
-        this.location = location;
+    public void setTransactionLocation(Location transactionLocation) {
+        this.transactionLocation = transactionLocation;
     }
 
-    public PriorityType getPriority() {
-        return priority;
+    public PriorityType getTransactionPriority() {
+        return transactionPriority;
     }
 
-    public void setPriority(PriorityType priority) {
-        this.priority = priority;
+    public void setTransactionPriority(PriorityType transactionPriority) {
+        this.transactionPriority = transactionPriority;
     }
 
     public boolean equals(Transaction transaction) {
         return this.transactionId == transaction.transactionId &&
-                this.name.equals(transaction.name) &&
-                this.description.equals(transaction.description) &&
+                this.transactionName.equals(transaction.transactionName) &&
+                this.transactionDescription.equals(transaction.transactionDescription) &&
                 this.transactionType == transaction.transactionType &&
-                this.currencyString.equals(transaction.currencyString) &&
-                this.amount == transaction.amount &&
-                this.date.equals(transaction.date) &&
-                this.time.equals(transaction.time) &&
-                this.frequency == transaction.frequency &&
-                this.infoLasting == transaction.infoLasting &&
-                this.infoRecurrent.equals(transaction.infoRecurrent) &&
-                this.notify == transaction.notify &&
-                this.notifyFrequency == transaction.notifyFrequency &&
-                this.notes.equals(transaction.notes) &&
-                this.image.equals(transaction.image) &&
-                this.location.equals(transaction.location) &&
-                this.priority == transaction.priority;
+                this.transactionCurrencyString.equals(transaction.transactionCurrencyString) &&
+                this.transactionAmount == transaction.transactionAmount &&
+                this.transactionDate.equals(transaction.transactionDate) &&
+                this.transactionTime.equals(transaction.transactionTime) &&
+                this.transactionFrequency == transaction.transactionFrequency &&
+                this.transactionInfoLasting == transaction.transactionInfoLasting &&
+                this.transactionInfoRecurrent.equals(transaction.transactionInfoRecurrent) &&
+                this.transactionNotify == transaction.transactionNotify &&
+                this.transactionNotifyFrequency == transaction.transactionNotifyFrequency &&
+                this.transactionNotes.equals(transaction.transactionNotes) &&
+                this.transactionImage.equals(transaction.transactionImage) &&
+                this.transactionLocation.equals(transaction.transactionLocation) &&
+                this.transactionPriority == transaction.transactionPriority;
     }
 
     public boolean isValid() {
         // Mandatory fields must be filled in
-        return this.name != null &&
+        return this.transactionName != null &&
                 this.transactionType != TransactionType.DEFAULT &&
-                this.currencyString != null &&
-                this.amount != 0 &&
-                this.date != null &&
-                (this.frequency != TransactionFrequency.DEFAULT &&
-                        (this.frequency != TransactionFrequency.LASTING || this.infoLasting != 0) &&
-                        (this.frequency != TransactionFrequency.RECURRENT || this.infoRecurrent != TransactionRecurrency.DEFAULT)) &&
-                (!this.notify || this.notifyFrequency != TransactionNotifyFrequency.DEFAULT);
+                this.transactionCurrencyString != null &&
+                this.transactionAmount != 0 &&
+                this.transactionDate != null &&
+                (this.transactionFrequency != TransactionFrequency.DEFAULT &&
+                        (this.transactionFrequency != TransactionFrequency.LASTING || this.transactionInfoLasting != 0) &&
+                        (this.transactionFrequency != TransactionFrequency.RECURRENT || this.transactionInfoRecurrent != TransactionRecurrency.DEFAULT)) &&
+                (!this.transactionNotify || this.transactionNotifyFrequency != TransactionNotifyFrequency.DEFAULT);
     }
 }
