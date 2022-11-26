@@ -2,7 +2,6 @@ package com.marco.finbill.ui.main;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.content.res.AppCompatResources;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.lifecycle.MutableLiveData;
@@ -15,7 +14,6 @@ import androidx.navigation.ui.NavigationUI;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.icu.text.SimpleDateFormat;
-import android.icu.util.Currency;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -36,8 +34,9 @@ import com.marco.finbill.sql.model.FinBillViewModel;
 import com.marco.finbill.ui.welcome.WelcomeActivity;
 
 import java.text.ParsePosition;
+import java.util.ArrayList;
+import java.util.Currency;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -58,7 +57,9 @@ public class MainActivity extends AppCompatActivity {
     private SharedPreferences sharedPreferences;
 
     private MutableLiveData<List<String>> currencyStringsLiveData;
-    private MutableLiveData<ratesClass> ratesLiveData;
+    private MutableLiveData<RatesClass> ratesLiveData;
+
+    private final Set<Currency> availableCurrencies = Currency.getAvailableCurrencies();
 
     private final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd.MM.yyyy", Locale.getDefault());
     private Date today;
@@ -67,10 +68,10 @@ public class MainActivity extends AppCompatActivity {
         ABORT, UPDATE, INSERT
     }
 
-    private static class ratesClass {
+    private static class RatesClass {
         private final String fromCurrencyString;
         private final Map<String, Double> ratesMap;
-        public ratesClass(String fromCurrencyString, Map<String, Double> ratesMap) {
+        public RatesClass(String fromCurrencyString, Map<String, Double> ratesMap) {
             this.fromCurrencyString = fromCurrencyString;
             this.ratesMap = ratesMap;
         }
@@ -155,7 +156,6 @@ public class MainActivity extends AppCompatActivity {
             operation = HandleExchange.INSERT;
         }
         else {
-            Log.e("doUpdate", "I am here!");
             Date lastUpdateDate = simpleDateFormat.parse(lastUpdate, new ParsePosition(0));
             long diff = today.getTime() - lastUpdateDate.getTime();
             int days = (int) TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
@@ -171,7 +171,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void downloadExchanges(HandleExchange operation) {
         if (operation != HandleExchange.ABORT) {
-            currencyStringsLiveData  = new MutableLiveData<>();
+            currencyStringsLiveData = new MutableLiveData<>();
             ratesLiveData = new MutableLiveData<>();
             CurrencyApi currencyApi = ServiceGenerator.getCurrencyApi();
             Call<CurrencyResponse> currencyCall = currencyApi.getCurrencies();
@@ -192,33 +192,29 @@ public class MainActivity extends AppCompatActivity {
             });
             currencyStringsLiveData.observe(this, currencyStrings -> {
                 if (currencyStrings != null) {
-                    Set<Currency> fromCurrencySet = new HashSet<>();
-                    Currency now;
+                    List<String> fromCurrencyList = new ArrayList<>();
                     viewModel.deleteAllCurrencyCodes();
-                    // Filtering currencies according to the content of the Java library: this is because I need the translated currency name, which is provided by the Java library.
-                    // Hence, if a currency is not contained in the Java library, it will not be considered in the worker operations and it will not be added to the database.
                     for (String currencyString : currencyStrings) {
                         if (currencyString.length() == CURRENCY_LENGTH) {
-                            now = Currency.getInstance(currencyString);
-                            if (now != null) {
+                            if (availableCurrencies.contains(Currency.getInstance(currencyString))) {
                                 viewModel.insertCurrencyCode(new CurrencyCode(currencyString));
-                                fromCurrencySet.add(now);
+                                fromCurrencyList.add(currencyString);
                             }
                         }
                     }
 
-                    if (!fromCurrencySet.isEmpty()) {
+                    if (!fromCurrencyList.isEmpty()) {
                         Toast.makeText(this, R.string.updating_exchange_rates, Toast.LENGTH_SHORT).show();
-                        for (Currency fromCurrency : fromCurrencySet) {
+                        for (String fromCurrencyStringItem : fromCurrencyList) {
                             ExchangeApi exchangeApi = ServiceGenerator.getExchangeApi();
-                            Call<ExchangeResponse> exchangeCall = exchangeApi.getExchange(fromCurrency.getCurrencyCode().toLowerCase());
+                            Call<ExchangeResponse> exchangeCall = exchangeApi.getExchange(fromCurrencyStringItem.toLowerCase());
                             exchangeCall.enqueue(new Callback<ExchangeResponse>() {
                                 @Override
                                 public void onResponse(@NonNull Call<ExchangeResponse> call, @NonNull Response<ExchangeResponse> response) {
                                     if (response.isSuccessful()) {
                                         ExchangeResponse exchangeResponse = response.body();
                                         if (exchangeResponse != null) {
-                                            ratesLiveData.setValue(new ratesClass(fromCurrency.getCurrencyCode(), exchangeResponse.getRates()));
+                                            ratesLiveData.setValue(new RatesClass(fromCurrencyStringItem, exchangeResponse.getRates()));
                                         }
                                     }
                                 }
@@ -243,8 +239,7 @@ public class MainActivity extends AppCompatActivity {
                             String toCurrencyString = entry.getKey();
                             Double rate = entry.getValue();
                             if (toCurrencyString.length() == CURRENCY_LENGTH) {
-                                Currency toCurrency = Currency.getInstance(toCurrencyString);
-                                if (toCurrency != null) {
+                                if (availableCurrencies.contains(Currency.getInstance(toCurrencyString))) {
                                     Exchange exchange = new Exchange(fromCurrencyString, toCurrencyString, rate);
                                     if (operation == HandleExchange.UPDATE) {
                                         viewModel.updateExchange(exchange);
