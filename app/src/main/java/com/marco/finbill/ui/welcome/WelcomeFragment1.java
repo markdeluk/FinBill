@@ -11,10 +11,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 
 import com.marco.finbill.R;
-
-import java.util.Objects;
 
 public class WelcomeFragment1 extends Fragment {
 
@@ -33,7 +32,7 @@ public class WelcomeFragment1 extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         View rootView = inflater.inflate(R.layout.fragment_welcome1, container, false);
-        button = rootView.findViewById(R.id.button);
+        button = rootView.findViewById(R.id.startButton);
         button.setOnClickListener(v -> Navigation.findNavController(rootView).navigate(R.id.action_welcomeFragment1_to_welcomeFragment2));
 
         return rootView;

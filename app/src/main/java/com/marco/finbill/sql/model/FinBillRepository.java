@@ -3,6 +3,7 @@ package com.marco.finbill.sql.model;
 import android.app.Application;
 import android.os.Handler;
 import android.os.Looper;
+import android.util.Log;
 
 import androidx.core.os.HandlerCompat;
 import androidx.lifecycle.LiveData;
@@ -118,11 +119,11 @@ public class FinBillRepository {
         executorService.execute(() -> transferDao.insertTransfer(transfer));
     }
 
-    public Account getAccountByName(String name) {
+    public LiveData<Account> getAccountByName(String name) {
         return accountDao.getAccountByName(name);
     }
 
-    public Category getCategoryByName(String name) {
+    public LiveData<Category> getCategoryByName(String name) {
         return categoryDao.getCategoryName(name);
     }
 
@@ -139,7 +140,10 @@ public class FinBillRepository {
     }
 
     public void insertCurrencyCode(CurrencyCode currencyCode) {
-        executorService.execute(() -> currencyCodeDao.insertCurrencyCode(currencyCode));
+        executorService.execute(() -> {
+            Log.e("FinBillRepository", "insertCurrencyCode: " + currencyCode.getCurrencyString());
+            currencyCodeDao.insertCurrencyCode(currencyCode);
+        });
     }
 
     public LiveData<List<CurrencyCode>> getAllCurrencyCodes() {

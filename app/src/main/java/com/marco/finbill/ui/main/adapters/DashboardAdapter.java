@@ -6,10 +6,10 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
-import com.marco.finbill.ui.main.fragments.ExpenseFragment;
-import com.marco.finbill.ui.main.fragments.IncomeFragment;
-import com.marco.finbill.ui.main.fragments.TransactionFragment;
-import com.marco.finbill.ui.main.fragments.TransferFragment;
+import com.marco.finbill.ui.main.fragments.dashboard.DashboardExpenseFragment;
+import com.marco.finbill.ui.main.fragments.dashboard.DashboardIncomeFragment;
+import com.marco.finbill.ui.main.fragments.dashboard.DashboardTransactionFragment;
+import com.marco.finbill.ui.main.fragments.dashboard.DashboardTransferFragment;
 
 public class DashboardAdapter extends FragmentStateAdapter {
 
@@ -35,16 +35,16 @@ public class DashboardAdapter extends FragmentStateAdapter {
         Fragment fragment = null;
         switch (position) {
             case TRANSACTIONS:
-                fragment = new TransactionFragment();
+                fragment = new DashboardTransactionFragment();
                 break;
             case EXPENSES:
-                fragment = new ExpenseFragment();
+                fragment = new DashboardExpenseFragment();
                 break;
             case INCOMES:
-                fragment = new IncomeFragment();
+                fragment = new DashboardIncomeFragment();
                 break;
             case TRANSFERS:
-                fragment = new TransferFragment();
+                fragment = new DashboardTransferFragment();
                 break;
             default:
                 break;

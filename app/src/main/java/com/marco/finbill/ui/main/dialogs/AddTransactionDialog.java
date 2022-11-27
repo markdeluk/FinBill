@@ -1,10 +1,13 @@
 package com.marco.finbill.ui.main.dialogs;
 
+import static com.marco.finbill.ui.main.MainActivity.SHAREDPREFS;
+
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.icu.text.SimpleDateFormat;
@@ -53,6 +56,7 @@ import com.marco.finbill.sql.transaction.Transaction;
 import com.marco.finbill.sql.transaction.expense.Expense;
 import com.marco.finbill.sql.transaction.income.Income;
 import com.marco.finbill.sql.transaction.transfer.Transfer;
+import com.marco.finbill.ui.main.MainActivity;
 
 import java.sql.Date;
 import java.sql.Time;
@@ -68,14 +72,10 @@ public class AddTransactionDialog extends DialogFragment {
 
     private TransactionType transactionType = TransactionType.DEFAULT;
     private Toolbar toolbar;
-
     private FinBillViewModel viewModel;
-
     private ActivityResultLauncher<Intent> galleryLauncher;
     private ActivityResultLauncher<Intent> cameraLauncher;
-
     private Transaction transaction;
-
     private EditText nameEdit;
     private EditText descriptionEdit;
     private Spinner transactionSpinner;
@@ -92,13 +92,12 @@ public class AddTransactionDialog extends DialogFragment {
     private boolean pictureSelected = false;
     private Spinner priorityEdit;
     private Spinner currencyEdit;
-
     private Expense expense;
     private Income income;
     private Transfer transfer;
-
     private Spinner fromSpinner;
     private Spinner toSpinner;
+    private SharedPreferences preferences;
 
     public AddTransactionDialog() {
     }
@@ -144,6 +143,7 @@ public class AddTransactionDialog extends DialogFragment {
                 pictureSelected = true;
             }
         });
+        preferences = requireActivity().getSharedPreferences(SHAREDPREFS, Activity.MODE_PRIVATE);
     }
 
     @Nullable
@@ -275,6 +275,10 @@ public class AddTransactionDialog extends DialogFragment {
                 currencyStringList.add(currencyCode.getCurrencyString());
             }
             currencyStringAdapter.notifyDataSetChanged();
+            String choice = preferences.getString("currency", null);
+            if (choice != null) {
+                currencyEdit.setSelection(currencyStringList.indexOf(choice));
+            }
         });
 
         // DATE
@@ -464,8 +468,8 @@ public class AddTransactionDialog extends DialogFragment {
             cameraLauncher.launch(intent);
         });
 
-
         // PRIORITY
+
         priorityEdit = rootView.findViewById(R.id.priorityEdit);
         List<String> priorityList = new ArrayList<>();
         priorityList.add(getResources().getString(R.string.choose_priority));
@@ -485,7 +489,6 @@ public class AddTransactionDialog extends DialogFragment {
         toolbar.inflateMenu(R.menu.menu_add_item);
         toolbar.setOnMenuItemClickListener(item -> {
             if (item.getItemId() == R.id.action_save) {
-                // Populating transaction item
                 transaction = new Transaction();
                 transaction.setTransactionName(nameEdit.getText().toString());
                 transaction.setTransactionDescription(descriptionEdit.getText().toString());
@@ -525,7 +528,6 @@ public class AddTransactionDialog extends DialogFragment {
                 // transaction.setLocation
                 transaction.setTransactionPriority(PriorityType.values()[priorityEdit.getSelectedItemPosition()]);
                 if (transaction.isValid()) {
-                    // Saving transaction
                     if (fromSpinner.getSelectedItemPosition() != 0 && toSpinner.getSelectedItemPosition() != 0) {
                         viewModel.insertTransaction(transaction);
                         String from = fromSpinner.getSelectedItem().toString();
@@ -533,23 +535,74 @@ public class AddTransactionDialog extends DialogFragment {
                         if (transaction.getTransactionType().equals(TransactionType.EXPENSE)) {
                             expense = new Expense();
                             expense.setExpenseId(transaction.getTransactionId());
-                            expense.setFromExpense(viewModel.getAccountByName(from).getAccountId());
-                            expense.setToExpense(viewModel.getCategoryByName(to).getCategoryId());
-                            viewModel.insertExpense(expense);
+                            viewModel.getAccountByName(from).observe(getViewLifecycleOwner(), account -> {
+                                if (account != null) {
+                                    int accountId = account.getAccountId();
+                                    viewModel.setTransactionViewModelFieldFrom(accountId);
+                                }
+                            });
+                            viewModel.getCategoryByName(to).observe(getViewLifecycleOwner(), category -> {
+                                if (category != null) {
+                                    int categoryId = category.getCategoryId();
+                                    viewModel.setTransactionViewModelFieldTo(categoryId);
+                                }
+                            });
+                            viewModel.getTransactionViewModelFields().observe(getViewLifecycleOwner(), fields -> {
+                                if (fields.isValid()) {
+                                    expense.setFromExpense(((Account)fields.getFrom()).getAccountId());
+                                    expense.setToExpense(((Category)fields.getTo()).getCategoryId());
+                                    viewModel.insertExpense(expense);
+                                    viewModel.clearTransactionViewModelFields();
+                                }
+                            });
                         }
                         else if (transaction.getTransactionType().equals(TransactionType.INCOME)) {
                             income = new Income();
                             income.setIncomeId(transaction.getTransactionId());
-                            income.setFromIncome(viewModel.getCategoryByName(from).getCategoryId());
-                            income.setToIncome(viewModel.getAccountByName(to).getAccountId());
-                            viewModel.insertIncome(income);
+                            viewModel.getCategoryByName(from).observe(getViewLifecycleOwner(), category -> {
+                                if (category != null) {
+                                    int categoryId = category.getCategoryId();
+                                    viewModel.setTransactionViewModelFieldFrom(categoryId);
+                                }
+                            });
+                            viewModel.getAccountByName(to).observe(getViewLifecycleOwner(), account -> {
+                                if (account != null) {
+                                    int accountId = account.getAccountId();
+                                    viewModel.setTransactionViewModelFieldTo(accountId);
+                                }
+                            });
+                            viewModel.getTransactionViewModelFields().observe(getViewLifecycleOwner(), fields -> {
+                                if (fields.isValid()) {
+                                    income.setFromIncome(((Category)fields.getFrom()).getCategoryId());
+                                    income.setToIncome(((Account)fields.getTo()).getAccountId());
+                                    viewModel.insertIncome(income);
+                                    viewModel.clearTransactionViewModelFields();
+                                }
+                            });
                         }
                         else { // transfer
                             transfer = new Transfer();
                             transfer.setTransferId(transaction.getTransactionId());
-                            transfer.setFromTransfer(viewModel.getAccountByName(from).getAccountId());
-                            transfer.setToTransfer(viewModel.getAccountByName(to).getAccountId());
-                            viewModel.insertTransfer(transfer);
+                            viewModel.getAccountByName(from).observe(getViewLifecycleOwner(), account -> {
+                                if (account != null) {
+                                    int accountId = account.getAccountId();
+                                    viewModel.setTransactionViewModelFieldFrom(accountId);
+                                }
+                            });
+                            viewModel.getAccountByName(to).observe(getViewLifecycleOwner(), account -> {
+                                if (account != null) {
+                                    int accountId = account.getAccountId();
+                                    viewModel.setTransactionViewModelFieldTo(accountId);
+                                }
+                            });
+                            viewModel.getTransactionViewModelFields().observe(getViewLifecycleOwner(), fields -> {
+                                if (fields.isValid()) {
+                                    transfer.setFromTransfer(((Account)fields.getFrom()).getAccountId());
+                                    transfer.setToTransfer(((Account)fields.getTo()).getAccountId());
+                                    viewModel.insertTransfer(transfer);
+                                    viewModel.clearTransactionViewModelFields();
+                                }
+                            });
                         }
                     }
                 }

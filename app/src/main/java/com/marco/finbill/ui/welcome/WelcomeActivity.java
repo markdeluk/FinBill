@@ -6,6 +6,7 @@ import androidx.navigation.fragment.NavHostFragment;
 
 import android.os.Bundle;
 
+import com.google.android.material.snackbar.Snackbar;
 import com.marco.finbill.R;
 
 import java.util.Objects;
@@ -20,5 +21,10 @@ public class WelcomeActivity extends AppCompatActivity {
         NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.fragmentContainerView);
         NavController navController = Objects.requireNonNull(navHostFragment).getNavController();
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        Snackbar.make(findViewById(R.id.fragmentContainerView), R.string.cant_skip, Snackbar.LENGTH_SHORT).show();
     }
 }

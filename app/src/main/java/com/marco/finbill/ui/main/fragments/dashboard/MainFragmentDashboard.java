@@ -1,4 +1,4 @@
-package com.marco.finbill.ui.main.fragments;
+package com.marco.finbill.ui.main.fragments.dashboard;
 
 import android.os.Bundle;
 
@@ -18,15 +18,11 @@ import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 import com.marco.finbill.R;
 import com.marco.finbill.enums.TransactionType;
+import com.marco.finbill.sql.transaction.Transaction;
 import com.marco.finbill.ui.main.dialogs.AddTransactionDialog;
 import com.marco.finbill.ui.main.adapters.DashboardAdapter;
 
 public class MainFragmentDashboard extends Fragment {
-
-    private final int TRANSACTIONS = 0;
-    private final int EXPENSES = 1;
-    private final int INCOMES = 2;
-    private final int TRANSFERS = 3;
 
     private DashboardAdapter dashboardAdapter;
     private ViewPager2 viewPager2;
@@ -84,20 +80,21 @@ public class MainFragmentDashboard extends Fragment {
                 View.OnClickListener incomesOnClickListener = view7 -> AddTransactionDialog.display(getChildFragmentManager(), TransactionType.INCOME);
                 View.OnClickListener transfersOnClickListener = view8 -> AddTransactionDialog.display(getChildFragmentManager(), TransactionType.TRANSFER);
 
-                switch (tab.getPosition()) {
-                    case TRANSACTIONS:
+                TransactionType tabPosition = TransactionType.values()[tab.getPosition()];
+                switch (tabPosition) {
+                    case DEFAULT:
                         fab.setOnClickListener(transactionOnClickListener);
                         fab.setOnLongClickListener(transactionLongClickListener);
                         break;
-                    case EXPENSES:
+                    case EXPENSE:
                         fab.setOnClickListener(expensesOnClickListener);
                         fab.setOnLongClickListener(expensesLongClickListener);
                         break;
-                    case INCOMES:
+                    case INCOME:
                         fab.setOnClickListener(incomesOnClickListener);
                         fab.setOnLongClickListener(incomesLongClickListener);
                         break;
-                    case TRANSFERS:
+                    case TRANSFER:
                         fab.setOnClickListener(transfersOnClickListener);
                         fab.setOnLongClickListener(transfersLongClickListener);
                         break;
@@ -115,17 +112,18 @@ public class MainFragmentDashboard extends Fragment {
         });
 
         new TabLayoutMediator(tabLayout, viewPager2, (tab, position) -> {
-            switch (position) {
-                case TRANSACTIONS:
+            TransactionType tabPosition = TransactionType.values()[position];
+            switch (tabPosition) {
+                case DEFAULT:
                     tab.setText(R.string.transactions);
                     break;
-                case EXPENSES:
+                case EXPENSE:
                     tab.setText(R.string.expenses);
                     break;
-                case INCOMES:
+                case INCOME:
                     tab.setText(R.string.incomes);
                     break;
-                case TRANSFERS:
+                case TRANSFER:
                     tab.setText(R.string.transfers);
                     break;
             }

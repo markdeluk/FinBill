@@ -57,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
     private SharedPreferences sharedPreferences;
 
     private MutableLiveData<List<String>> currencyStringsLiveData;
-    private MutableLiveData<RatesClass> ratesLiveData;
+    private MutableLiveData<Integer> activeCallsLiveData;
 
     private final Set<Currency> availableCurrencies = Currency.getAvailableCurrencies();
 
@@ -68,22 +68,9 @@ public class MainActivity extends AppCompatActivity {
         ABORT, UPDATE, INSERT
     }
 
-    private static class RatesClass {
-        private final String fromCurrencyString;
-        private final Map<String, Double> ratesMap;
-        public RatesClass(String fromCurrencyString, Map<String, Double> ratesMap) {
-            this.fromCurrencyString = fromCurrencyString;
-            this.ratesMap = ratesMap;
-        }
-        public String getFromCurrencyString() {
-            return fromCurrencyString;
-        }
-        public Map<String, Double> getRatesMap() {
-            return ratesMap;
-        }
-    }
-
     private final int CURRENCY_LENGTH = 3;
+
+    public static final String SHAREDPREFS = "sharedPrefs";
 
     public MainActivity() {
     }
@@ -140,7 +127,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void startWelcomeActivity() {
-        sharedPreferences = getSharedPreferences("sharedPrefs", MODE_PRIVATE);
+        sharedPreferences = getSharedPreferences(SHAREDPREFS, MODE_PRIVATE);
         boolean firstStart = sharedPreferences.getBoolean("firstStart", true);
         if (firstStart) {
             Intent intent = new Intent(MainActivity.this, WelcomeActivity.class);
@@ -172,7 +159,7 @@ public class MainActivity extends AppCompatActivity {
     private void downloadExchanges(HandleExchange operation) {
         if (operation != HandleExchange.ABORT) {
             currencyStringsLiveData = new MutableLiveData<>();
-            ratesLiveData = new MutableLiveData<>();
+            activeCallsLiveData = new MutableLiveData<>();
             CurrencyApi currencyApi = ServiceGenerator.getCurrencyApi();
             Call<CurrencyResponse> currencyCall = currencyApi.getCurrencies();
             currencyCall.enqueue(new Callback<CurrencyResponse>() {
@@ -202,10 +189,11 @@ public class MainActivity extends AppCompatActivity {
                             }
                         }
                     }
-
+                    activeCallsLiveData.setValue(fromCurrencyList.size());
                     if (!fromCurrencyList.isEmpty()) {
-                        Toast.makeText(this, R.string.updating_exchange_rates, Toast.LENGTH_SHORT).show();
-                        for (String fromCurrencyStringItem : fromCurrencyList) {
+                        Toast.makeText(getApplicationContext(), R.string.updating_exchange_rates, Toast.LENGTH_SHORT).show();
+                        for (int i = 0; i < fromCurrencyList.size(); i++) {
+                            String fromCurrencyStringItem = fromCurrencyList.get(i);
                             ExchangeApi exchangeApi = ServiceGenerator.getExchangeApi();
                             Call<ExchangeResponse> exchangeCall = exchangeApi.getExchange(fromCurrencyStringItem.toLowerCase());
                             exchangeCall.enqueue(new Callback<ExchangeResponse>() {
@@ -214,7 +202,29 @@ public class MainActivity extends AppCompatActivity {
                                     if (response.isSuccessful()) {
                                         ExchangeResponse exchangeResponse = response.body();
                                         if (exchangeResponse != null) {
-                                            ratesLiveData.setValue(new RatesClass(fromCurrencyStringItem, exchangeResponse.getRates()));
+                                            Map<String, Double> ratesMap = exchangeResponse.getRates();
+                                            if (ratesMap != null) {
+                                                for (Map.Entry<String, Double> entry : ratesMap.entrySet()) {
+                                                    String toCurrencyString = entry.getKey();
+                                                    Double rate = entry.getValue();
+                                                    if (toCurrencyString.length() == CURRENCY_LENGTH) {
+                                                        if (availableCurrencies.contains(Currency.getInstance(toCurrencyString)) && !fromCurrencyStringItem.equals(toCurrencyString)) {
+                                                            Exchange exchange = new Exchange(fromCurrencyStringItem, toCurrencyString, rate);
+                                                            if (operation == HandleExchange.UPDATE) {
+                                                                viewModel.updateExchange(exchange);
+                                                            } // operation == HandleExchange.INSERT
+                                                            else {
+                                                                viewModel.insertExchange(exchange);
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                                Integer activeCalls = activeCallsLiveData.getValue();
+                                                if (activeCalls != null) {
+                                                    activeCallsLiveData.setValue(activeCalls - 1);
+                                                }
+
+                                            }
                                         }
                                     }
                                 }
@@ -224,36 +234,18 @@ public class MainActivity extends AppCompatActivity {
                                 }
                             });
                         }
-                        String date = simpleDateFormat.format(today);
-                        sharedPreferences.edit().putString("lastUpdate", date).apply();
-                        Toast.makeText(this, R.string.updated_exchange_rates, Toast.LENGTH_SHORT).show();
                     }
                 }
             });
-            ratesLiveData.observe(this, ratesClass -> {
-                if (ratesClass != null) {
-                    String fromCurrencyString = ratesClass.getFromCurrencyString();
-                    Map<String, Double> ratesMap = ratesClass.getRatesMap();
-                    if (ratesMap != null) {
-                        for (Map.Entry<String, Double> entry : ratesMap.entrySet()) {
-                            String toCurrencyString = entry.getKey();
-                            Double rate = entry.getValue();
-                            if (toCurrencyString.length() == CURRENCY_LENGTH) {
-                                if (availableCurrencies.contains(Currency.getInstance(toCurrencyString))) {
-                                    Exchange exchange = new Exchange(fromCurrencyString, toCurrencyString, rate);
-                                    if (operation == HandleExchange.UPDATE) {
-                                        viewModel.updateExchange(exchange);
-                                    } // operation == HandleExchange.INSERT
-                                    else {
-                                        viewModel.insertExchange(exchange);
-                                    }
-                                }
-                            }
-                        }
+            activeCallsLiveData.observe(this, activeCalls -> {
+                if (activeCalls != null) {
+                    if (activeCalls == 0) {
+                        String date = simpleDateFormat.format(today);
+                        sharedPreferences.edit().putString("lastUpdate", date).apply();
+                        Toast.makeText(getApplicationContext(), R.string.updated_exchange_rates, Toast.LENGTH_SHORT).show();
                     }
                 }
             });
         }
     }
-
 }

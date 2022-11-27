@@ -22,12 +22,12 @@ public interface AccountDao {
     void deleteAccount(Account account);
 
     @Query("SELECT * FROM account_table WHERE accountId = :id")
-    Account getAccountById(int id);
+    LiveData<Account> getAccountById(int id);
 
     @Query("SELECT * FROM account_table WHERE accountName = :name")
-    Account getAccountByName(String name);
+    LiveData<Account> getAccountByName(String name);
 
-    @Query("SELECT * FROM account_table")
+    @Query("SELECT * FROM account_table ORDER BY accountName ASC")
     LiveData<List<Account>> getAllAccounts();
 
     @Query("SELECT * FROM account_table WHERE accountName LIKE '%' || :query || '%'")

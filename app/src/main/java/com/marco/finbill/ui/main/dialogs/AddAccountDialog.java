@@ -1,9 +1,11 @@
 package com.marco.finbill.ui.main.dialogs;
 
+import static com.marco.finbill.ui.main.MainActivity.SHAREDPREFS;
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.icu.text.SimpleDateFormat;
@@ -69,6 +71,8 @@ public class AddAccountDialog extends DialogFragment {
     private Spinner currencyBalanceEdit;
     private Spinner currencyPlatfondEdit;
 
+    private SharedPreferences preferences;
+
     public static AddAccountDialog display(FragmentManager fragmentManager) {
         AddAccountDialog addAccountDialog = new AddAccountDialog();
         addAccountDialog.show(fragmentManager, TAG);
@@ -100,6 +104,7 @@ public class AddAccountDialog extends DialogFragment {
                 pictureSelected = true;
             }
         });
+        preferences = requireActivity().getSharedPreferences(SHAREDPREFS, Activity.MODE_PRIVATE);
     }
 
     @Nullable
@@ -155,6 +160,12 @@ public class AddAccountDialog extends DialogFragment {
                 currencyStringList.add(currencyCode.getCurrencyString());
             }
             currencyStringAdapter.notifyDataSetChanged();
+            String choice = preferences.getString("currency", null);
+            if (choice != null) {
+                int currencyPosition = currencyStringList.indexOf(choice);
+                currencyPlatfondEdit.setSelection(currencyPosition);
+                currencyBalanceEdit.setSelection(currencyPosition);
+            }
         });
 
         // DATE

@@ -26,15 +26,15 @@ public interface CategoryDao {
     void deleteCategory(Category category);
 
     @Query("SELECT * FROM category_table WHERE categoryId = :id")
-    Category getCategoryId(int id);
+    LiveData<Category> getCategoryId(int id);
 
     @Query("SELECT * FROM category_table WHERE categoryName = :name")
-    Category getCategoryName(String name);
+    LiveData<Category> getCategoryName(String name);
 
-    @Query("SELECT * FROM category_table")
+    @Query("SELECT * FROM category_table ORDER BY categoryName ASC")
     LiveData<List<Category>> getAllCategories();
 
-    @Query("SELECT * FROM category_table WHERE categoryType = :type")
+    @Query("SELECT * FROM category_table WHERE categoryType = :type ORDER BY categoryName ASC")
     LiveData<List<Category>> getAllCategoriesByType(CategoryType type);
 
     @Query("SELECT * FROM category_table WHERE categoryName LIKE '%' || :query || '%'")

@@ -20,7 +20,7 @@ public interface CurrencyCodeDao {
     @Delete
     void deleteCurrencyCode(CurrencyCode currencyCode);
 
-    @Query("SELECT * FROM currency_code_table")
+    @Query("SELECT * FROM currency_code_table ORDER BY currencyString ASC")
     LiveData<List<CurrencyCode>> getAllCurrencyCodes();
 
     @Query("DELETE FROM currency_code_table")

@@ -5,7 +5,7 @@
     android:id="@+id/frameLayout6"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.main.fragments.TransferFragment">
+    tools:context=".ui.main.fragments.dashboard.DashboardTransferFragment">
 
     <TextView
         android:id="@+id/textView8"

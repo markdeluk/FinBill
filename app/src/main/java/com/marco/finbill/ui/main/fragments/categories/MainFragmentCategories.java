@@ -1,4 +1,4 @@
-package com.marco.finbill.ui.main.fragments;
+package com.marco.finbill.ui.main.fragments.categories;
 
 import android.os.Bundle;
 

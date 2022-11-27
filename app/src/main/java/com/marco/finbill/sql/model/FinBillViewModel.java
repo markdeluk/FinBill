@@ -4,6 +4,7 @@ import android.app.Application;
 
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 
 import com.marco.finbill.enums.CategoryType;
 import com.marco.finbill.sql.account.Account;
@@ -23,6 +24,7 @@ import java.util.List;
 public class FinBillViewModel extends AndroidViewModel {
 
     private final FinBillRepository repository;
+    private MutableLiveData<TransactionViewModelFields> transactionViewModelFieldsLiveData;
 
     public FinBillViewModel(Application application) {
         super(application);
@@ -69,12 +71,45 @@ public class FinBillViewModel extends AndroidViewModel {
         repository.insertTransfer(transfer);
     }
 
-    public Account getAccountByName(String name) {
+    public LiveData<Account> getAccountByName(String name) {
         return repository.getAccountByName(name);
     }
 
-    public Category getCategoryByName(String name) {
+    public LiveData<Category> getCategoryByName(String name) {
         return repository.getCategoryByName(name);
+    }
+
+    public MutableLiveData<TransactionViewModelFields> getTransactionViewModelFields() {
+        if (transactionViewModelFieldsLiveData == null) {
+            transactionViewModelFieldsLiveData = new MutableLiveData<>();
+        }
+        return transactionViewModelFieldsLiveData;
+    }
+
+    private TransactionViewModelFields getTransactionViewModelFieldsContent() {
+        MutableLiveData<TransactionViewModelFields> transactionViewModelFields = getTransactionViewModelFields();
+        if (transactionViewModelFields.getValue() == null) {
+            transactionViewModelFields.setValue(new TransactionViewModelFields());
+        }
+        return getTransactionViewModelFields().getValue();
+    }
+
+    public void setTransactionViewModelFieldFrom(Object from) {
+        TransactionViewModelFields transactionViewModelFields = getTransactionViewModelFieldsContent();
+        transactionViewModelFields.setFrom(from);
+        getTransactionViewModelFields().setValue(transactionViewModelFields);
+    }
+
+    public void setTransactionViewModelFieldTo(Object to) {
+        TransactionViewModelFields transactionViewModelFields = getTransactionViewModelFieldsContent();
+        transactionViewModelFields.setTo(to);
+        getTransactionViewModelFields().setValue(transactionViewModelFields);
+    }
+
+    public void clearTransactionViewModelFields() {
+        TransactionViewModelFields transactionViewModelFields = getTransactionViewModelFieldsContent();
+        transactionViewModelFields.clear();
+        getTransactionViewModelFields().setValue(transactionViewModelFields);
     }
 
     public void insertExchange(Exchange exchange) {

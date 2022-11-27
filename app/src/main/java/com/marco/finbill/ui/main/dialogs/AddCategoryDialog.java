@@ -154,19 +154,21 @@ public class AddCategoryDialog extends DialogFragment {
                 categoryIsChildOfList.add(category.getCategoryName());
             }
         });
-
+        ArrayAdapter<String> categoryIsChildOfAdapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_spinner_item, categoryIsChildOfList);
+        categoryIsChildOfAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        categoryIsChildOfSpinner.setAdapter(categoryIsChildOfAdapter);
         categoryIsChildOfSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if (position > 1) {
-                    Category category = viewModel.getCategoryByName(categoryIsChildOfSpinner.getSelectedItem().toString());
-                    defaultImage = category.getCategoryImage();
-                    if (defaultImage == null) {
-                        defaultImage = R.drawable.money;
-                    }
+                    viewModel.getCategoryByName(categoryIsChildOfSpinner.getSelectedItem().toString()).observe(getViewLifecycleOwner(), category -> {
+                        defaultImage = category.getCategoryImage();
+                        if (defaultImage == null) {
+                            defaultImage = R.drawable.money;
+                        }
+                    });
                 }
             }
-
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
             }

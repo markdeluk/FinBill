@@ -1,11 +1,9 @@
-package com.marco.finbill.ui.main.fragments;
+package com.marco.finbill.ui.main.fragments.dashboard;
 
-import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -15,16 +13,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
 import com.marco.finbill.R;
 import com.marco.finbill.sql.model.FinBillViewModel;
-import com.marco.finbill.ui.main.adapters.ExpenseAdapter;
 import com.marco.finbill.ui.main.adapters.TransferAdapter;
 
-public class TransferFragment extends Fragment {
+public class DashboardTransferFragment extends Fragment {
 
-    public TransferFragment() {
+    public DashboardTransferFragment() {
         // Required empty public constructor
     }
 

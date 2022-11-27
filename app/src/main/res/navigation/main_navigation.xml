@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/mainFragmentDashboard"
-        android:name="com.marco.finbill.ui.main.fragments.MainFragmentDashboard"
+        android:name="com.marco.finbill.ui.main.fragments.dashboard.MainFragmentDashboard"
         android:label="@string/dashboard"
         tools:layout="@layout/fragment_main_dashboard">
         <action
@@ -89,7 +89,7 @@
     </fragment>
     <fragment
         android:id="@+id/mainFragmentCategories"
-        android:name="com.marco.finbill.ui.main.fragments.MainFragmentCategories"
+        android:name="com.marco.finbill.ui.main.fragments.categories.MainFragmentCategories"
         android:label="@string/categories"
         tools:layout="@layout/fragment_main_categories">
         <action
