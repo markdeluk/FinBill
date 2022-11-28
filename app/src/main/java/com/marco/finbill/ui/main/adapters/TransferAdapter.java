@@ -24,13 +24,13 @@ public class TransferAdapter extends ListAdapter<TransferIsTransactionWithRelati
 
         @Override
         public boolean areItemsTheSame(TransferIsTransactionWithRelationships oldItem, TransferIsTransactionWithRelationships newItem) {
-            return oldItem.transferId == newItem.transferId;
+            return oldItem.getTransferId() == newItem.getTransferId();
         }
 
         @Override
         public boolean areContentsTheSame(TransferIsTransactionWithRelationships oldItem, TransferIsTransactionWithRelationships newItem) {
             // below line is to check the course name, description and course duration.
-            return oldItem.transaction.equals(newItem.transaction) && oldItem.fromTransfer.equals(newItem.fromTransfer) && oldItem.toTransfer.equals(newItem.toTransfer);
+            return oldItem.equals(newItem);
         }
     };
 
@@ -46,19 +46,19 @@ public class TransferAdapter extends ListAdapter<TransferIsTransactionWithRelati
     public void onBindViewHolder(@NonNull TransferAdapter.ViewHolder holder, int position) {
         TransferIsTransactionWithRelationships transferIsTransactionWithRelationships = getTransferAt(position);
         // picture
-        if (transferIsTransactionWithRelationships.transaction.getTransactionImage() == null) {
+        if (transferIsTransactionWithRelationships.getTransaction().getTransactionImage() == null) {
             holder.picture.setImageResource(R.drawable.picture_icon);
         } else {
-            holder.picture.setImageBitmap(transferIsTransactionWithRelationships.transaction.getTransactionImage());
+            holder.picture.setImageBitmap(transferIsTransactionWithRelationships.getTransaction().getTransactionImage());
         }
-        holder.title.setText(transferIsTransactionWithRelationships.transaction.getTransactionName());
-        holder.from.setText(transferIsTransactionWithRelationships.fromTransfer.getAccountName());
-        holder.to.setText(transferIsTransactionWithRelationships.toTransfer.getAccountName());
-        holder.date.setText(transferIsTransactionWithRelationships.transaction.getTransactionDate().toString());
-        holder.time.setText(transferIsTransactionWithRelationships.transaction.getTransactionTime().toString());
+        holder.title.setText(transferIsTransactionWithRelationships.getTransaction().getTransactionName());
+        holder.from.setText(transferIsTransactionWithRelationships.getFromTransfer().getAccountName());
+        holder.to.setText(transferIsTransactionWithRelationships.getToTransfer().getAccountName());
+        holder.date.setText(transferIsTransactionWithRelationships.getTransaction().getTransactionDate().toString());
+        holder.time.setText(transferIsTransactionWithRelationships.getTransaction().getTransactionTime().toString());
         holder.sign.setText(R.string.minus);
-        holder.amount.setText(String.valueOf(transferIsTransactionWithRelationships.transaction.getTransactionAmount()));
-        holder.currency.setText(transferIsTransactionWithRelationships.transaction.getTransactionCurrencyString());
+        holder.amount.setText(String.valueOf(transferIsTransactionWithRelationships.getTransaction().getTransactionAmount()));
+        holder.currency.setText(transferIsTransactionWithRelationships.getTransaction().getTransactionCurrencyString());
     }
 
     public TransferIsTransactionWithRelationships getTransferAt(int position) {

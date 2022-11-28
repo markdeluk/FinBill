@@ -15,7 +15,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.icu.text.SimpleDateFormat;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
@@ -85,10 +84,6 @@ public class MainActivity extends AppCompatActivity {
         startWelcomeActivity();
         viewModel = new ViewModelProvider(this).get(FinBillViewModel.class);
         updateExchanges();
-
-        //viewModel.deleteAllCurrencyCodes();
-
-        //viewModel.deleteAllExchanges();
 
         // UI settings
 
@@ -223,7 +218,6 @@ public class MainActivity extends AppCompatActivity {
                                                 if (activeCalls != null) {
                                                     activeCallsLiveData.setValue(activeCalls - 1);
                                                 }
-
                                             }
                                         }
                                     }

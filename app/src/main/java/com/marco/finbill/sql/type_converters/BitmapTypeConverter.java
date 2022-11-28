@@ -10,6 +10,9 @@ import java.io.ByteArrayOutputStream;
 public class BitmapTypeConverter {
     @TypeConverter
     public static byte[] fromBitmap(Bitmap bitmap) {
+        if (bitmap == null) {
+            return null;
+        }
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
         return stream.toByteArray();
@@ -17,6 +20,9 @@ public class BitmapTypeConverter {
 
     @TypeConverter
     public static Bitmap toBitmap(byte[] bytes) {
+        if (bytes == null) {
+            return null;
+        }
         return BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
     }
 }

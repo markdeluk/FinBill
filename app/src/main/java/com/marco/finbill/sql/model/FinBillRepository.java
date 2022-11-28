@@ -140,10 +140,7 @@ public class FinBillRepository {
     }
 
     public void insertCurrencyCode(CurrencyCode currencyCode) {
-        executorService.execute(() -> {
-            Log.e("FinBillRepository", "insertCurrencyCode: " + currencyCode.getCurrencyString());
-            currencyCodeDao.insertCurrencyCode(currencyCode);
-        });
+        executorService.execute(() -> currencyCodeDao.insertCurrencyCode(currencyCode));
     }
 
     public LiveData<List<CurrencyCode>> getAllCurrencyCodes() {
@@ -155,7 +152,10 @@ public class FinBillRepository {
     }
 
     public void insertAccount(Account account) {
-        executorService.execute(() -> accountDao.insertAccount(account));
+        executorService.execute(() -> {
+            Log.e("sono qui", "sono qui");
+            accountDao.insertAccount(account);
+        });
     }
 
     public void insertCategory(Category category) {

@@ -88,8 +88,9 @@
     <string name="is_child_of" translatable="false">Is child of</string>
     <string name="choose_category_is_child_of" translatable="false">Choose a parent category…</string>
     <string name="no_one" translatable="false">No one</string>
-    <string name="account_already_present" translatable="false">Error! An account with the same name is already present in the database. Change it!</string>
+    <string name="account_already_exists" translatable="false">Error! An account with the same name is already present in the database. Change it!</string>
     <string name="add_category" translatable="false">Add a new category</string>
     <string name="default_currency_option" translatable="false">What\'s your preferred currency?</string>
     <string name="cant_skip" translatable="false">You can\'t skip this setup!</string>
+    <string name="type_placeholder" translatable="false">TYPE</string>
 </resources>

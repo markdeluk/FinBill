@@ -19,6 +19,8 @@ import com.marco.finbill.ui.main.adapters.ExpenseAdapter;
 
 public class DashboardExpenseFragment extends Fragment {
 
+    private FinBillViewModel viewModel;
+
     public DashboardExpenseFragment() {
         // Required empty public constructor
     }
@@ -26,23 +28,17 @@ public class DashboardExpenseFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        viewModel = new ViewModelProvider(requireActivity()).get(FinBillViewModel.class);
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_expense, container, false);
-
-
-
-        return rootView;
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.fragment_expense, container, false);
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
-        FinBillViewModel viewModel = new ViewModelProvider(requireActivity()).get(FinBillViewModel.class);
         ExpenseAdapter expenseAdapter = new ExpenseAdapter();
         RecyclerView recyclerView = view.findViewById(R.id.expense_recycler_view);
         recyclerView.hasFixedSize();

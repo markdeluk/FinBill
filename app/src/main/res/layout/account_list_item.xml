@@ -2,10 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/linearLayout"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="horizontal">
+    android:layout_height="wrap_content">
 
     <ImageView
         android:id="@+id/picture"
@@ -18,70 +16,8 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:layout_marginStart="16dp"
-        >
-
-        <ImageView
-            android:id="@+id/title_icon"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:contentDescription="@string/picture_placeholder"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:src="@drawable/title_icon" />
-
-
-        <TextView
-            android:id="@+id/title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:text="@string/title_placeholder"
-            app:layout_constraintStart_toEndOf="@id/title_icon"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <ImageView
-            android:id="@+id/from_icon"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_marginTop="8dp"
-            android:contentDescription="@string/picture_placeholder"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/title_icon"
-            android:src="@drawable/from_icon" />
-
-        <TextView
-            android:id="@+id/from"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:text="@string/from_placeholder"
-            app:layout_constraintStart_toEndOf="@id/from_icon"
-            app:layout_constraintTop_toBottomOf="@id/title_icon" />
-
-        <ImageView
-            android:id="@+id/to_icon"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_marginTop="8dp"
-            android:contentDescription="@string/picture_placeholder"
-            android:src="@drawable/to_icon"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/from_icon" />
-
-        <TextView
-            android:id="@+id/to"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:text="@string/to_placeholder"
-            app:layout_constraintStart_toEndOf="@id/to_icon"
-            app:layout_constraintTop_toBottomOf="@+id/from_icon" />
-
+        android:layout_height="match_parent"
+        android:layout_weight="1">
 
         <ImageView
             android:id="@+id/date_icon"
@@ -91,47 +27,62 @@
             android:contentDescription="@string/picture_placeholder"
             android:src="@drawable/date_icon"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/to_icon" />
-
+            app:layout_constraintTop_toBottomOf="@+id/type_icon" />
 
         <TextView
-            android:id="@+id/date"
+            android:id="@+id/date_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:text="@string/date_placeholder"
-            app:layout_constraintStart_toEndOf="@id/date_icon"
-            app:layout_constraintTop_toBottomOf="@+id/to_icon" />
+            app:layout_constraintStart_toEndOf="@+id/date_icon"
+            app:layout_constraintTop_toBottomOf="@+id/type_icon" />
 
         <ImageView
-            android:id="@+id/time_icon"
+            android:id="@+id/title_icon"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:contentDescription="@string/picture_placeholder"
+            android:src="@drawable/title_icon"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/title_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="@string/title_placeholder"
+            app:layout_constraintStart_toEndOf="@id/title_icon"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/type_icon"
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:layout_marginTop="8dp"
-            android:contentDescription="@string/picture_placeholder"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/date_icon"
-            android:src="@drawable/time_icon"/>
+            app:layout_constraintTop_toBottomOf="@+id/title_icon"
+            app:srcCompat="@drawable/account_type_icon"
+            android:contentDescription="@string/type_placeholder" />
 
         <TextView
-            android:id="@+id/time"
+            android:id="@+id/type_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
-            android:text="@string/time_placeholder"
-            app:layout_constraintStart_toEndOf="@id/time_icon"
-            app:layout_constraintTop_toBottomOf="@id/date_icon" />
-
+            android:text="@string/type_placeholder"
+            app:layout_constraintStart_toEndOf="@+id/type_icon"
+            app:layout_constraintTop_toBottomOf="@+id/title_icon" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:layout_weight="0"
         android:layout_marginStart="16dp"
-        >
+        android:layout_weight="0">
 
         <TextView
             android:id="@+id/sign"
@@ -163,4 +114,3 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </LinearLayout>
-

@@ -3,6 +3,9 @@ package com.marco.finbill.sql.account;
 import android.graphics.Bitmap;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatDelegate;
+import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
@@ -17,33 +20,38 @@ public class Account {
     @PrimaryKey(autoGenerate = true)
     private int accountId;
     private String accountName;
+    @Nullable
     private String accountDescription;
     private AccountType accountType;
-    private double accountBalance;
+    private Double accountBalance;
     private String accountBalanceCurrency;
-    private double accountPlatfond;
+    @Nullable
+    private Double accountPlatfond;
+    @Nullable
     private String accountPlatfondCurrency;
     private Date accountAdded;
+    @Nullable
     private Date accountCreated;
+    @Nullable
     private Bitmap accountImage;
+    @Nullable
     private PriorityType accountPriority;
 
     public Account() {
         this.accountName = null;
         this.accountDescription = null;
         this.accountType = null;
-        this.accountBalance = Integer.MIN_VALUE;
+        this.accountBalance = (double) 0;
         this.accountBalanceCurrency = null;
-        this.accountPlatfond = Integer.MIN_VALUE;
+        this.accountPlatfond = null;
         this.accountPlatfondCurrency = null;
         this.accountAdded = null;
         this.accountCreated = null;
         this.accountImage = null;
         this.accountPriority = null;
-
     }
 
-    public Account(String accountName, String accountDescription, AccountType accountType, double accountBalance, String accountBalanceCurrency, double accountPlatfond, Date accountAdded, Date accountCreated, Bitmap accountImage, PriorityType accountPriority) {
+    public Account(String accountName, @Nullable String accountDescription, AccountType accountType, @Nullable Double accountBalance, String accountBalanceCurrency, @Nullable Double accountPlatfond, Date accountAdded, @Nullable Date accountCreated, @Nullable Bitmap accountImage, @Nullable PriorityType accountPriority) {
         this.accountName = accountName;
         this.accountDescription = accountDescription;
         this.accountType = accountType;
@@ -72,11 +80,12 @@ public class Account {
         this.accountName = accountName;
     }
 
+    @Nullable
     public String getAccountDescription() {
         return accountDescription;
     }
 
-    public void setAccountDescription(String accountDescription) {
+    public void setAccountDescription(@Nullable String accountDescription) {
         this.accountDescription = accountDescription;
     }
 
@@ -88,7 +97,7 @@ public class Account {
         this.accountType = accountType;
     }
 
-    public double getAccountBalance() {
+    public Double getAccountBalance() {
         return accountBalance;
     }
 
@@ -104,7 +113,8 @@ public class Account {
         this.accountBalanceCurrency = accountBalanceCurrency;
     }
 
-    public double getAccountPlatfond() {
+    @Nullable
+    public Double getAccountPlatfond() {
         return accountPlatfond;
     }
 
@@ -112,11 +122,12 @@ public class Account {
         this.accountPlatfond = accountPlatfond;
     }
 
+    @Nullable
     public String getAccountPlatfondCurrency() {
         return accountPlatfondCurrency;
     }
 
-    public void setAccountPlatfondCurrency(String accountPlatfondCurrency) {
+    public void setAccountPlatfondCurrency(@Nullable String accountPlatfondCurrency) {
         this.accountPlatfondCurrency = accountPlatfondCurrency;
     }
 
@@ -128,48 +139,49 @@ public class Account {
         this.accountAdded = accountAdded;
     }
 
+    @Nullable
     public Date getAccountCreated() {
         return accountCreated;
     }
 
-    public void setAccountCreated(Date accountCreated) {
+    public void setAccountCreated(@Nullable Date accountCreated) {
         this.accountCreated = accountCreated;
     }
 
+    @Nullable
     public Bitmap getAccountImage() {
         return accountImage;
     }
 
-    public void setAccountImage(Bitmap accountImage) {
+    public void setAccountImage(@Nullable Bitmap accountImage) {
         this.accountImage = accountImage;
     }
 
+    @Nullable
     public PriorityType getAccountPriority() {
         return accountPriority;
     }
 
-    public void setAccountPriority(PriorityType accountPriority) {
+    public void setAccountPriority(@Nullable PriorityType accountPriority) {
         this.accountPriority = accountPriority;
     }
 
     public boolean equals(Account account) {
         return this.accountId == account.getAccountId() &&
                 this.accountName.equals(account.getAccountName()) &&
-                this.accountDescription.equals(account.getAccountDescription()) &&
+                (this.accountDescription == null && account.getAccountDescription() == null || this.accountDescription.equals(account.getAccountDescription())) &&
                 this.accountType.equals(account.getAccountType()) &&
-                this.accountBalance == account.getAccountBalance() &&
-                this.accountPlatfond == account.getAccountPlatfond() &&
+                (this.accountBalance == null && account.getAccountBalance() == null || this.accountBalance.equals(account.getAccountBalance())) &&
+                (this.accountPlatfond == null && account.getAccountPlatfond() == null || this.accountPlatfond.equals(account.getAccountPlatfond())) &&
                 this.accountAdded.equals(account.getAccountAdded()) &&
-                this.accountImage.equals(account.getAccountImage()) &&
-                this.accountPriority == account.getAccountPriority();
+                (this.accountImage == null && account.getAccountImage() == null || this.accountImage.equals(account.getAccountImage())) &&
+                (this.accountPriority == null && account.getAccountPriority() == null || this.accountPriority.equals(account.getAccountPriority()));
     }
 
     public boolean isValid() {
         return this.accountName != null &&
                 this.accountType != null &&
-                this.accountBalance != Integer.MIN_VALUE &&
                 this.accountBalanceCurrency != null &&
-                this.accountPlatfond != Integer.MIN_VALUE &&
                 this.accountPlatfondCurrency != null;
     }
 }

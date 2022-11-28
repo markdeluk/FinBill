@@ -24,13 +24,12 @@ public class IncomeAdapter extends ListAdapter<IncomeIsTransactionWithRelationsh
 
         @Override
         public boolean areItemsTheSame(IncomeIsTransactionWithRelationships oldItem, IncomeIsTransactionWithRelationships newItem) {
-            return oldItem.incomeId == newItem.incomeId;
+            return oldItem.getIncomeId() == newItem.getIncomeId();
         }
 
         @Override
         public boolean areContentsTheSame(IncomeIsTransactionWithRelationships oldItem, IncomeIsTransactionWithRelationships newItem) {
-            // below line is to check the course name, description and course duration.
-            return oldItem.transaction.equals(newItem.transaction) && oldItem.fromIncome.equals(newItem.fromIncome) && oldItem.toIncome.equals(newItem.toIncome);
+            return oldItem.equals(newItem);
         }
     };
 
@@ -46,19 +45,19 @@ public class IncomeAdapter extends ListAdapter<IncomeIsTransactionWithRelationsh
     public void onBindViewHolder(@NonNull IncomeAdapter.ViewHolder holder, int position) {
         IncomeIsTransactionWithRelationships incomeIsTransactionWithRelationships = getIncomeAt(position);
         // picture
-        if (incomeIsTransactionWithRelationships.transaction.getTransactionImage() == null) {
+        if (incomeIsTransactionWithRelationships.getTransaction().getTransactionImage() == null) {
             holder.picture.setImageResource(R.drawable.picture_icon);
         } else {
-            holder.picture.setImageBitmap(incomeIsTransactionWithRelationships.transaction.getTransactionImage());
+            holder.picture.setImageBitmap(incomeIsTransactionWithRelationships.getTransaction().getTransactionImage());
         }
-        holder.title.setText(incomeIsTransactionWithRelationships.transaction.getTransactionName());
-        holder.from.setText(incomeIsTransactionWithRelationships.fromIncome.getCategoryName());
-        holder.to.setText(incomeIsTransactionWithRelationships.toIncome.getAccountName());
-        holder.date.setText(incomeIsTransactionWithRelationships.transaction.getTransactionDate().toString());
-        holder.time.setText(incomeIsTransactionWithRelationships.transaction.getTransactionTime().toString());
+        holder.title.setText(incomeIsTransactionWithRelationships.getTransaction().getTransactionName());
+        holder.from.setText(incomeIsTransactionWithRelationships.getFromIncome().getCategoryName());
+        holder.to.setText(incomeIsTransactionWithRelationships.getToIncome().getAccountName());
+        holder.date.setText(incomeIsTransactionWithRelationships.getTransaction().getTransactionDate().toString());
+        holder.time.setText(incomeIsTransactionWithRelationships.getTransaction().getTransactionTime().toString());
         holder.sign.setText(R.string.minus);
-        holder.amount.setText(String.valueOf(incomeIsTransactionWithRelationships.transaction.getTransactionAmount()));
-        holder.currency.setText(incomeIsTransactionWithRelationships.transaction.getTransactionCurrencyString());
+        holder.amount.setText(String.valueOf(incomeIsTransactionWithRelationships.getTransaction().getTransactionAmount()));
+        holder.currency.setText(incomeIsTransactionWithRelationships.getTransaction().getTransactionCurrencyString());
     }
 
     public IncomeIsTransactionWithRelationships getIncomeAt(int position) {

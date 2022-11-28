@@ -24,13 +24,13 @@ public class ExpenseAdapter extends ListAdapter<ExpenseIsTransactionWithRelation
 
         @Override
         public boolean areItemsTheSame(ExpenseIsTransactionWithRelationships oldItem, ExpenseIsTransactionWithRelationships newItem) {
-            return oldItem.expenseId == newItem.expenseId;
+            return oldItem.getExpenseId() == newItem.getExpenseId();
         }
 
         @Override
         public boolean areContentsTheSame(ExpenseIsTransactionWithRelationships oldItem, ExpenseIsTransactionWithRelationships newItem) {
             // below line is to check the course name, description and course duration.
-            return oldItem.transaction.equals(newItem.transaction) && oldItem.fromExpense.equals(newItem.fromExpense) && oldItem.toExpense.equals(newItem.toExpense);
+            return oldItem.getTransaction().equals(newItem.getTransaction()) && oldItem.getFromExpense().equals(newItem.getFromExpense()) && oldItem.getToExpense().equals(newItem.getToExpense());
         }
     };
 
@@ -46,19 +46,19 @@ public class ExpenseAdapter extends ListAdapter<ExpenseIsTransactionWithRelation
     public void onBindViewHolder(@NonNull ExpenseAdapter.ViewHolder holder, int position) {
         ExpenseIsTransactionWithRelationships expenseIsTransactionWithRelationships = getExpenseAt(position);
         // picture
-        if (expenseIsTransactionWithRelationships.transaction.getTransactionImage() == null) {
+        if (expenseIsTransactionWithRelationships.getTransaction().getTransactionImage() == null) {
             holder.picture.setImageResource(R.drawable.picture_icon);
         } else {
-            holder.picture.setImageBitmap(expenseIsTransactionWithRelationships.transaction.getTransactionImage());
+            holder.picture.setImageBitmap(expenseIsTransactionWithRelationships.getTransaction().getTransactionImage());
         }
-        holder.title.setText(expenseIsTransactionWithRelationships.transaction.getTransactionName());
-        holder.from.setText(expenseIsTransactionWithRelationships.fromExpense.getAccountName());
-        holder.to.setText(expenseIsTransactionWithRelationships.toExpense.getCategoryName());
-        holder.date.setText(expenseIsTransactionWithRelationships.transaction.getTransactionDate().toString());
-        holder.time.setText(expenseIsTransactionWithRelationships.transaction.getTransactionTime().toString());
+        holder.title.setText(expenseIsTransactionWithRelationships.getTransaction().getTransactionName());
+        holder.from.setText(expenseIsTransactionWithRelationships.getFromExpense().getAccountName());
+        holder.to.setText(expenseIsTransactionWithRelationships.getToExpense().getCategoryName());
+        holder.date.setText(expenseIsTransactionWithRelationships.getTransaction().getTransactionDate().toString());
+        holder.time.setText(expenseIsTransactionWithRelationships.getTransaction().getTransactionTime().toString());
         holder.sign.setText(R.string.minus);
-        holder.amount.setText(String.valueOf(expenseIsTransactionWithRelationships.transaction.getTransactionAmount()));
-        holder.currency.setText(expenseIsTransactionWithRelationships.transaction.getTransactionCurrencyString());
+        holder.amount.setText(String.valueOf(expenseIsTransactionWithRelationships.getTransaction().getTransactionAmount()));
+        holder.currency.setText(expenseIsTransactionWithRelationships.getTransaction().getTransactionCurrencyString());
     }
 
     public ExpenseIsTransactionWithRelationships getExpenseAt(int position) {

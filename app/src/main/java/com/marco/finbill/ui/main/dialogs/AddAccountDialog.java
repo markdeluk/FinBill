@@ -14,6 +14,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +25,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
@@ -240,20 +242,22 @@ public class AddAccountDialog extends DialogFragment {
         toolbar.setOnMenuItemClickListener(item -> {
             if (item.getItemId() == R.id.action_save) {
                 account = new Account();
-                account.setAccountName(nameEdit.getText().toString());
-                account.setAccountDescription(descriptionEdit.getText().toString());
-                account.setAccountType(AccountType.values()[accountTypeSpinner.getSelectedItemPosition()]);
-                if (balanceEdit.getText().toString().isEmpty()) {
-                    account.setAccountBalance(0);
-                } else {
+                if (!nameEdit.getText().toString().isEmpty()) {
+                    account.setAccountName(nameEdit.getText().toString());
+                }
+                if (!descriptionEdit.getText().toString().isEmpty()) {
+                    account.setAccountDescription(descriptionEdit.getText().toString());
+                }
+                if (accountTypeSpinner.getSelectedItemPosition() != 0) {
+                    account.setAccountType(AccountType.values()[accountTypeSpinner.getSelectedItemPosition()]);
+                }
+                if (!balanceEdit.getText().toString().isEmpty()) {
                     account.setAccountBalance(Double.parseDouble(balanceEdit.getText().toString()));
                 }
                 if (currencyBalanceEdit.getSelectedItemPosition() != 0) {
                     account.setAccountBalanceCurrency(currencyBalanceEdit.getSelectedItem().toString());
                 }
-                if (platfondEdit.getText().toString().isEmpty()) {
-                    account.setAccountPlatfond(Integer.MAX_VALUE);
-                } else {
+                if (!platfondEdit.getText().toString().isEmpty()) {
                     account.setAccountPlatfond(Double.parseDouble(platfondEdit.getText().toString()));
                 }
                 if (currencyPlatfondEdit.getSelectedItemPosition() != 0) {
@@ -265,19 +269,23 @@ public class AddAccountDialog extends DialogFragment {
                 if (pictureSelected) {
                     account.setAccountImage(((BitmapDrawable)pictureEdit.getDrawable()).getBitmap());
                 }
-                else {
-                    account.setAccountImage(null);
+                if (priorityEdit.getSelectedItemPosition() != 0) {
+                    account.setAccountPriority(PriorityType.values()[priorityEdit.getSelectedItemPosition()]);
                 }
-                account.setAccountPriority(PriorityType.values()[priorityEdit.getSelectedItemPosition()]);
+                else {
+                    account.setAccountPriority(PriorityType.LOW);
+                }
                 if (account.isValid()) {
-                    if (viewModel.getAccountByName(account.getAccountName()) == null) {
-                        viewModel.insertAccount(account);
-                        dismiss();
-                    } else {
-                        Snackbar.make(view, R.string.account_already_present, Snackbar.LENGTH_LONG).show();
-                    }
-                    account.setAccountAdded(new Date(System.currentTimeMillis()));
-                    viewModel.insertAccount(account);
+                    viewModel.getAccountByName(account.getAccountName()).observe(getViewLifecycleOwner(), query -> {
+                        if (query == null) {
+                            account.setAccountAdded(new Date(System.currentTimeMillis()));
+                            viewModel.insertAccount(account);
+                            dismiss();
+                        } else {
+                            //nameEdit.setError(getResources().getString(R.string.account_name_already_exists));
+                            Snackbar.make(view, R.string.account_already_exists, Snackbar.LENGTH_LONG).show();
+                        }
+                    });
                 }
                 else {
                     Snackbar.make(view, R.string.incomplete_fields, Snackbar.LENGTH_LONG).show();

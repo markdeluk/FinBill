@@ -5,7 +5,28 @@ import androidx.room.Embedded;
 import com.marco.finbill.sql.transaction.Transaction;
 
 public class ExpenseIsTransaction {
-    public int expenseId;
+    private int expenseId;
     @Embedded
-    public Transaction transaction;
+    private Transaction transaction;
+
+    public ExpenseIsTransaction(int expenseId, Transaction transaction) {
+        this.expenseId = expenseId;
+        this.transaction = transaction;
+    }
+
+    public int getExpenseId() {
+        return expenseId;
+    }
+
+    public void setExpenseId(int expenseId) {
+        this.expenseId = expenseId;
+    }
+
+    public Transaction getTransaction() {
+        return transaction;
+    }
+
+    public void setTransaction(Transaction transaction) {
+        this.transaction = transaction;
+    }
 }

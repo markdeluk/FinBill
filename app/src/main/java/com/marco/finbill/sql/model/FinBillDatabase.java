@@ -30,9 +30,16 @@ import com.marco.finbill.sql.type_converters.BitmapTypeConverter;
 import com.marco.finbill.sql.type_converters.DateTypeConverter;
 import com.marco.finbill.sql.type_converters.LocationTypeConverter;
 import com.marco.finbill.sql.type_converters.TimeTypeConverter;
+import com.marco.finbill.sql.type_converters.enums.AccountTypeTypeConverter;
+import com.marco.finbill.sql.type_converters.enums.CategoryTypeTypeConverter;
+import com.marco.finbill.sql.type_converters.enums.PriorityTypeTypeConverter;
+import com.marco.finbill.sql.type_converters.enums.TransactionFrequencyTypeConverter;
+import com.marco.finbill.sql.type_converters.enums.TransactionNotifyFrequencyTypeConverter;
+import com.marco.finbill.sql.type_converters.enums.TransactionRecurrencyTypeConverter;
+import com.marco.finbill.sql.type_converters.enums.TransactionTypeTypeConverter;
 
 @Database(entities = {Account.class, Category.class, CurrencyCode.class, Exchange.class, Expense.class, Income.class, Transfer.class, Transaction.class}, version = 1)
-@TypeConverters({DateTypeConverter.class, TimeTypeConverter.class, LocationTypeConverter.class, BitmapTypeConverter.class})
+@TypeConverters({AccountTypeTypeConverter.class, CategoryTypeTypeConverter.class, PriorityTypeTypeConverter.class, TransactionFrequencyTypeConverter.class, TransactionNotifyFrequencyTypeConverter.class, TransactionRecurrencyTypeConverter.class, TransactionTypeTypeConverter.class, DateTypeConverter.class, TimeTypeConverter.class, LocationTypeConverter.class, BitmapTypeConverter.class})
 public abstract class FinBillDatabase extends RoomDatabase {
     private static FinBillDatabase instance;
     public abstract AccountDao accountDao();
