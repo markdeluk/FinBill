@@ -15,7 +15,7 @@ import android.view.ViewGroup;
 
 import com.marco.finbill.R;
 import com.marco.finbill.sql.model.FinBillViewModel;
-import com.marco.finbill.ui.main.adapters.TransferAdapter;
+import com.marco.finbill.ui.main.adapters.spinners.dashboard.TransferAdapter;
 
 public class DashboardTransferFragment extends Fragment {
 
@@ -31,20 +31,15 @@ public class DashboardTransferFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_transfer, container, false);
-
-
-
-        return rootView;
+        return inflater.inflate(R.layout.fragment_dashboard_tab, container, false);
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
         FinBillViewModel viewModel = new ViewModelProvider(requireActivity()).get(FinBillViewModel.class);
         TransferAdapter transferAdapter = new TransferAdapter();
-        RecyclerView recyclerView = view.findViewById(R.id.transfer_recycler_view);
+        RecyclerView recyclerView = view.findViewById(R.id.dashboardRecyclerView);
         recyclerView.hasFixedSize();
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(transferAdapter);

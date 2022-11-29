@@ -148,11 +148,11 @@
             android:layout_height="wrap_content"
             android:text="@string/amount_placeholder"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/currencyTransactionSymbol"
+            app:layout_constraintEnd_toStartOf="@id/currencySymbol"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/currencyTransactionSymbol"
+            android:id="@+id/currencySymbol"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/currency_placeholder"

@@ -2,9 +2,6 @@ package com.marco.finbill.ui.main.fragments;
 
 import android.os.Bundle;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
@@ -14,8 +11,6 @@ import android.view.ViewGroup;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.marco.finbill.R;
-
-import java.util.Objects;
 
 public class MainFragmentSubscriptions extends Fragment {
 

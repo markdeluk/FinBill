@@ -1,4 +1,4 @@
-package com.marco.finbill.ui.main.adapters;
+package com.marco.finbill.ui.main.adapters.tabs;
 
 import android.os.Bundle;
 
@@ -6,6 +6,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
+import com.marco.finbill.enums.TransactionType;
 import com.marco.finbill.ui.main.fragments.dashboard.DashboardExpenseFragment;
 import com.marco.finbill.ui.main.fragments.dashboard.DashboardIncomeFragment;
 import com.marco.finbill.ui.main.fragments.dashboard.DashboardTransactionFragment;
@@ -13,16 +14,9 @@ import com.marco.finbill.ui.main.fragments.dashboard.DashboardTransferFragment;
 
 public class DashboardAdapter extends FragmentStateAdapter {
 
-    public final int TRANSACTIONS = 0;
-    public final int EXPENSES = 1;
-    public final int INCOMES = 2;
-    public final int TRANSFERS = 3;
-
-    public final int NUM_PAGES = 4;
-
     @Override
     public int getItemCount() {
-        return NUM_PAGES;
+        return TransactionType.values().length;
     }
 
     public DashboardAdapter(Fragment fragment) {
@@ -33,25 +27,25 @@ public class DashboardAdapter extends FragmentStateAdapter {
     @Override
     public Fragment createFragment(int position) {
         Fragment fragment = null;
-        switch (position) {
-            case TRANSACTIONS:
+        TransactionType transactionPosition = TransactionType.values()[position];
+        switch (transactionPosition) {
+            case DEFAULT: // all transactions
                 fragment = new DashboardTransactionFragment();
                 break;
-            case EXPENSES:
+            case EXPENSE:
                 fragment = new DashboardExpenseFragment();
                 break;
-            case INCOMES:
+            case INCOME:
                 fragment = new DashboardIncomeFragment();
                 break;
-            case TRANSFERS:
+            case TRANSFER:
                 fragment = new DashboardTransferFragment();
-                break;
-            default:
                 break;
         }
         Bundle args = new Bundle();
-        assert fragment != null;
-        fragment.setArguments(args);
+        if (fragment != null) {
+            fragment.setArguments(args);
+        }
         return fragment;
     }
 }

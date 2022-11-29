@@ -11,15 +11,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageView;
 
 import com.marco.finbill.R;
 
-public class WelcomeFragment1 extends Fragment {
+public class WelcomeFragmentStart extends Fragment {
 
     Button button;
 
-    public WelcomeFragment1() {
+    public WelcomeFragmentStart() {
     }
 
     @Override
@@ -31,7 +30,7 @@ public class WelcomeFragment1 extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        View rootView = inflater.inflate(R.layout.fragment_welcome1, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_welcome_start, container, false);
         button = rootView.findViewById(R.id.startButton);
         button.setOnClickListener(v -> Navigation.findNavController(rootView).navigate(R.id.action_welcomeFragment1_to_welcomeFragment2));
 

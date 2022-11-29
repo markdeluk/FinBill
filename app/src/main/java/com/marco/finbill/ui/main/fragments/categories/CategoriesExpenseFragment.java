@@ -5,30 +5,46 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
 import com.marco.finbill.R;
-import com.marco.finbill.ui.main.dialogs.AddCategoryDialog;
+import com.marco.finbill.enums.CategoryType;
+import com.marco.finbill.sql.model.FinBillViewModel;
+import com.marco.finbill.ui.main.adapters.lists.categories.CategoryAdapter;
 
 public class CategoriesExpenseFragment extends Fragment {
+
+    private FinBillViewModel viewModel;
+
+    public CategoriesExpenseFragment() {
+        // Required empty public constructor
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        viewModel = new ViewModelProvider(requireActivity()).get(FinBillViewModel.class);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_main_categories, container, false);
-        FloatingActionButton fab = requireActivity().findViewById(R.id.fab);
-        fab.setOnClickListener(v -> AddCategoryDialog.display(getChildFragmentManager()));
-        fab.setOnLongClickListener(view -> {
-            Snackbar.make(view, R.string.add_category, Snackbar.LENGTH_LONG).show();
-            return true;
-        });
+        return inflater.inflate(R.layout.fragment_categories_tab, container, false);
+    }
 
-        return rootView;
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        CategoryAdapter categoryAdapter = new CategoryAdapter();
+        RecyclerView recyclerView = view.findViewById(R.id.categoriesRecyclerView);
+        recyclerView.hasFixedSize();
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerView.setAdapter(categoryAdapter);
+        viewModel.getAllCategoriesByType(CategoryType.EXPENSE).observe(getViewLifecycleOwner(), categoryAdapter::updateCategoryList);
     }
 }

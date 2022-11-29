@@ -1,14 +1,10 @@
-package com.marco.finbill.ui.main.fragments;
+package com.marco.finbill.ui.main.fragments.accounts;
 
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -20,16 +16,9 @@ import android.view.ViewGroup;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.marco.finbill.R;
-import com.marco.finbill.sql.account.Account;
 import com.marco.finbill.sql.model.FinBillViewModel;
-import com.marco.finbill.ui.main.adapters.AccountAdapter;
-import com.marco.finbill.ui.main.adapters.ExpenseAdapter;
+import com.marco.finbill.ui.main.adapters.lists.accounts.AccountAdapter;
 import com.marco.finbill.ui.main.dialogs.AddAccountDialog;
-import com.marco.finbill.ui.main.dialogs.AddTransactionDialog;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
 
 public class MainFragmentAccounts extends Fragment {
 
@@ -59,16 +48,12 @@ public class MainFragmentAccounts extends Fragment {
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        List<Account> accountsList = new ArrayList<>();
-        AccountAdapter accountAdapter = new AccountAdapter(accountsList);
+        super.onViewCreated(view, savedInstanceState);
+        AccountAdapter accountAdapter = new AccountAdapter();
         RecyclerView recyclerView = view.findViewById(R.id.accounts_recycler_view);
         recyclerView.hasFixedSize();
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(accountAdapter);
-        viewModel.getAllAccounts().observe(getViewLifecycleOwner(), accounts -> {
-            accountsList.clear();
-            accountsList.addAll(accounts);
-            accountAdapter.notifyDataSetChanged();
-        });
+        viewModel.getAllAccounts().observe(getViewLifecycleOwner(), accountAdapter::updateAccountList);
     }
 }

@@ -2,7 +2,7 @@ package com.marco.finbill.sql.type_converters;
 
 import androidx.room.TypeConverter;
 
-import java.sql.Date;
+import java.util.Date;
 
 
 public class DateTypeConverter {

@@ -12,7 +12,7 @@ import com.marco.finbill.enums.TransactionNotifyFrequency;
 import com.marco.finbill.enums.TransactionRecurrency;
 import com.marco.finbill.enums.TransactionType;
 
-import java.sql.Date;
+import java.util.Date;
 import java.sql.Time;
 
 @Entity(tableName = "transaction_table")

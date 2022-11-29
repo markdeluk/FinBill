@@ -1,4 +1,4 @@
-package com.marco.finbill.ui.main.adapters;
+package com.marco.finbill.ui.main.adapters.spinners.dashboard;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -87,7 +87,7 @@ public class TransferAdapter extends ListAdapter<TransferIsTransactionWithRelati
             time = itemView.findViewById(R.id.time);
             sign = itemView.findViewById(R.id.sign);
             amount = itemView.findViewById(R.id.amount);
-            currency = itemView.findViewById(R.id.currencyTransactionSymbol);
+            currency = itemView.findViewById(R.id.currencySymbol);
         }
     }
 

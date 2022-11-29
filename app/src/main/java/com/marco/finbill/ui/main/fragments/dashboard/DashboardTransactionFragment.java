@@ -16,9 +16,9 @@ import android.view.ViewGroup;
 
 import com.marco.finbill.R;
 import com.marco.finbill.sql.model.FinBillViewModel;
-import com.marco.finbill.ui.main.adapters.ExpenseAdapter;
-import com.marco.finbill.ui.main.adapters.IncomeAdapter;
-import com.marco.finbill.ui.main.adapters.TransferAdapter;
+import com.marco.finbill.ui.main.adapters.spinners.dashboard.ExpenseAdapter;
+import com.marco.finbill.ui.main.adapters.spinners.dashboard.IncomeAdapter;
+import com.marco.finbill.ui.main.adapters.spinners.dashboard.TransferAdapter;
 
 public class DashboardTransactionFragment extends Fragment {
 
@@ -33,10 +33,7 @@ public class DashboardTransactionFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_transaction, container, false);
-
-
-        return rootView;
+        return inflater.inflate(R.layout.fragment_dashboard_tab, container, false);
     }
 
     @Override
@@ -48,7 +45,7 @@ public class DashboardTransactionFragment extends Fragment {
         IncomeAdapter incomeAdapter = new IncomeAdapter();
         TransferAdapter transferAdapter = new TransferAdapter();
         ConcatAdapter concatAdapter = new ConcatAdapter(expenseAdapter, incomeAdapter, transferAdapter);
-        RecyclerView recyclerView = view.findViewById(R.id.transaction_recycler_view);
+        RecyclerView recyclerView = view.findViewById(R.id.dashboardRecyclerView);
         recyclerView.hasFixedSize();
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(concatAdapter);

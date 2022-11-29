@@ -1,6 +1,9 @@
-package com.marco.finbill.ui.main.fragments.dashboard;
+package com.marco.finbill.ui.main.fragments.categories;
 
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -9,21 +12,13 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-
 import com.marco.finbill.R;
 import com.marco.finbill.sql.model.FinBillViewModel;
-import com.marco.finbill.ui.main.adapters.spinners.dashboard.ExpenseAdapter;
+import com.marco.finbill.ui.main.adapters.lists.categories.CategoryAdapter;
 
-public class DashboardExpenseFragment extends Fragment {
+public class CategoriesAllFragment extends Fragment {
 
     private FinBillViewModel viewModel;
-
-    public DashboardExpenseFragment() {
-        // Required empty public constructor
-    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -32,17 +27,19 @@ public class DashboardExpenseFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_dashboard_tab, container, false);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.fragment_main_categories, container, false);
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        ExpenseAdapter expenseAdapter = new ExpenseAdapter();
-        RecyclerView recyclerView = view.findViewById(R.id.dashboardRecyclerView);
+        CategoryAdapter categoryAdapter = new CategoryAdapter();
+        RecyclerView recyclerView = view.findViewById(R.id.categoriesRecyclerView);
         recyclerView.hasFixedSize();
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        recyclerView.setAdapter(expenseAdapter);
+        recyclerView.setAdapter(categoryAdapter);
+        viewModel.getAllCategories().observe(getViewLifecycleOwner(), categoryAdapter::updateCategoryList);
     }
 }

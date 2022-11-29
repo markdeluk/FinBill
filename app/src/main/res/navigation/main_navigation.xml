@@ -48,7 +48,7 @@
     </fragment>
     <fragment
         android:id="@+id/mainFragmentAccounts"
-        android:name="com.marco.finbill.ui.main.fragments.MainFragmentAccounts"
+        android:name="com.marco.finbill.ui.main.fragments.accounts.MainFragmentAccounts"
         android:label="@string/accounts"
         tools:layout="@layout/fragment_main_accounts">
         <action

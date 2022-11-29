@@ -76,6 +76,7 @@
     <string name="inserted_exchange_rates" translatable="false">Inserted exchange rates!</string>
     <string name="updated_exchange_rates" translatable="false">Updated exchange rates!</string>
     <string name="updating_exchange_rates" translatable="false">Updating exchange rates…</string>
+    <string name="error_updating_exchange_rates" translatable="false">Error while updating exchange rates!</string>
     <string name="transaction_picture" translatable="false">Transaction picture</string>
     <string name="add_account" translatable="false">Add a new account</string>
     <string name="account_type" translatable="false">Account type</string>
@@ -89,8 +90,15 @@
     <string name="choose_category_is_child_of" translatable="false">Choose a parent category…</string>
     <string name="no_one" translatable="false">No one</string>
     <string name="account_already_exists" translatable="false">Error! An account with the same name is already present in the database. Change it!</string>
+    <string name="category_already_exists" translatable="false">Error! A category with the same name is already present in the database. Change it!</string>
     <string name="add_category" translatable="false">Add a new category</string>
+    <string name="add_category_expense" translatable="false">Add a new expense category</string>
+    <string name="add_category_income" translatable="false">Add a new income category</string>
     <string name="default_currency_option" translatable="false">What\'s your preferred currency?</string>
     <string name="cant_skip" translatable="false">You can\'t skip this setup!</string>
     <string name="type_placeholder" translatable="false">TYPE</string>
+    <string name="date_of_opening" translatable="false">Date of opening</string>
+    <string name="all_categories" translatable="false">All categories</string>
+    <string name="expense_categories" translatable="false">Expense categories</string>
+    <string name="income_categories" translatable="false">Income categories</string>
 </resources>

@@ -4,7 +4,6 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager2.widget.ViewPager2;
 
@@ -18,13 +17,11 @@ import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 import com.marco.finbill.R;
 import com.marco.finbill.enums.TransactionType;
-import com.marco.finbill.sql.transaction.Transaction;
 import com.marco.finbill.ui.main.dialogs.AddTransactionDialog;
-import com.marco.finbill.ui.main.adapters.DashboardAdapter;
+import com.marco.finbill.ui.main.adapters.tabs.DashboardAdapter;
 
 public class MainFragmentDashboard extends Fragment {
 
-    private DashboardAdapter dashboardAdapter;
     private ViewPager2 viewPager2;
 
     public MainFragmentDashboard() {
@@ -47,7 +44,7 @@ public class MainFragmentDashboard extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        dashboardAdapter = new DashboardAdapter(this);
+        DashboardAdapter dashboardAdapter = new DashboardAdapter(this);
         viewPager2 = view.findViewById(R.id.viewPager2);
         viewPager2.setAdapter(dashboardAdapter);
 

@@ -15,7 +15,7 @@ import android.view.ViewGroup;
 
 import com.marco.finbill.R;
 import com.marco.finbill.sql.model.FinBillViewModel;
-import com.marco.finbill.ui.main.adapters.IncomeAdapter;
+import com.marco.finbill.ui.main.adapters.spinners.dashboard.IncomeAdapter;
 
 public class DashboardIncomeFragment extends Fragment {
 
@@ -30,9 +30,7 @@ public class DashboardIncomeFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_income, container, false);
-
-        return rootView;
+        return inflater.inflate(R.layout.fragment_dashboard_tab, container, false);
     }
 
     @Override
@@ -41,7 +39,7 @@ public class DashboardIncomeFragment extends Fragment {
 
         FinBillViewModel viewModel = new ViewModelProvider(requireActivity()).get(FinBillViewModel.class);
         IncomeAdapter incomeAdapter = new IncomeAdapter();
-        RecyclerView recyclerView = view.findViewById(R.id.income_recycler_view);
+        RecyclerView recyclerView = view.findViewById(R.id.dashboardRecyclerView);
         recyclerView.hasFixedSize();
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(incomeAdapter);

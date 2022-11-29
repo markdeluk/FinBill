@@ -14,7 +14,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,7 +24,6 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
-import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
@@ -127,6 +125,7 @@ public class AddAccountDialog extends DialogFragment {
         accountTypeSpinner.setAdapter(accountTypeAdapter);
 
         LinearLayout accountLayout = rootView.findViewById(R.id.accountLayout);
+        accountLayout.setVisibility(View.GONE);
 
         accountTypeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -272,9 +271,6 @@ public class AddAccountDialog extends DialogFragment {
                 if (priorityEdit.getSelectedItemPosition() != 0) {
                     account.setAccountPriority(PriorityType.values()[priorityEdit.getSelectedItemPosition()]);
                 }
-                else {
-                    account.setAccountPriority(PriorityType.LOW);
-                }
                 if (account.isValid()) {
                     viewModel.getAccountByName(account.getAccountName()).observe(getViewLifecycleOwner(), query -> {
                         if (query == null) {
@@ -283,15 +279,13 @@ public class AddAccountDialog extends DialogFragment {
                             dismiss();
                         } else {
                             //nameEdit.setError(getResources().getString(R.string.account_name_already_exists));
-                            Snackbar.make(view, R.string.account_already_exists, Snackbar.LENGTH_LONG).show();
+                            Snackbar.make(requireContext(), view, getResources().getString(R.string.account_already_exists), Snackbar.LENGTH_LONG).show();
                         }
                     });
                 }
                 else {
                     Snackbar.make(view, R.string.incomplete_fields, Snackbar.LENGTH_LONG).show();
-                    return false;
                 }
-                dismiss();
                 return true;
             }
             return false;

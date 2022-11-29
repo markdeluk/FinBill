@@ -11,6 +11,8 @@ import androidx.room.Update;
 
 import com.marco.finbill.sql.category.Category;
 
+import org.junit.runner.Result;
+
 import java.util.List;
 
 @Dao

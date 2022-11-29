@@ -2,6 +2,7 @@ package com.marco.finbill.sql.category;
 
 import android.graphics.Bitmap;
 
+import androidx.annotation.Nullable;
 import androidx.room.Entity;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
@@ -9,26 +10,33 @@ import androidx.room.PrimaryKey;
 import com.marco.finbill.enums.CategoryType;
 import com.marco.finbill.enums.PriorityType;
 
-import java.sql.Date;
+import java.util.Date;
 
 @Entity(tableName = "category_table", indices = {@Index(value = {"categoryName"}, unique = true)})
 public class Category {
     @PrimaryKey(autoGenerate = true)
     private int categoryId;
     private String categoryName;
+    @Nullable
     private String categoryDescription;
     private CategoryType categoryType;
+    @Nullable
     private Bitmap categoryImage;
     private Date categoryAdded;
-    private int categoryIsChildOf;
+    private Double categoryBalance;
+    private String categoryBalanceCurrency;
+    @Nullable
+    private Integer categoryIsChildOf;
     private PriorityType categoryPriority;
 
-    public Category(String categoryName, String categoryDescription, CategoryType categoryType, Bitmap categoryImage, Date categoryAdded, int categoryIsChildOf, PriorityType categoryPriority) {
+    public Category(String categoryName, @Nullable String categoryDescription, CategoryType categoryType, @Nullable Bitmap categoryImage, Date categoryAdded, Double categoryBalance, String categoryBalanceCurrency, @Nullable Integer categoryIsChildOf, PriorityType categoryPriority) {
         this.categoryName = categoryName;
         this.categoryDescription = categoryDescription;
         this.categoryType = categoryType;
         this.categoryImage = categoryImage;
         this.categoryAdded = categoryAdded;
+        this.categoryBalance = categoryBalance;
+        this.categoryBalanceCurrency = categoryBalanceCurrency;
         this.categoryIsChildOf = categoryIsChildOf;
         this.categoryPriority = categoryPriority;
     }
@@ -39,7 +47,9 @@ public class Category {
         this.categoryType = null;
         this.categoryImage = null;
         this.categoryAdded = null;
-        this.categoryIsChildOf = 0;
+        this.categoryBalance = (double) 0;
+        this.categoryBalanceCurrency = null;
+        this.categoryIsChildOf = Integer.MIN_VALUE;
         this.categoryPriority = null;
     }
 
@@ -59,11 +69,12 @@ public class Category {
         this.categoryName = categoryName;
     }
 
+    @Nullable
     public String getCategoryDescription() {
         return categoryDescription;
     }
 
-    public void setCategoryDescription(String categoryDescription) {
+    public void setCategoryDescription(@Nullable String categoryDescription) {
         this.categoryDescription = categoryDescription;
     }
 
@@ -75,11 +86,12 @@ public class Category {
         this.categoryType = categoryType;
     }
 
+    @Nullable
     public Bitmap getCategoryImage() {
         return categoryImage;
     }
 
-    public void setCategoryImage(Bitmap categoryImage) {
+    public void setCategoryImage(@Nullable Bitmap categoryImage) {
         this.categoryImage = categoryImage;
     }
 
@@ -91,11 +103,28 @@ public class Category {
         this.categoryAdded = categoryAdded;
     }
 
-    public int getCategoryIsChildOf() {
+    public Double getCategoryBalance() {
+        return categoryBalance;
+    }
+
+    public void setCategoryBalance(Double categoryBalance) {
+        this.categoryBalance = categoryBalance;
+    }
+
+    public String getCategoryBalanceCurrency() {
+        return categoryBalanceCurrency;
+    }
+
+    public void setCategoryBalanceCurrency(String categoryBalanceCurrency) {
+        this.categoryBalanceCurrency = categoryBalanceCurrency;
+    }
+
+    @Nullable
+    public Integer getCategoryIsChildOf() {
         return categoryIsChildOf;
     }
 
-    public void setCategoryIsChildOf(int categoryIsChildOf) {
+    public void setCategoryIsChildOf(@Nullable Integer categoryIsChildOf) {
         this.categoryIsChildOf = categoryIsChildOf;
     }
 
@@ -110,11 +139,11 @@ public class Category {
     public boolean equals(Category category) {
         return this.categoryId == category.getCategoryId() &&
                 this.categoryName.equals(category.getCategoryName()) &&
-                this.categoryDescription.equals(category.getCategoryDescription()) &&
+                (this.categoryDescription == null && category.getCategoryDescription() == null || this.categoryDescription.equals(category.getCategoryDescription())) &&
                 this.categoryType == category.getCategoryType() &&
-                this.categoryImage.equals(category.getCategoryImage()) &&
+                (this.categoryImage == null && category.getCategoryImage() == null || this.categoryImage.equals(category.getCategoryImage())) &&
                 this.categoryAdded.equals(category.getCategoryAdded()) &&
-                this.categoryIsChildOf == category.getCategoryIsChildOf() &&
+                (this.categoryIsChildOf == null && category.getCategoryIsChildOf() == null || this.categoryIsChildOf.equals(category.getCategoryIsChildOf())) &&
                 this.categoryPriority == category.getCategoryPriority();
     }
 

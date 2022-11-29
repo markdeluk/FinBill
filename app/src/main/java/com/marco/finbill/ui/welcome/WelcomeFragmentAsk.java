@@ -26,14 +26,14 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class WelcomeFragment2 extends Fragment {
+public class WelcomeFragmentAsk extends Fragment {
 
     private EditText name;
     private Spinner appNeedSpinner;
     private Spinner welcomeCurrencyEdit;
     private FinBillViewModel viewModel;
 
-    public WelcomeFragment2() {}
+    public WelcomeFragmentAsk() {}
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -44,7 +44,7 @@ public class WelcomeFragment2 extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        View rootView = inflater.inflate(R.layout.fragment_welcome2, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_welcome_ask, container, false);
 
         name = rootView.findViewById(R.id.welcomeNameEdit);
 

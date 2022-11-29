@@ -2,10 +2,7 @@ package com.marco.finbill.sql.account;
 
 import android.graphics.Bitmap;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatDelegate;
-import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
@@ -13,7 +10,7 @@ import androidx.room.PrimaryKey;
 import com.marco.finbill.enums.AccountType;
 import com.marco.finbill.enums.PriorityType;
 
-import java.sql.Date;
+import java.util.Date;
 
 @Entity(tableName = "account_table", indices = {@Index(value = {"accountName"}, unique = true)})
 public class Account {
@@ -34,7 +31,6 @@ public class Account {
     private Date accountCreated;
     @Nullable
     private Bitmap accountImage;
-    @Nullable
     private PriorityType accountPriority;
 
     public Account() {
@@ -48,10 +44,10 @@ public class Account {
         this.accountAdded = null;
         this.accountCreated = null;
         this.accountImage = null;
-        this.accountPriority = null;
+        this.accountPriority = PriorityType.LOW;
     }
 
-    public Account(String accountName, @Nullable String accountDescription, AccountType accountType, @Nullable Double accountBalance, String accountBalanceCurrency, @Nullable Double accountPlatfond, Date accountAdded, @Nullable Date accountCreated, @Nullable Bitmap accountImage, @Nullable PriorityType accountPriority) {
+    public Account(String accountName, @Nullable String accountDescription, AccountType accountType, @Nullable Double accountBalance, String accountBalanceCurrency, @Nullable Double accountPlatfond, Date accountAdded, @Nullable Date accountCreated, @Nullable Bitmap accountImage, PriorityType accountPriority) {
         this.accountName = accountName;
         this.accountDescription = accountDescription;
         this.accountType = accountType;
@@ -157,12 +153,11 @@ public class Account {
         this.accountImage = accountImage;
     }
 
-    @Nullable
     public PriorityType getAccountPriority() {
         return accountPriority;
     }
 
-    public void setAccountPriority(@Nullable PriorityType accountPriority) {
+    public void setAccountPriority(PriorityType accountPriority) {
         this.accountPriority = accountPriority;
     }
 

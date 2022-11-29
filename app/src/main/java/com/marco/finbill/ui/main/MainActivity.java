@@ -4,7 +4,6 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.res.ResourcesCompat;
-import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
@@ -15,6 +14,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.icu.text.SimpleDateFormat;
 import android.os.Bundle;
+import android.text.format.DateFormat;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
@@ -22,53 +23,25 @@ import android.widget.Toast;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.marco.finbill.R;
-import com.marco.finbill.sql.currency_code.CurrencyCode;
-import com.marco.finbill.sql.exchange.Exchange;
-import com.marco.finbill.sql.exchange.api.ServiceGenerator;
-import com.marco.finbill.sql.exchange.api.currency_api.CurrencyApi;
-import com.marco.finbill.sql.exchange.api.currency_api.CurrencyResponse;
-import com.marco.finbill.sql.exchange.api.exchange_api.ExchangeApi;
-import com.marco.finbill.sql.exchange.api.exchange_api.ExchangeResponse;
+import com.marco.finbill.enums.DownloadStatus;
+import com.marco.finbill.enums.HandleExchange;
 import com.marco.finbill.sql.model.FinBillViewModel;
 import com.marco.finbill.ui.welcome.WelcomeActivity;
 
 import java.text.ParsePosition;
-import java.util.ArrayList;
-import java.util.Currency;
 import java.util.Date;
-import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 import java.util.Objects;
-import java.util.Set;
 import java.util.concurrent.TimeUnit;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity {
 
     private NavController navController;
     private AppBarConfiguration appBarConfiguration;
-
     private FinBillViewModel viewModel;
     private SharedPreferences sharedPreferences;
-
-    private MutableLiveData<List<String>> currencyStringsLiveData;
-    private MutableLiveData<Integer> activeCallsLiveData;
-
-    private final Set<Currency> availableCurrencies = Currency.getAvailableCurrencies();
-
     private final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd.MM.yyyy", Locale.getDefault());
     private Date today;
-
-    private enum HandleExchange {
-        ABORT, UPDATE, INSERT
-    }
-
-    private final int CURRENCY_LENGTH = 3;
-
     public static final String SHAREDPREFS = "sharedPrefs";
 
     public MainActivity() {
@@ -133,11 +106,12 @@ public class MainActivity extends AppCompatActivity {
     private void updateExchanges() {
         String lastUpdate = sharedPreferences.getString("lastUpdate", null);
         HandleExchange operation;
-        today = new Date();
+        today = new Date(System.currentTimeMillis());
         if (lastUpdate == null) {
             operation = HandleExchange.INSERT;
         }
         else {
+            // Since it must not be exposed to the user, the date format is not relevant.
             Date lastUpdateDate = simpleDateFormat.parse(lastUpdate, new ParsePosition(0));
             long diff = today.getTime() - lastUpdateDate.getTime();
             int days = (int) TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
@@ -148,98 +122,33 @@ public class MainActivity extends AppCompatActivity {
                 operation = HandleExchange.ABORT;
             }
         }
-        downloadExchanges(operation);
-    }
-
-    private void downloadExchanges(HandleExchange operation) {
         if (operation != HandleExchange.ABORT) {
-            currencyStringsLiveData = new MutableLiveData<>();
-            activeCallsLiveData = new MutableLiveData<>();
-            CurrencyApi currencyApi = ServiceGenerator.getCurrencyApi();
-            Call<CurrencyResponse> currencyCall = currencyApi.getCurrencies();
-            currencyCall.enqueue(new Callback<CurrencyResponse>() {
-                @Override
-                public void onResponse(@NonNull Call<CurrencyResponse> call, @NonNull Response<CurrencyResponse> response) {
-                    if (response.isSuccessful()) {
-                        CurrencyResponse currencyResponse = response.body();
-                        if (currencyResponse != null) {
-                            currencyStringsLiveData.setValue(currencyResponse.getCurrencies());
-                        }
-                    }
-                }
+            viewModel.downloadCurrencies(operation).observe(this, currencyStatus -> {
+                if (currencyStatus != null) {
+                    if (currencyStatus == DownloadStatus.SUCCESS) {
+                        downloadExchanges(operation);
 
-                @Override
-                public void onFailure(@NonNull Call<CurrencyResponse> call, @NonNull Throwable t) {
-                }
-            });
-            currencyStringsLiveData.observe(this, currencyStrings -> {
-                if (currencyStrings != null) {
-                    List<String> fromCurrencyList = new ArrayList<>();
-                    viewModel.deleteAllCurrencyCodes();
-                    for (String currencyString : currencyStrings) {
-                        if (currencyString.length() == CURRENCY_LENGTH) {
-                            if (availableCurrencies.contains(Currency.getInstance(currencyString))) {
-                                viewModel.insertCurrencyCode(new CurrencyCode(currencyString));
-                                fromCurrencyList.add(currencyString);
-                            }
-                        }
-                    }
-                    activeCallsLiveData.setValue(fromCurrencyList.size());
-                    if (!fromCurrencyList.isEmpty()) {
-                        Toast.makeText(getApplicationContext(), R.string.updating_exchange_rates, Toast.LENGTH_SHORT).show();
-                        for (int i = 0; i < fromCurrencyList.size(); i++) {
-                            String fromCurrencyStringItem = fromCurrencyList.get(i);
-                            ExchangeApi exchangeApi = ServiceGenerator.getExchangeApi();
-                            Call<ExchangeResponse> exchangeCall = exchangeApi.getExchange(fromCurrencyStringItem.toLowerCase());
-                            exchangeCall.enqueue(new Callback<ExchangeResponse>() {
-                                @Override
-                                public void onResponse(@NonNull Call<ExchangeResponse> call, @NonNull Response<ExchangeResponse> response) {
-                                    if (response.isSuccessful()) {
-                                        ExchangeResponse exchangeResponse = response.body();
-                                        if (exchangeResponse != null) {
-                                            Map<String, Double> ratesMap = exchangeResponse.getRates();
-                                            if (ratesMap != null) {
-                                                for (Map.Entry<String, Double> entry : ratesMap.entrySet()) {
-                                                    String toCurrencyString = entry.getKey();
-                                                    Double rate = entry.getValue();
-                                                    if (toCurrencyString.length() == CURRENCY_LENGTH) {
-                                                        if (availableCurrencies.contains(Currency.getInstance(toCurrencyString)) && !fromCurrencyStringItem.equals(toCurrencyString)) {
-                                                            Exchange exchange = new Exchange(fromCurrencyStringItem, toCurrencyString, rate);
-                                                            if (operation == HandleExchange.UPDATE) {
-                                                                viewModel.updateExchange(exchange);
-                                                            } // operation == HandleExchange.INSERT
-                                                            else {
-                                                                viewModel.insertExchange(exchange);
-                                                            }
-                                                        }
-                                                    }
-                                                }
-                                                Integer activeCalls = activeCallsLiveData.getValue();
-                                                if (activeCalls != null) {
-                                                    activeCallsLiveData.setValue(activeCalls - 1);
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-
-                                @Override
-                                public void onFailure(@NonNull Call<ExchangeResponse> call, @NonNull Throwable t) {
-                                }
-                            });
-                        }
-                    }
-                }
-            });
-            activeCallsLiveData.observe(this, activeCalls -> {
-                if (activeCalls != null) {
-                    if (activeCalls == 0) {
-                        String date = simpleDateFormat.format(today);
-                        sharedPreferences.edit().putString("lastUpdate", date).apply();
-                        Toast.makeText(getApplicationContext(), R.string.updated_exchange_rates, Toast.LENGTH_SHORT).show();
                     }
                 }
             });
         }
+    }
+
+    private void downloadExchanges(HandleExchange operation) {
+        viewModel.downloadExchanges(operation).observe(MainActivity.this, exchangeStatus -> {
+            if (exchangeStatus != null) {
+                if (exchangeStatus == DownloadStatus.STARTED) {
+                    Toast.makeText(getApplicationContext(), R.string.updating_exchange_rates, Toast.LENGTH_SHORT).show();
+                }
+                else if (exchangeStatus == DownloadStatus.SUCCESS) {
+                    String date = simpleDateFormat.format(today);
+                    sharedPreferences.edit().putString("lastUpdate", date).apply();
+                    Toast.makeText(getApplicationContext(), R.string.updated_exchange_rates, Toast.LENGTH_SHORT).show();
+                }
+                else if (exchangeStatus == DownloadStatus.FAILURE) {
+                    Toast.makeText(getApplicationContext(), R.string.error_updating_exchange_rates, Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
     }
 }

@@ -1,13 +1,13 @@
 package com.marco.finbill.ui.main.dialogs;
 
+import static com.marco.finbill.ui.main.MainActivity.SHAREDPREFS;
+
 import android.app.Activity;
-import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
-import android.icu.text.SimpleDateFormat;
-import android.icu.util.Calendar;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -33,23 +33,22 @@ import androidx.fragment.app.FragmentManager;
 
 import com.google.android.material.snackbar.Snackbar;
 import com.marco.finbill.R;
-import com.marco.finbill.enums.AccountType;
 import com.marco.finbill.enums.CategoryType;
 import com.marco.finbill.enums.PriorityType;
-import com.marco.finbill.sql.account.Account;
+import com.marco.finbill.enums.TransactionType;
 import com.marco.finbill.sql.category.Category;
-import com.marco.finbill.sql.currency_code.CurrencyCode;
 import com.marco.finbill.sql.model.FinBillViewModel;
 
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Locale;
 
 public class AddCategoryDialog extends DialogFragment {
     public static final String TAG = "AddCategoryDialog";
     private Toolbar toolbar;
+
+    private CategoryType categoryType = CategoryType.DEFAULT;
 
     private FinBillViewModel viewModel;
 
@@ -67,8 +66,23 @@ public class AddCategoryDialog extends DialogFragment {
     private EditText descriptionEdit;
     private Object defaultImage;
 
+    private SharedPreferences sharedPreferences;
+
+    public AddCategoryDialog() {
+    }
+
+    public AddCategoryDialog(CategoryType categoryType) {
+        this.categoryType = categoryType;
+    }
+
     public static AddCategoryDialog display(FragmentManager fragmentManager) {
         AddCategoryDialog addCategoryDialog = new AddCategoryDialog();
+        addCategoryDialog.show(fragmentManager, TAG);
+        return addCategoryDialog;
+    }
+
+    public static AddCategoryDialog display(FragmentManager fragmentManager, CategoryType categoryType) {
+        AddCategoryDialog addCategoryDialog = new AddCategoryDialog(categoryType);
         addCategoryDialog.show(fragmentManager, TAG);
         return addCategoryDialog;
     }
@@ -98,6 +112,7 @@ public class AddCategoryDialog extends DialogFragment {
                 pictureSelected = true;
             }
         });
+        sharedPreferences = requireActivity().getSharedPreferences(SHAREDPREFS, Activity.MODE_PRIVATE);
     }
 
     @Nullable
@@ -117,7 +132,15 @@ public class AddCategoryDialog extends DialogFragment {
         categoryTypeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         categoryTypeSpinner.setAdapter(categoryTypeAdapter);
 
+        if (categoryType == CategoryType.DEFAULT) {
+            categoryTypeSpinner.setSelection(CategoryType.DEFAULT.ordinal());
+        }
+        else {
+            categoryTypeSpinner.setSelection(categoryType.ordinal());
+        }
+
         LinearLayout categoryLayout = rootView.findViewById(R.id.categoryLayout);
+        categoryLayout.setVisibility(View.GONE);
 
         categoryTypeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -161,8 +184,8 @@ public class AddCategoryDialog extends DialogFragment {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if (position > 1) {
-                    viewModel.getCategoryByName(categoryIsChildOfSpinner.getSelectedItem().toString()).observe(getViewLifecycleOwner(), category -> {
-                        defaultImage = category.getCategoryImage();
+                    viewModel.getCategoryByName(categoryIsChildOfSpinner.getSelectedItem().toString()).observe(getViewLifecycleOwner(), parentCategory -> {
+                        defaultImage = parentCategory.getCategoryImage();
                         if (defaultImage == null) {
                             defaultImage = R.drawable.money;
                         }
@@ -222,25 +245,41 @@ public class AddCategoryDialog extends DialogFragment {
         toolbar.setOnMenuItemClickListener(item -> {
             if (item.getItemId() == R.id.action_save) {
                 category = new Category();
-                category.setCategoryName(nameEdit.getText().toString());
-                category.setCategoryDescription(descriptionEdit.getText().toString());
-                category.setCategoryType(CategoryType.values()[categoryTypeSpinner.getSelectedItemPosition()]);
+                if (!nameEdit.getText().toString().isEmpty()) {
+                    category.setCategoryName(nameEdit.getText().toString());
+                }
+                if (!descriptionEdit.getText().toString().isEmpty()) {
+                    category.setCategoryDescription(descriptionEdit.getText().toString());
+                }
+                if (categoryTypeSpinner.getSelectedItemPosition() != 0) {
+                    category.setCategoryType(CategoryType.values()[categoryTypeSpinner.getSelectedItemPosition()]);
+                }
                 if (pictureSelected) {
                     category.setCategoryImage(((BitmapDrawable)pictureEdit.getDrawable()).getBitmap());
                 }
-                else {
-                    category.setCategoryImage(null);
+                if (priorityEdit.getSelectedItemPosition() != 0) {
+                    category.setCategoryPriority(PriorityType.values()[priorityEdit.getSelectedItemPosition()]);
                 }
-                category.setCategoryPriority(PriorityType.values()[priorityEdit.getSelectedItemPosition()]);
+                if (categoryIsChildOfSpinner.getSelectedItemPosition() > 1) {
+                    viewModel.getCategoryByName(categoryIsChildOfSpinner.getSelectedItem().toString()).observe(getViewLifecycleOwner(), parentCategory -> {
+                        category.setCategoryIsChildOf(parentCategory.getCategoryId());
+                    });
+                }
                 if (category.isValid()) {
-                    category.setCategoryAdded(new Date(System.currentTimeMillis()));
-                    viewModel.insertCategory(category);
+                    viewModel.getCategoryByName(category.getCategoryName()).observe(getViewLifecycleOwner(), query -> {
+                        if (query == null) {
+                            category.setCategoryAdded(new Date(System.currentTimeMillis()));
+                            category.setCategoryBalanceCurrency(sharedPreferences.getString("currency", null));
+                            viewModel.insertCategory(category);
+                            dismiss();
+                        } else {
+                            Snackbar.make(requireContext(), view, getResources().getString(R.string.category_already_exists), Snackbar.LENGTH_LONG).show();
+                        }
+                    });
                 }
                 else {
                     Snackbar.make(view, R.string.incomplete_fields, Snackbar.LENGTH_LONG).show();
-                    return false;
                 }
-                dismiss();
                 return true;
             }
             return false;

@@ -107,6 +107,7 @@
                             android:ems="10"
                             android:hint="@string/balance"
                             android:inputType="numberDecimal"
+
                             android:minHeight="48dp" />
 
                     </LinearLayout>
@@ -195,7 +196,7 @@
                         android:id="@+id/dateTitle"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/date" />
+                        android:text="@string/date_of_opening" />
 
                     <EditText
                         android:id="@+id/dateEdit"
@@ -203,7 +204,7 @@
                         android:layout_height="wrap_content"
                         android:autofillHints=""
                         android:ems="10"
-                        android:hint="@string/date"
+                        android:hint="@string/date_of_opening"
                         android:inputType="date"
                         android:minHeight="48dp"
                         tools:ignore="DuplicateSpeakableTextCheck" />

@@ -1,6 +1,5 @@
-package com.marco.finbill.ui.main.adapters;
+package com.marco.finbill.ui.main.adapters.lists.accounts;
 
-import android.content.Context;
 import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,37 +9,24 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.DiffUtil;
-import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.marco.finbill.R;
 import com.marco.finbill.sql.account.Account;
 
-import java.lang.Math;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
-public class AccountAdapter extends ListAdapter<Account, AccountAdapter.ViewHolder> {
+public class AccountAdapter extends RecyclerView.Adapter<AccountAdapter.ViewHolder> {
 
-    private final List<Account> accounts;
+    private final ArrayList<Account> accounts;
 
-    public AccountAdapter(List<Account> accounts) {
-        super(DIFF_CALLBACK);
-        this.accounts = accounts;
+    public AccountAdapter() {
+        this.accounts = new ArrayList<>();
     }
-
-
-    private static final DiffUtil.ItemCallback<Account> DIFF_CALLBACK = new DiffUtil.ItemCallback<Account>() {
-        @Override
-        public boolean areItemsTheSame(@NonNull Account oldItem, @NonNull Account newItem) {
-            return oldItem.getAccountId() == newItem.getAccountId();
-        }
-
-        @Override
-        public boolean areContentsTheSame(@NonNull Account oldItem, @NonNull Account newItem) {
-            return oldItem.equals(newItem);
-        }
-    };
 
     @NonNull
     @Override
@@ -51,35 +37,37 @@ public class AccountAdapter extends ListAdapter<Account, AccountAdapter.ViewHold
     }
 
     @Override
-    public void onBindViewHolder(@NonNull AccountAdapter.ViewHolder holder, int position) {
-        Account account = getAccountAt(position);
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        Account account = accounts.get(position);
         Bitmap image = account.getAccountImage();
         if (image == null) {
             holder.picture.setImageResource(R.drawable.picture_icon);
         } else {
             holder.picture.setImageBitmap(image);
         }
-        holder.date.setText(account.getAccountAdded().toString());
         holder.title.setText(account.getAccountName());
         holder.type.setText(holder.accountTypes[account.getAccountType().ordinal() - 1]);
         double balance = account.getAccountBalance();
         holder.sign.setText(balance < 0 ? R.string.minus : R.string.plus);
-        holder.amount.setText(String.valueOf(balance < 0 ? -balance : balance));
+        holder.amount.setText(new DecimalFormat("#,##0.00", new DecimalFormatSymbols(Locale.getDefault())).format(balance < 0 ? -balance : balance));
         holder.currency.setText(account.getAccountBalanceCurrency());
-    }
-
-    private Account getAccountAt(int position) {
-        return getItem(position);
     }
 
     public int getItemCount() {
         return accounts.size();
     }
 
+    public void updateAccountList(List<Account> accounts) {
+        AccountDiffCallback diffCallback = new AccountDiffCallback(this.accounts, accounts);
+        DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(diffCallback);
+        this.accounts.clear();
+        this.accounts.addAll(accounts);
+        diffResult.dispatchUpdatesTo(this);
+    }
+
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
         private final ImageView picture;
-        private final TextView date;
         private final TextView title;
         private final TextView type;
         private final TextView sign;
@@ -90,12 +78,11 @@ public class AccountAdapter extends ListAdapter<Account, AccountAdapter.ViewHold
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             picture = itemView.findViewById(R.id.picture);
-            date = itemView.findViewById(R.id.date_text);
             title = itemView.findViewById(R.id.title_text);
             type = itemView.findViewById(R.id.type_text);
             sign = itemView.findViewById(R.id.sign);
             amount = itemView.findViewById(R.id.amount);
-            currency = itemView.findViewById(R.id.currencyTransactionSymbol);
+            currency = itemView.findViewById(R.id.currencySymbol);
             accountTypes = itemView.getResources().getStringArray(R.array.account_types_option);
         }
     }

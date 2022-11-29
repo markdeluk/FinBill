@@ -56,7 +56,6 @@ import com.marco.finbill.sql.transaction.Transaction;
 import com.marco.finbill.sql.transaction.expense.Expense;
 import com.marco.finbill.sql.transaction.income.Income;
 import com.marco.finbill.sql.transaction.transfer.Transfer;
-import com.marco.finbill.ui.main.MainActivity;
 
 import java.sql.Date;
 import java.sql.Time;
@@ -163,11 +162,11 @@ public class AddTransactionDialog extends DialogFragment {
         transactionTypeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         transactionSpinner.setAdapter(transactionTypeAdapter);
 
-        if (transactionType != TransactionType.DEFAULT) {
-            transactionSpinner.setSelection(transactionType.ordinal());
+        if (transactionType == TransactionType.DEFAULT) {
+            transactionSpinner.setSelection(TransactionType.DEFAULT.ordinal());
         }
         else {
-            transactionSpinner.setSelection(TransactionType.DEFAULT.ordinal());
+            transactionSpinner.setSelection(transactionType.ordinal());
         }
 
         // TRANSACTION FIELDS
@@ -176,6 +175,7 @@ public class AddTransactionDialog extends DialogFragment {
         toSpinner = rootView.findViewById(R.id.toEdit);
 
         LinearLayout transactionLayout = rootView.findViewById(R.id.transactionLayout);
+        transactionLayout.setVisibility(View.GONE);
 
         List<String> fromList = new ArrayList<>();
         ArrayAdapter<String> fromAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, fromList);

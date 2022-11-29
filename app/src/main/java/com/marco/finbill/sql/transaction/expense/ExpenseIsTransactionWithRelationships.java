@@ -53,4 +53,11 @@ public class ExpenseIsTransactionWithRelationships {
     public void setToExpense(Category toExpense) {
         this.toExpense = toExpense;
     }
+
+    public boolean equals(ExpenseIsTransactionWithRelationships expenseIsTransactionWithRelationships) {
+        return expenseIsTransactionWithRelationships.getExpenseId() == this.expenseId &&
+                expenseIsTransactionWithRelationships.getTransaction().equals(this.transaction) &&
+                expenseIsTransactionWithRelationships.getFromExpense().equals(this.fromExpense) &&
+                expenseIsTransactionWithRelationships.getToExpense().equals(this.toExpense);
+    }
 }

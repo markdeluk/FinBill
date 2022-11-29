@@ -3,12 +3,17 @@ package com.marco.finbill.sql.model;
 import android.app.Application;
 import android.os.Handler;
 import android.os.Looper;
+import android.os.Message;
 import android.util.Log;
 
+import androidx.annotation.NonNull;
+import androidx.compose.foundation.text.Handle;
 import androidx.core.os.HandlerCompat;
 import androidx.lifecycle.LiveData;
 
 import com.marco.finbill.enums.CategoryType;
+import com.marco.finbill.enums.DownloadStatus;
+import com.marco.finbill.enums.HandleExchange;
 import com.marco.finbill.sql.account.Account;
 import com.marco.finbill.sql.account.AccountDao;
 import com.marco.finbill.sql.category.Category;
@@ -32,6 +37,8 @@ import com.marco.finbill.sql.transaction.transfer.TransferDao;
 import com.marco.finbill.sql.transaction.transfer.TransferIsTransactionWithRelationships;
 import com.marco.finbill.sql.transaction.transfer.TransferIsTransactionWithRelationshipsDao;
 
+import org.junit.runner.Result;
+
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -53,7 +60,6 @@ public class FinBillRepository {
     private ExchangeDao exchangeDao;
 
     private ExecutorService executorService;
-    private Handler mainThreadHandler;
 
     private FinBillRepository(Application application){
         FinBillDatabase database = FinBillDatabase.getInstance(application);
@@ -71,7 +77,6 @@ public class FinBillRepository {
         transferDao = database.transferDao();
 
         executorService = Executors.newFixedThreadPool(2);
-        mainThreadHandler = HandlerCompat.createAsync(Looper.getMainLooper());
     }
 
     public static FinBillRepository getInstance(Application application){
@@ -152,10 +157,7 @@ public class FinBillRepository {
     }
 
     public void insertAccount(Account account) {
-        executorService.execute(() -> {
-            Log.e("sono qui", "sono qui");
-            accountDao.insertAccount(account);
-        });
+        executorService.execute(() -> accountDao.insertAccount(account));
     }
 
     public void insertCategory(Category category) {

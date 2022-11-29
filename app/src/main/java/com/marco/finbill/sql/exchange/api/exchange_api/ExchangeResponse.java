@@ -1,20 +1,21 @@
 package com.marco.finbill.sql.exchange.api.exchange_api;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class ExchangeResponse {
-    private Map<String, Double> rates;
+    private LinkedHashMap<String, Double> rates;
 
     public ExchangeResponse() {
-        rates = new HashMap<>();
+        rates = new LinkedHashMap<>();
     }
 
-    public Map<String, Double> getRates() {
+    public LinkedHashMap<String, Double> getRates() {
         return rates;
     }
 
-    public void setRates(Map<String, Double> rates) {
+    public void setRates(LinkedHashMap<String, Double> rates) {
         this.rates = rates;
     }
 
