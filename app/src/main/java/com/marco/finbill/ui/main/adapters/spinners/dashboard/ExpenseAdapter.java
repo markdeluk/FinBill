@@ -46,19 +46,19 @@ public class ExpenseAdapter extends ListAdapter<ExpenseIsTransactionWithRelation
     public void onBindViewHolder(@NonNull ExpenseAdapter.ViewHolder holder, int position) {
         ExpenseIsTransactionWithRelationships expenseIsTransactionWithRelationships = getExpenseAt(position);
         // picture
-        if (expenseIsTransactionWithRelationships.getTransaction().getTransactionImage() == null) {
+        if (expenseIsTransactionWithRelationships.getTransactionHasCurrency().getTransaction().getTransactionImage() == null) {
             holder.picture.setImageResource(R.drawable.picture_icon);
         } else {
-            holder.picture.setImageBitmap(expenseIsTransactionWithRelationships.getTransaction().getTransactionImage());
+            holder.picture.setImageBitmap(expenseIsTransactionWithRelationships.getTransactionHasCurrency().getTransaction().getTransactionImage());
         }
-        holder.title.setText(expenseIsTransactionWithRelationships.getTransaction().getTransactionName());
+        holder.title.setText(expenseIsTransactionWithRelationships.getTransactionHasCurrency().getTransaction().getTransactionName());
         holder.from.setText(expenseIsTransactionWithRelationships.getFromExpense().getAccountName());
         holder.to.setText(expenseIsTransactionWithRelationships.getToExpense().getCategoryName());
-        holder.date.setText(expenseIsTransactionWithRelationships.getTransaction().getTransactionDate().toString());
-        holder.time.setText(expenseIsTransactionWithRelationships.getTransaction().getTransactionTime().toString());
+        holder.date.setText(expenseIsTransactionWithRelationships.getTransactionHasCurrency().getTransaction().getTransactionDate().toString());
+        holder.time.setText(expenseIsTransactionWithRelationships.getTransactionHasCurrency().getTransaction().getTransactionTime().toString());
         holder.sign.setText(R.string.minus);
-        holder.amount.setText(String.valueOf(expenseIsTransactionWithRelationships.getTransaction().getTransactionAmount()));
-        holder.currency.setText(expenseIsTransactionWithRelationships.getTransaction().getTransactionCurrencyString());
+        holder.amount.setText(String.valueOf(expenseIsTransactionWithRelationships.getTransactionHasCurrency().getTransaction().getTransactionAmount()));
+        holder.currency.setText(expenseIsTransactionWithRelationships.getTransactionHasCurrency().getCurrency().getCurrencyString());
     }
 
     public ExpenseIsTransactionWithRelationships getExpenseAt(int position) {

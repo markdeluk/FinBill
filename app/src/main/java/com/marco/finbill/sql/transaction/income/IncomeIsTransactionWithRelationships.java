@@ -4,20 +4,20 @@ import androidx.room.Embedded;
 
 import com.marco.finbill.sql.account.Account;
 import com.marco.finbill.sql.category.Category;
-import com.marco.finbill.sql.transaction.Transaction;
+import com.marco.finbill.sql.transaction.all.TransactionHasCurrency;
 
 public class IncomeIsTransactionWithRelationships {
     private int incomeId;
     @Embedded
-    private Transaction transaction;
+    private TransactionHasCurrency transactionHasCurrency;
     @Embedded
     private Category fromIncome;
     @Embedded
     private Account toIncome;
 
-    public IncomeIsTransactionWithRelationships(int incomeId, Transaction transaction, Category fromIncome, Account toIncome) {
+    public IncomeIsTransactionWithRelationships(int incomeId, TransactionHasCurrency transactionHasCurrency, Category fromIncome, Account toIncome) {
         this.incomeId = incomeId;
-        this.transaction = transaction;
+        this.transactionHasCurrency = transactionHasCurrency;
         this.fromIncome = fromIncome;
         this.toIncome = toIncome;
     }
@@ -30,12 +30,12 @@ public class IncomeIsTransactionWithRelationships {
         this.incomeId = incomeId;
     }
 
-    public Transaction getTransaction() {
-        return transaction;
+    public TransactionHasCurrency getTransactionHasCurrency() {
+        return transactionHasCurrency;
     }
 
-    public void setTransaction(Transaction transaction) {
-        this.transaction = transaction;
+    public void setTransactionHasCurrency(TransactionHasCurrency transactionHasCurrency) {
+        this.transactionHasCurrency = transactionHasCurrency;
     }
 
     public Category getFromIncome() {
@@ -55,6 +55,6 @@ public class IncomeIsTransactionWithRelationships {
     }
 
     public boolean equals(IncomeIsTransactionWithRelationships incomeIsTransactionWithRelationships) {
-        return this.incomeId == incomeIsTransactionWithRelationships.incomeId && this.transaction.equals(incomeIsTransactionWithRelationships.transaction) && this.fromIncome.equals(incomeIsTransactionWithRelationships.fromIncome) && this.toIncome.equals(incomeIsTransactionWithRelationships.toIncome);
+        return this.incomeId == incomeIsTransactionWithRelationships.incomeId && this.transactionHasCurrency.equals(incomeIsTransactionWithRelationships.transactionHasCurrency) && this.fromIncome.equals(incomeIsTransactionWithRelationships.fromIncome) && this.toIncome.equals(incomeIsTransactionWithRelationships.toIncome);
     }
 }

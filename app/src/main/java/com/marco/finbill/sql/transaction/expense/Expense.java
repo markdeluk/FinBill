@@ -1,6 +1,7 @@
 package com.marco.finbill.sql.transaction.expense;
 
 import androidx.room.Entity;
+import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 @Entity(tableName = "expense_table")
@@ -16,6 +17,7 @@ public class Expense {
         this.toExpense = toExpense;
     }
 
+    @Ignore
     public Expense() {
         this.expenseId = 0;
         this.fromExpense = 0;

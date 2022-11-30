@@ -29,7 +29,7 @@ public class CategoriesAllFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_main_categories, container, false);
+        return inflater.inflate(R.layout.fragment_categories_tab, container, false);
     }
 
     @Override
@@ -40,6 +40,6 @@ public class CategoriesAllFragment extends Fragment {
         recyclerView.hasFixedSize();
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(categoryAdapter);
-        viewModel.getAllCategories().observe(getViewLifecycleOwner(), categoryAdapter::updateCategoryList);
+        viewModel.getAllCategoriesWithCurrency().observe(getViewLifecycleOwner(), categoryAdapter::updateCategoryList);
     }
 }

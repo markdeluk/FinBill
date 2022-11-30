@@ -42,6 +42,6 @@ public class CategoriesIncomeFragment extends Fragment {
         recyclerView.hasFixedSize();
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(categoryAdapter);
-        viewModel.getAllCategoriesByType(CategoryType.INCOME).observe(getViewLifecycleOwner(), categoryAdapter::updateCategoryList);
+        viewModel.getAllCategoriesWithCurrencyByType(CategoryType.INCOME).observe(getViewLifecycleOwner(), categoryAdapter::updateCategoryList);
     }
 }

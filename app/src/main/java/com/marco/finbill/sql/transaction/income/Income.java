@@ -1,6 +1,7 @@
 package com.marco.finbill.sql.transaction.income;
 
 import androidx.room.Entity;
+import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 import com.marco.finbill.sql.account.Account;
@@ -19,6 +20,7 @@ public class Income {
         this.toIncome = toIncome;
     }
 
+    @Ignore
     public Income() {
         this.incomeId = 0;
         this.fromIncome = 0;

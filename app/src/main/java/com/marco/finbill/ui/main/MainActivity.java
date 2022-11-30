@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.res.ResourcesCompat;
+import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
@@ -14,7 +15,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.icu.text.SimpleDateFormat;
 import android.os.Bundle;
-import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -24,7 +24,6 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.marco.finbill.R;
 import com.marco.finbill.enums.DownloadStatus;
-import com.marco.finbill.enums.HandleExchange;
 import com.marco.finbill.sql.model.FinBillViewModel;
 import com.marco.finbill.ui.welcome.WelcomeActivity;
 
@@ -43,6 +42,11 @@ public class MainActivity extends AppCompatActivity {
     private final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd.MM.yyyy", Locale.getDefault());
     private Date today;
     public static final String SHAREDPREFS = "sharedPrefs";
+
+    private MutableLiveData<Boolean> checkFinishedDownloadCurrencies;
+    private MutableLiveData<Boolean> downloadExchanges;
+    private MutableLiveData<Boolean> checkFinishedDownloadExchanges;
+    private MutableLiveData<Integer> downloadedItemsLiveData;
 
     public MainActivity() {
     }
@@ -105,48 +109,106 @@ public class MainActivity extends AppCompatActivity {
 
     private void updateExchanges() {
         String lastUpdate = sharedPreferences.getString("lastUpdate", null);
-        HandleExchange operation;
+        boolean flag = true;
         today = new Date(System.currentTimeMillis());
-        if (lastUpdate == null) {
-            operation = HandleExchange.INSERT;
-        }
-        else {
+        if (lastUpdate != null) {
             // Since it must not be exposed to the user, the date format is not relevant.
             Date lastUpdateDate = simpleDateFormat.parse(lastUpdate, new ParsePosition(0));
             long diff = today.getTime() - lastUpdateDate.getTime();
             int days = (int) TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
-            if (days >= 1) {
-                operation = HandleExchange.UPDATE;
-            }
-            else {
-                operation = HandleExchange.ABORT;
+            if (days < 1) {
+                flag = false;
             }
         }
-        if (operation != HandleExchange.ABORT) {
-            viewModel.downloadCurrencies(operation).observe(this, currencyStatus -> {
-                if (currencyStatus != null) {
-                    if (currencyStatus == DownloadStatus.SUCCESS) {
-                        downloadExchanges(operation);
+        if (flag) {
+            downloadedItemsLiveData = new MutableLiveData<>();
+            checkFinishedDownloadCurrencies = new MutableLiveData<>();
+            downloadExchanges = new MutableLiveData<>();
+            checkFinishedDownloadExchanges = new MutableLiveData<>();
 
-                    }
-                }
+            checkFinishedDownloadCurrencies.observe(this, aBoolean -> {
+                if (aBoolean) checkFinishedDownloadCurrencies();
             });
+            downloadExchanges.observe(this, aBoolean -> {
+                if (aBoolean) downloadExchanges();
+            });
+            checkFinishedDownloadExchanges.observe(this, aBoolean -> {
+                if (aBoolean) checkFinishedDownloadExchanges();
+            });
+
+            downloadCurrencies();
         }
     }
 
-    private void downloadExchanges(HandleExchange operation) {
-        viewModel.downloadExchanges(operation).observe(MainActivity.this, exchangeStatus -> {
-            if (exchangeStatus != null) {
-                if (exchangeStatus == DownloadStatus.STARTED) {
+    private void downloadCurrencies() {
+        Log.e("MainActivity", "updateExchanges");
+        viewModel.downloadCurrencies().observe(this, downloadResult -> {
+            if (downloadResult != null) {
+                if (downloadResult.getDownloadStatus() == DownloadStatus.STARTED) {
+                    Log.e("MainActivity", "updateExchanges: STARTED");
+                    Toast.makeText(getApplicationContext(), R.string.updating_currencies, Toast.LENGTH_SHORT).show();
+                }
+                else if (downloadResult.getDownloadStatus() == DownloadStatus.SUCCESS) {
+                    Log.e("MainActivity", "updateExchanges: SUCCESS");
+                    downloadedItemsLiveData.setValue(downloadResult.getDownloadedItems());
+                    checkFinishedDownloadCurrencies.setValue(true);
+                }
+                else {
+                    Log.e("MainActivity", "updateExchanges: ERROR");
+                    Toast.makeText(getApplicationContext(), R.string.error_updating_exchange_rates, Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
+
+    private void checkFinishedDownloadCurrencies() {
+        Log.e("MainActivity", "checkFinishedDownloadCurrencies");
+        viewModel.getLastCurrencyId().observe(this, numberOfCurrencyCodes -> {
+            Integer downloadedItems = downloadedItemsLiveData.getValue();
+            if (numberOfCurrencyCodes != null && downloadedItems != null) {
+                if (numberOfCurrencyCodes.equals(downloadedItems)) {
+                    Log.e("MainActivity", "checkFinishedDownloadCurrencies: SUCCESS");
+                    Toast.makeText(getApplicationContext(), R.string.updated_currencies, Toast.LENGTH_SHORT).show();
+                    downloadExchanges.setValue(true);
+                }
+            }
+        });
+    }
+
+    private void downloadExchanges() {
+        Log.e("MainActivity", "downloadExchanges");
+        viewModel.downloadExchanges().observe(this, downloadResultExchange -> {
+            if (downloadResultExchange != null) {
+                if (downloadResultExchange.getDownloadStatus() == DownloadStatus.STARTED) {
+                    Log.e("MainActivity", "downloadExchanges: STARTED");
                     Toast.makeText(getApplicationContext(), R.string.updating_exchange_rates, Toast.LENGTH_SHORT).show();
                 }
-                else if (exchangeStatus == DownloadStatus.SUCCESS) {
+                else if (downloadResultExchange.getDownloadStatus() == DownloadStatus.PROCESSING) {
+
+                }
+                else if (downloadResultExchange.getDownloadStatus() == DownloadStatus.SUCCESS) {
+                    Log.e("MainActivity", "downloadExchanges: SUCCESS");
+                    checkFinishedDownloadExchanges.setValue(true);
+                }
+                else if (downloadResultExchange.getDownloadStatus() == DownloadStatus.FAILURE) {
+                    Log.e("MainActivity", "downloadExchanges: FAILURE");
+                    Toast.makeText(getApplicationContext(), R.string.error_updating_exchange_rates, Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
+
+    private void checkFinishedDownloadExchanges() {
+        Log.e("MainActivity", "checkFinishedDownloadExchanges");
+        viewModel.getLastExchangeId().observe(this, numberOfExchanges -> {
+            Integer downloadedItems = downloadedItemsLiveData.getValue();
+            if (numberOfExchanges != null && downloadedItems != null) {
+                int iterations = downloadedItems * (downloadedItems - 1);
+                if (numberOfExchanges.equals(iterations)) {
+                    Log.e("MainActivity", "checkFinishedDownloadExchanges: SUCCESS");
+                    Toast.makeText(getApplicationContext(), R.string.updated_exchange_rates, Toast.LENGTH_SHORT).show();
                     String date = simpleDateFormat.format(today);
                     sharedPreferences.edit().putString("lastUpdate", date).apply();
-                    Toast.makeText(getApplicationContext(), R.string.updated_exchange_rates, Toast.LENGTH_SHORT).show();
-                }
-                else if (exchangeStatus == DownloadStatus.FAILURE) {
-                    Toast.makeText(getApplicationContext(), R.string.error_updating_exchange_rates, Toast.LENGTH_SHORT).show();
                 }
             }
         });

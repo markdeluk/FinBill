@@ -19,7 +19,7 @@ import android.widget.Spinner;
 
 import com.google.android.material.snackbar.Snackbar;
 import com.marco.finbill.R;
-import com.marco.finbill.sql.currency_code.CurrencyCode;
+import com.marco.finbill.sql.currency.Currency;
 import com.marco.finbill.sql.model.FinBillViewModel;
 
 import java.util.ArrayList;
@@ -74,8 +74,8 @@ public class WelcomeFragmentAsk extends Fragment {
         viewModel.getAllCurrencyCodes().observe(getViewLifecycleOwner(), currencyCodes -> {
             currencyStringList.clear();
             currencyStringList.add(0, getResources().getString(R.string.choose_currency));
-            for (CurrencyCode currencyCode : currencyCodes) {
-                currencyStringList.add(currencyCode.getCurrencyString());
+            for (Currency currency : currencyCodes) {
+                currencyStringList.add(currency.getCurrencyString());
             }
             currencyStringAdapter.notifyDataSetChanged();
         });

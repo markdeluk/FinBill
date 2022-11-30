@@ -46,19 +46,19 @@ public class TransferAdapter extends ListAdapter<TransferIsTransactionWithRelati
     public void onBindViewHolder(@NonNull TransferAdapter.ViewHolder holder, int position) {
         TransferIsTransactionWithRelationships transferIsTransactionWithRelationships = getTransferAt(position);
         // picture
-        if (transferIsTransactionWithRelationships.getTransaction().getTransactionImage() == null) {
+        if (transferIsTransactionWithRelationships.getTransactionHasCurrency().getTransaction().getTransactionImage() == null) {
             holder.picture.setImageResource(R.drawable.picture_icon);
         } else {
-            holder.picture.setImageBitmap(transferIsTransactionWithRelationships.getTransaction().getTransactionImage());
+            holder.picture.setImageBitmap(transferIsTransactionWithRelationships.getTransactionHasCurrency().getTransaction().getTransactionImage());
         }
-        holder.title.setText(transferIsTransactionWithRelationships.getTransaction().getTransactionName());
+        holder.title.setText(transferIsTransactionWithRelationships.getTransactionHasCurrency().getTransaction().getTransactionName());
         holder.from.setText(transferIsTransactionWithRelationships.getFromTransfer().getAccountName());
         holder.to.setText(transferIsTransactionWithRelationships.getToTransfer().getAccountName());
-        holder.date.setText(transferIsTransactionWithRelationships.getTransaction().getTransactionDate().toString());
-        holder.time.setText(transferIsTransactionWithRelationships.getTransaction().getTransactionTime().toString());
+        holder.date.setText(transferIsTransactionWithRelationships.getTransactionHasCurrency().getTransaction().getTransactionDate().toString());
+        holder.time.setText(transferIsTransactionWithRelationships.getTransactionHasCurrency().getTransaction().getTransactionTime().toString());
         holder.sign.setText(R.string.minus);
-        holder.amount.setText(String.valueOf(transferIsTransactionWithRelationships.getTransaction().getTransactionAmount()));
-        holder.currency.setText(transferIsTransactionWithRelationships.getTransaction().getTransactionCurrencyString());
+        holder.amount.setText(String.valueOf(transferIsTransactionWithRelationships.getTransactionHasCurrency().getTransaction().getTransactionAmount()));
+        holder.currency.setText(transferIsTransactionWithRelationships.getTransactionHasCurrency().getCurrency().getCurrencyString());
     }
 
     public TransferIsTransactionWithRelationships getTransferAt(int position) {

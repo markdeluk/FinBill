@@ -1,29 +1,25 @@
 package com.marco.finbill.sql.model;
 
 import android.app.Application;
-import android.os.Handler;
-import android.os.Looper;
-import android.os.Message;
 import android.util.Log;
 
-import androidx.annotation.NonNull;
-import androidx.compose.foundation.text.Handle;
-import androidx.core.os.HandlerCompat;
 import androidx.lifecycle.LiveData;
 
 import com.marco.finbill.enums.CategoryType;
-import com.marco.finbill.enums.DownloadStatus;
-import com.marco.finbill.enums.HandleExchange;
 import com.marco.finbill.sql.account.Account;
 import com.marco.finbill.sql.account.AccountDao;
+import com.marco.finbill.sql.account.AccountHasCurrencies;
+import com.marco.finbill.sql.account.AccountHasCurrenciesDao;
 import com.marco.finbill.sql.category.Category;
 import com.marco.finbill.sql.category.CategoryDao;
-import com.marco.finbill.sql.currency_code.CurrencyCode;
-import com.marco.finbill.sql.currency_code.CurrencyCodeDao;
+import com.marco.finbill.sql.category.CategoryWithCurrency;
+import com.marco.finbill.sql.category.CategoryWithCurrencyDao;
+import com.marco.finbill.sql.currency.Currency;
+import com.marco.finbill.sql.currency.CurrencyDao;
 import com.marco.finbill.sql.exchange.Exchange;
 import com.marco.finbill.sql.exchange.ExchangeDao;
-import com.marco.finbill.sql.transaction.Transaction;
-import com.marco.finbill.sql.transaction.TransactionDao;
+import com.marco.finbill.sql.transaction.all.Transaction;
+import com.marco.finbill.sql.transaction.all.TransactionDao;
 import com.marco.finbill.sql.transaction.expense.Expense;
 import com.marco.finbill.sql.transaction.expense.ExpenseDao;
 import com.marco.finbill.sql.transaction.expense.ExpenseIsTransactionWithRelationships;
@@ -36,8 +32,6 @@ import com.marco.finbill.sql.transaction.transfer.Transfer;
 import com.marco.finbill.sql.transaction.transfer.TransferDao;
 import com.marco.finbill.sql.transaction.transfer.TransferIsTransactionWithRelationships;
 import com.marco.finbill.sql.transaction.transfer.TransferIsTransactionWithRelationshipsDao;
-
-import org.junit.runner.Result;
 
 import java.util.List;
 import java.util.concurrent.ExecutorService;
@@ -55,8 +49,10 @@ public class FinBillRepository {
     private IncomeDao incomeDao;
     private TransferDao transferDao;
     private AccountDao accountDao;
+    private AccountHasCurrenciesDao accountHasCurrenciesDao;
     private CategoryDao categoryDao;
-    private CurrencyCodeDao currencyCodeDao;
+    private CategoryWithCurrencyDao categoryWithCurrencyDao;
+    private CurrencyDao currencyDao;
     private ExchangeDao exchangeDao;
 
     private ExecutorService executorService;
@@ -65,8 +61,10 @@ public class FinBillRepository {
         FinBillDatabase database = FinBillDatabase.getInstance(application);
 
         accountDao = database.accountDao();
+        accountHasCurrenciesDao = database.accountHasCurrenciesDao();
         categoryDao = database.categoryDao();
-        currencyCodeDao = database.currencyCodeDao();
+        categoryWithCurrencyDao = database.categoryWithCurrencyDao();
+        currencyDao = database.currencyCodeDao();
         exchangeDao = database.exchangeDao();
         expenseIsTransactionWithRelationshipsDao = database.expenseIsTransactionWithRelationshipsDao();
         incomeIsTransactionWithRelationshipsDao = database.incomeIsTransactionWithRelationshipsDao();
@@ -144,16 +142,16 @@ public class FinBillRepository {
         executorService.execute(() -> exchangeDao.deleteAllExchanges());
     }
 
-    public void insertCurrencyCode(CurrencyCode currencyCode) {
-        executorService.execute(() -> currencyCodeDao.insertCurrencyCode(currencyCode));
+    public void insertCurrencyCode(Currency currency) {
+        executorService.execute(() -> currencyDao.insertCurrency(currency));
     }
 
-    public LiveData<List<CurrencyCode>> getAllCurrencyCodes() {
-        return currencyCodeDao.getAllCurrencyCodes();
+    public LiveData<List<Currency>> getAllCurrencyCodes() {
+        return currencyDao.getAllCurrencies();
     }
 
     public void deleteAllCurrencyCodes() {
-        executorService.execute(() -> currencyCodeDao.deleteAllCurrencyCodes());
+        executorService.execute(() -> currencyDao.deleteAllCurrencies());
     }
 
     public void insertAccount(Account account) {
@@ -162,6 +160,30 @@ public class FinBillRepository {
 
     public void insertCategory(Category category) {
         executorService.execute(() -> categoryDao.insertCategory(category));
+    }
+
+    public LiveData<Integer> getLastCurrencyId() {
+        return currencyDao.getLastCurrencyId();
+    }
+
+    public LiveData<Integer> getLastExchangeId() {
+        return exchangeDao.getLastExchangeId();
+    }
+
+    public LiveData<Currency> getCurrencyByString(String currencyString) {
+        return currencyDao.getCurrencyByString(currencyString);
+    }
+
+    public LiveData<List<AccountHasCurrencies>> getAllAccountsHaveCurrencies() {
+        return accountHasCurrenciesDao.getAllAccountsHaveCurrencies();
+    }
+
+    public LiveData<List<CategoryWithCurrency>> getAllCategoriesWithCurrencyByType(CategoryType type) {
+        return categoryWithCurrencyDao.getAllCategoriesWithCurrencyByType(type);
+    }
+
+    public LiveData<List<CategoryWithCurrency>> getAllCategoriesWithCurrency() {
+        return categoryWithCurrencyDao.getAllCategoriesWithCurrency();
     }
 
 }

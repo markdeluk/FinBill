@@ -45,6 +45,6 @@ public class CategoriesExpenseFragment extends Fragment {
         recyclerView.hasFixedSize();
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(categoryAdapter);
-        viewModel.getAllCategoriesByType(CategoryType.EXPENSE).observe(getViewLifecycleOwner(), categoryAdapter::updateCategoryList);
+        viewModel.getAllCategoriesWithCurrencyByType(CategoryType.EXPENSE).observe(getViewLifecycleOwner(), categoryAdapter::updateCategoryList);
     }
 }

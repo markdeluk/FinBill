@@ -3,20 +3,20 @@ package com.marco.finbill.sql.transaction.transfer;
 import androidx.room.Embedded;
 
 import com.marco.finbill.sql.account.Account;
-import com.marco.finbill.sql.transaction.Transaction;
+import com.marco.finbill.sql.transaction.all.TransactionHasCurrency;
 
 public class TransferIsTransactionWithRelationships {
     private int transferId;
     @Embedded
-    private Transaction transaction;
+    private TransactionHasCurrency transactionHasCurrency;
     @Embedded(prefix = "from_")
     private Account fromTransfer;
     @Embedded(prefix = "to_")
     private Account toTransfer;
 
-    public TransferIsTransactionWithRelationships(int transferId, Transaction transaction, Account fromTransfer, Account toTransfer) {
+    public TransferIsTransactionWithRelationships(int transferId, TransactionHasCurrency transactionHasCurrency, Account fromTransfer, Account toTransfer) {
         this.transferId = transferId;
-        this.transaction = transaction;
+        this.transactionHasCurrency = transactionHasCurrency;
         this.fromTransfer = fromTransfer;
         this.toTransfer = toTransfer;
     }
@@ -29,12 +29,12 @@ public class TransferIsTransactionWithRelationships {
         this.transferId = transferId;
     }
 
-    public Transaction getTransaction() {
-        return transaction;
+    public TransactionHasCurrency getTransactionHasCurrency() {
+        return transactionHasCurrency;
     }
 
-    public void setTransaction(Transaction transaction) {
-        this.transaction = transaction;
+    public void setTransactionHasCurrency(TransactionHasCurrency transactionHasCurrency) {
+        this.transactionHasCurrency = transactionHasCurrency;
     }
 
     public Account getFromTransfer() {
@@ -54,6 +54,6 @@ public class TransferIsTransactionWithRelationships {
     }
 
     public boolean equals(TransferIsTransactionWithRelationships transferIsTransactionWithRelationships) {
-        return this.transferId == transferIsTransactionWithRelationships.transferId && this.transaction.equals(transferIsTransactionWithRelationships.transaction) && this.fromTransfer.equals(transferIsTransactionWithRelationships.fromTransfer) && this.toTransfer.equals(transferIsTransactionWithRelationships.toTransfer);
+        return this.transferId == transferIsTransactionWithRelationships.transferId && this.transactionHasCurrency.equals(transferIsTransactionWithRelationships.transactionHasCurrency) && this.fromTransfer.equals(transferIsTransactionWithRelationships.fromTransfer) && this.toTransfer.equals(transferIsTransactionWithRelationships.toTransfer);
     }
 }

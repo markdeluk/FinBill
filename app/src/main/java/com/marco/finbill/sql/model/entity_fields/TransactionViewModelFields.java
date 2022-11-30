@@ -1,4 +1,4 @@
-package com.marco.finbill.sql.model;
+package com.marco.finbill.sql.model.entity_fields;
 
 
 public class TransactionViewModelFields {
@@ -32,10 +32,7 @@ public class TransactionViewModelFields {
     }
 
     public boolean isValid() {
-        if (from != null && to != null) {
-            return true;
-        }
-        return false;
+        return from != null && to != null;
     }
 
     public void clear() {

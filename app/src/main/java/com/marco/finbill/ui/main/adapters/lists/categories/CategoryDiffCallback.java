@@ -3,15 +3,16 @@ package com.marco.finbill.ui.main.adapters.lists.categories;
 import androidx.recyclerview.widget.DiffUtil;
 
 import com.marco.finbill.sql.category.Category;
+import com.marco.finbill.sql.category.CategoryWithCurrency;
 
 import java.util.List;
 
 public class CategoryDiffCallback extends DiffUtil.Callback {
 
-    private final List<Category> oldCategoryList;
-    private final List<Category> newCategoryList;
+    private final List<CategoryWithCurrency> oldCategoryList;
+    private final List<CategoryWithCurrency> newCategoryList;
 
-    public CategoryDiffCallback(List<Category> oldCategoryList, List<Category> newCategoryList) {
+    public CategoryDiffCallback(List<CategoryWithCurrency> oldCategoryList, List<CategoryWithCurrency> newCategoryList) {
         this.oldCategoryList = oldCategoryList;
         this.newCategoryList = newCategoryList;
     }
@@ -28,7 +29,7 @@ public class CategoryDiffCallback extends DiffUtil.Callback {
 
     @Override
     public boolean areItemsTheSame(int oldItemPosition, int newItemPosition) {
-        return oldCategoryList.get(oldItemPosition).getCategoryId() == newCategoryList.get(newItemPosition).getCategoryId();
+        return oldCategoryList.get(oldItemPosition).getCategory().getCategoryId() == newCategoryList.get(newItemPosition).getCategory().getCategoryId();
     }
 
     @Override

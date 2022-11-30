@@ -2,7 +2,7 @@ package com.marco.finbill.sql.transaction.expense;
 
 import androidx.room.Embedded;
 
-import com.marco.finbill.sql.transaction.Transaction;
+import com.marco.finbill.sql.transaction.all.Transaction;
 
 public class ExpenseIsTransaction {
     private int expenseId;

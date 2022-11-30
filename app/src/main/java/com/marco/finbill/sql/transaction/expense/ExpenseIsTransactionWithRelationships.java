@@ -4,20 +4,21 @@ import androidx.room.Embedded;
 
 import com.marco.finbill.sql.account.Account;
 import com.marco.finbill.sql.category.Category;
-import com.marco.finbill.sql.transaction.Transaction;
+import com.marco.finbill.sql.transaction.all.TransactionHasCurrency;
 
 public class ExpenseIsTransactionWithRelationships {
+
     private int expenseId;
     @Embedded
-    private Transaction transaction;
+    private TransactionHasCurrency transactionHasCurrency;
     @Embedded
     private Account fromExpense;
     @Embedded
     private Category toExpense;
 
-    public ExpenseIsTransactionWithRelationships(int expenseId, Transaction transaction, Account fromExpense, Category toExpense) {
+    public ExpenseIsTransactionWithRelationships(int expenseId, TransactionHasCurrency transactionHasCurrency, Account fromExpense, Category toExpense) {
         this.expenseId = expenseId;
-        this.transaction = transaction;
+        this.transactionHasCurrency = transactionHasCurrency;
         this.fromExpense = fromExpense;
         this.toExpense = toExpense;
     }
@@ -30,12 +31,12 @@ public class ExpenseIsTransactionWithRelationships {
         this.expenseId = expenseId;
     }
 
-    public Transaction getTransaction() {
-        return transaction;
+    public TransactionHasCurrency getTransactionHasCurrency() {
+        return transactionHasCurrency;
     }
 
-    public void setTransaction(Transaction transaction) {
-        this.transaction = transaction;
+    public void setTransactionHasCurrency(TransactionHasCurrency transactionHasCurrency) {
+        this.transactionHasCurrency = transactionHasCurrency;
     }
 
     public Account getFromExpense() {
@@ -56,7 +57,7 @@ public class ExpenseIsTransactionWithRelationships {
 
     public boolean equals(ExpenseIsTransactionWithRelationships expenseIsTransactionWithRelationships) {
         return expenseIsTransactionWithRelationships.getExpenseId() == this.expenseId &&
-                expenseIsTransactionWithRelationships.getTransaction().equals(this.transaction) &&
+                expenseIsTransactionWithRelationships.getTransactionHasCurrency().equals(this.transactionHasCurrency) &&
                 expenseIsTransactionWithRelationships.getFromExpense().equals(this.fromExpense) &&
                 expenseIsTransactionWithRelationships.getToExpense().equals(this.toExpense);
     }

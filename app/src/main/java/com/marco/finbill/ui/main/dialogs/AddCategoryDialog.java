@@ -266,20 +266,31 @@ public class AddCategoryDialog extends DialogFragment {
                     });
                 }
                 if (category.isValid()) {
+                    viewModel.getCurrencyByString(sharedPreferences.getString("currency", null)).observe(getViewLifecycleOwner(), currency -> {
+                        if (currency != null) {
+                            viewModel.setCategoryViewModelFieldBalance(currency.getCurrencyId());
+                        }
+                    });
                     viewModel.getCategoryByName(category.getCategoryName()).observe(getViewLifecycleOwner(), query -> {
                         if (query == null) {
-                            category.setCategoryAdded(new Date(System.currentTimeMillis()));
-                            category.setCategoryBalanceCurrency(sharedPreferences.getString("currency", null));
-                            viewModel.insertCategory(category);
-                            dismiss();
+                            viewModel.setCategoryViewModelFieldProceed(true);
                         } else {
                             Snackbar.make(requireContext(), view, getResources().getString(R.string.category_already_exists), Snackbar.LENGTH_LONG).show();
+                        }
+                    });
+                    viewModel.getCategoryViewModelFieldsLiveData().observe(getViewLifecycleOwner(), fields -> {
+                        if (fields.isValid()) {
+                            category.setCategoryAdded(new Date(System.currentTimeMillis()));
+                            category.setCategoryBalanceCurrencyId(fields.getBalanceCurrencyId());
+                            viewModel.insertCategory(category);
+                            viewModel.clearCategoryViewModelFields();
                         }
                     });
                 }
                 else {
                     Snackbar.make(view, R.string.incomplete_fields, Snackbar.LENGTH_LONG).show();
                 }
+                dismiss();
                 return true;
             }
             return false;

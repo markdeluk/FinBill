@@ -155,7 +155,7 @@
                             android:id="@+id/currencyTitle"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="@string/currencyCode" />
+                            android:text="@string/currency" />
 
                         <Spinner
                             android:id="@+id/currencyEdit"
@@ -387,18 +387,6 @@
                             android:text="@string/take_picture" />
                     </LinearLayout>
                 </LinearLayout>
-
-                <TextView
-                    android:id="@+id/locationTitle"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/location" />
-
-                <TextView
-                    android:id="@+id/locationEdit"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Placeholder" />
 
                 <TextView
                     android:id="@+id/priorityTitle"

@@ -1,6 +1,7 @@
 package com.marco.finbill.sql.transaction.transfer;
 
 import androidx.room.Entity;
+import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 @Entity(tableName = "transfer_table")
@@ -16,6 +17,7 @@ public class Transfer {
         this.toTransfer = toTransfer;
     }
 
+    @Ignore
     public Transfer() {
         this.transferId = 0;
         this.fromTransfer = 0;

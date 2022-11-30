@@ -3,15 +3,16 @@ package com.marco.finbill.ui.main.adapters.lists.accounts;
 import androidx.recyclerview.widget.DiffUtil;
 
 import com.marco.finbill.sql.account.Account;
+import com.marco.finbill.sql.account.AccountHasCurrencies;
 
 import java.util.List;
 
 public class AccountDiffCallback extends DiffUtil.Callback {
 
-    private final List<Account> oldAccountList;
-    private final List<Account> newAccountList;
+    private final List<AccountHasCurrencies> oldAccountList;
+    private final List<AccountHasCurrencies> newAccountList;
 
-    public AccountDiffCallback(List<Account> oldAccountList, List<Account> newAccountList) {
+    public AccountDiffCallback(List<AccountHasCurrencies> oldAccountList, List<AccountHasCurrencies> newAccountList) {
         this.oldAccountList = oldAccountList;
         this.newAccountList = newAccountList;
     }
@@ -28,7 +29,7 @@ public class AccountDiffCallback extends DiffUtil.Callback {
 
     @Override
     public boolean areItemsTheSame(int oldItemPosition, int newItemPosition) {
-        return oldAccountList.get(oldItemPosition).getAccountId() == newAccountList.get(newItemPosition).getAccountId();
+        return oldAccountList.get(oldItemPosition).getAccount().getAccountId() == newAccountList.get(newItemPosition).getAccount().getAccountId();
     }
 
     @Override

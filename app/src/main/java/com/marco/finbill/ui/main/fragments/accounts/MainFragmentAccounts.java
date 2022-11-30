@@ -54,6 +54,6 @@ public class MainFragmentAccounts extends Fragment {
         recyclerView.hasFixedSize();
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(accountAdapter);
-        viewModel.getAllAccounts().observe(getViewLifecycleOwner(), accountAdapter::updateAccountList);
+        viewModel.getAllAccountsHaveCurrencies().observe(getViewLifecycleOwner(), accountAdapter::updateAccountList);
     }
 }

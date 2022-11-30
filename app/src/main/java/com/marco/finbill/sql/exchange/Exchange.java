@@ -4,40 +4,47 @@ import android.icu.util.Currency;
 
 import androidx.annotation.NonNull;
 import androidx.room.Entity;
+import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
 import java.sql.Date;
 
-@Entity(tableName = "exchange_table", primaryKeys = {"exchangeFromCurrency", "exchangeToCurrency"})
+@Entity(tableName = "exchange_table", indices = {@Index(value = {"exchangeFromCurrency", "exchangeToCurrency"}, unique = true)})
 public class Exchange {
-    @NonNull
-    private String exchangeFromCurrency;
-    @NonNull
-    private String exchangeToCurrency;
+    @PrimaryKey(autoGenerate = true)
+    private int exchangeId;
+    private int exchangeFromCurrencyId;
+    private int exchangeToCurrencyId;
     private double exchangeRate;
 
-    public Exchange(@NonNull String exchangeFromCurrency, @NonNull String exchangeToCurrency, double exchangeRate) {
-        this.exchangeFromCurrency = exchangeFromCurrency;
-        this.exchangeToCurrency = exchangeToCurrency;
+    public Exchange(int exchangeFromCurrencyId, int exchangeToCurrencyId, double exchangeRate) {
+        this.exchangeFromCurrencyId = exchangeFromCurrencyId;
+        this.exchangeToCurrencyId = exchangeToCurrencyId;
         this.exchangeRate = exchangeRate;
     }
 
-    @NonNull
-    public String getExchangeFromCurrency() {
-        return exchangeFromCurrency;
+    public int getExchangeId() {
+        return exchangeId;
     }
 
-    public void setExchangeFromCurrency(@NonNull String exchangeFromCurrency) {
-        this.exchangeFromCurrency = exchangeFromCurrency;
+    public void setExchangeId(int exchangeId) {
+        this.exchangeId = exchangeId;
     }
 
-    @NonNull
-    public String getExchangeToCurrency() {
-        return exchangeToCurrency;
+    public int getExchangeFromCurrencyId() {
+        return exchangeFromCurrencyId;
     }
 
-    public void setExchangeToCurrency(@NonNull String exchangeToCurrency) {
-        this.exchangeToCurrency = exchangeToCurrency;
+    public void setExchangeFromCurrencyId(int exchangeFromCurrencyId) {
+        this.exchangeFromCurrencyId = exchangeFromCurrencyId;
+    }
+
+    public int getExchangeToCurrencyId() {
+        return exchangeToCurrencyId;
+    }
+
+    public void setExchangeToCurrencyId(int exchangeToCurrencyId) {
+        this.exchangeToCurrencyId = exchangeToCurrencyId;
     }
 
     public double getExchangeRate() {

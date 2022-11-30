@@ -1,4 +1,4 @@
-package com.marco.finbill.sql.transaction;
+package com.marco.finbill.sql.transaction.all;
 
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
@@ -8,11 +8,8 @@ import androidx.room.Query;
 import androidx.room.Update;
 
 import com.marco.finbill.enums.TransactionType;
-import com.marco.finbill.sql.account.Account;
-import com.marco.finbill.sql.category.Category;
 
 import java.util.List;
-import java.util.Map;
 
 @Dao
 public interface TransactionDao {

@@ -2,13 +2,16 @@ package com.marco.finbill.sql.category;
 
 import android.graphics.Bitmap;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.room.Entity;
+import androidx.room.Ignore;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
 import com.marco.finbill.enums.CategoryType;
 import com.marco.finbill.enums.PriorityType;
+import com.marco.finbill.sql.currency.Currency;
 
 import java.util.Date;
 
@@ -24,23 +27,24 @@ public class Category {
     private Bitmap categoryImage;
     private Date categoryAdded;
     private Double categoryBalance;
-    private String categoryBalanceCurrency;
+    private Integer categoryBalanceCurrencyId;
     @Nullable
     private Integer categoryIsChildOf;
     private PriorityType categoryPriority;
 
-    public Category(String categoryName, @Nullable String categoryDescription, CategoryType categoryType, @Nullable Bitmap categoryImage, Date categoryAdded, Double categoryBalance, String categoryBalanceCurrency, @Nullable Integer categoryIsChildOf, PriorityType categoryPriority) {
+    public Category(String categoryName, @Nullable String categoryDescription, CategoryType categoryType, @Nullable Bitmap categoryImage, Date categoryAdded, Double categoryBalance, Integer categoryBalanceCurrencyId, @Nullable Integer categoryIsChildOf, PriorityType categoryPriority) {
         this.categoryName = categoryName;
         this.categoryDescription = categoryDescription;
         this.categoryType = categoryType;
         this.categoryImage = categoryImage;
         this.categoryAdded = categoryAdded;
         this.categoryBalance = categoryBalance;
-        this.categoryBalanceCurrency = categoryBalanceCurrency;
+        this.categoryBalanceCurrencyId = categoryBalanceCurrencyId;
         this.categoryIsChildOf = categoryIsChildOf;
         this.categoryPriority = categoryPriority;
     }
 
+    @Ignore
     public Category() {
         this.categoryName = null;
         this.categoryDescription = null;
@@ -48,7 +52,7 @@ public class Category {
         this.categoryImage = null;
         this.categoryAdded = null;
         this.categoryBalance = (double) 0;
-        this.categoryBalanceCurrency = null;
+        this.categoryBalanceCurrencyId = null;
         this.categoryIsChildOf = Integer.MIN_VALUE;
         this.categoryPriority = null;
     }
@@ -111,12 +115,12 @@ public class Category {
         this.categoryBalance = categoryBalance;
     }
 
-    public String getCategoryBalanceCurrency() {
-        return categoryBalanceCurrency;
+    public Integer getCategoryBalanceCurrencyId() {
+        return categoryBalanceCurrencyId;
     }
 
-    public void setCategoryBalanceCurrency(String categoryBalanceCurrency) {
-        this.categoryBalanceCurrency = categoryBalanceCurrency;
+    public void setCategoryBalanceCurrencyId(Integer categoryBalanceCurrencyId) {
+        this.categoryBalanceCurrencyId = categoryBalanceCurrencyId;
     }
 
     @Nullable

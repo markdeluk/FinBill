@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.marco.finbill.R;
 import com.marco.finbill.sql.category.Category;
+import com.marco.finbill.sql.category.CategoryWithCurrency;
 
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
@@ -22,7 +23,7 @@ import java.util.Locale;
 
 public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHolder> {
 
-    private final ArrayList<Category> categories;
+    private final ArrayList<CategoryWithCurrency> categories;
 
     public CategoryAdapter() {
         this.categories = new ArrayList<>();
@@ -38,18 +39,18 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(@NonNull CategoryAdapter.ViewHolder holder, int position) {
-        Category category = categories.get(position);
-        Bitmap image = category.getCategoryImage();
+        CategoryWithCurrency categoryWithCurrency = categories.get(position);
+        Bitmap image = categoryWithCurrency.getCategory().getCategoryImage();
         if (image == null) {
             holder.picture.setImageResource(R.drawable.picture_icon);
         } else {
             holder.picture.setImageBitmap(image);
         }
-        holder.title.setText(category.getCategoryName());
-        double balance = category.getCategoryBalance();
+        holder.title.setText(categoryWithCurrency.getCategory().getCategoryName());
+        double balance = categoryWithCurrency.getCategory().getCategoryBalance();
         holder.sign.setText(balance < 0 ? R.string.minus : R.string.plus);
         holder.amount.setText(new DecimalFormat("#,##0.00", new DecimalFormatSymbols(Locale.getDefault())).format(balance < 0 ? -balance : balance));
-        holder.currency.setText(category.getCategoryBalanceCurrency());
+        holder.currency.setText(categoryWithCurrency.getCurrency().getCurrencyString());
     }
 
     @Override
@@ -57,7 +58,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
         return categories.size();
     }
 
-    public void updateCategoryList(List<Category> categories) {
+    public void updateCategoryList(List<CategoryWithCurrency> categories) {
         CategoryDiffCallback diffCallback = new CategoryDiffCallback(this.categories, categories);
         DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(diffCallback);
         this.categories.clear();

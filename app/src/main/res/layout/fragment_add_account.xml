@@ -122,7 +122,7 @@
                             android:id="@+id/currencyBalanceTitle"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="@string/currencyCode" />
+                            android:text="@string/currency" />
 
                         <Spinner
                             android:id="@+id/currencyBalanceEdit"
@@ -173,7 +173,7 @@
                             android:id="@+id/currencyPlatfondTitle"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="@string/currencyCode" />
+                            android:text="@string/currency" />
 
                         <Spinner
                             android:id="@+id/currencyPlatfondEdit"

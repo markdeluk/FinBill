@@ -47,7 +47,7 @@
     <string name="name" translatable="false">Name</string>
     <string name="description" translatable="false">Description</string>
     <string name="amount" translatable="false">Amount</string>
-    <string name="currencyCode" translatable="false">Currency</string>
+    <string name="currency" translatable="false">Currency</string>
     <string name="date" translatable="false">Date</string>
     <string name="time" translatable="false">Time</string>
     <string name="frequency" translatable="false">Frequency</string>
@@ -76,6 +76,8 @@
     <string name="inserted_exchange_rates" translatable="false">Inserted exchange rates!</string>
     <string name="updated_exchange_rates" translatable="false">Updated exchange rates!</string>
     <string name="updating_exchange_rates" translatable="false">Updating exchange rates…</string>
+    <string name="updating_currencies" translatable="false">Updating currencies…</string>
+    <string name="updated_currencies" translatable="false">Updated currencies!</string>
     <string name="error_updating_exchange_rates" translatable="false">Error while updating exchange rates!</string>
     <string name="transaction_picture" translatable="false">Transaction picture</string>
     <string name="add_account" translatable="false">Add a new account</string>
