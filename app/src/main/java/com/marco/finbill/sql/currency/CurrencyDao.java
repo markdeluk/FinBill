@@ -14,6 +14,9 @@ public interface CurrencyDao {
     @Insert
     void insertCurrency(Currency currency);
 
+    @Insert
+    void insertCurrencies(List<Currency> currencies);
+
     @Update
     void updateCurrency(Currency currency);
 

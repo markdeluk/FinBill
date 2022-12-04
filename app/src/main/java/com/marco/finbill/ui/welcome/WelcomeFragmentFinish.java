@@ -28,7 +28,7 @@ public class WelcomeFragmentFinish extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_welcome_end, container, false);
         button = view.findViewById(R.id.button4);
-        button.setOnClickListener(v -> requireActivity().finish());
+        button.setOnClickListener(v -> ((WelcomeActivity) requireActivity()).finishWelcomeActivity());
         return view;
     }
 }

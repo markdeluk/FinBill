@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="app_need_option">
-        <item>Pay my studies</item>
-        <item>Plan my next holidays</item>
-        <item>Make a great gift to my friend</item>
-        <item>Save money for my future</item>
-        <item>Buy a new car</item>
-        <item>Buy a new house</item>
-        <item>Buy a new smartphone</item>
-        <item>Eat more pizzas in the weekend\!</item>
-        <item>Other</item>
+        <item>Pagare i miei studi</item>
+        <item>Organizzare le mie prossime vacanze</item>
+        <item>Fare un grande regalo al mio amico</item>
+        <item>Risparmiare denaro per il mio futuro</item>
+        <item>Comprare una macchina nuova</item>
+        <item>Comprare una nuova casa</item>
+        <item>Acquistare un nuovo smartphone</item>
+        <item>Mangiare più pizze nel fine settimana\!</item>
+        <item>Altro</item>
     </string-array>
 </resources>

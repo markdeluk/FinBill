@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.marco.finbill.R;
 import com.marco.finbill.enums.CategoryType;
-import com.marco.finbill.sql.model.FinBillViewModel;
+import com.marco.finbill.model.FinBillViewModel;
 import com.marco.finbill.ui.main.adapters.lists.categories.CategoryAdapter;
 
 public class CategoriesExpenseFragment extends Fragment {

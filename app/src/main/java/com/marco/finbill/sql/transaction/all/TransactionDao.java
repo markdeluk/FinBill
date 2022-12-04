@@ -15,7 +15,7 @@ import java.util.List;
 public interface TransactionDao {
 
     @Insert
-    void insertTransaction(Transaction transaction);
+    long insertTransaction(Transaction transaction);
 
     @Update
     void updateTransaction(Transaction transaction);

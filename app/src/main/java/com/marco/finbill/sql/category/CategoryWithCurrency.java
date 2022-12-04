@@ -1,6 +1,9 @@
 package com.marco.finbill.sql.category;
 
+import android.util.Log;
+
 import androidx.room.Embedded;
+import androidx.room.Relation;
 
 import com.marco.finbill.sql.currency.Currency;
 
@@ -8,7 +11,11 @@ public class CategoryWithCurrency {
 
     @Embedded
     private Category category;
-    @Embedded
+
+    @Relation(
+            parentColumn = "categoryBalanceCurrencyId",
+            entityColumn = "currencyId"
+    )
     private Currency currency;
 
     public CategoryWithCurrency(Category category, Currency currency) {

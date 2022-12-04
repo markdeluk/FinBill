@@ -20,7 +20,6 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
@@ -34,12 +33,13 @@ import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentManager;
 
 import com.google.android.material.snackbar.Snackbar;
+import com.google.android.material.textfield.TextInputEditText;
 import com.marco.finbill.R;
 import com.marco.finbill.enums.AccountType;
 import com.marco.finbill.enums.PriorityType;
 import com.marco.finbill.sql.account.Account;
 import com.marco.finbill.sql.currency.Currency;
-import com.marco.finbill.sql.model.FinBillViewModel;
+import com.marco.finbill.model.FinBillViewModel;
 
 import java.sql.Date;
 import java.util.ArrayList;
@@ -60,23 +60,22 @@ public class AddAccountDialog extends DialogFragment {
     private Account account;
 
     private Spinner accountTypeSpinner;
-    private EditText dateEdit;
+    private TextInputEditText dateEdit;
     private ImageView pictureEdit;
     private boolean pictureSelected = false;
     private Spinner priorityEdit;
-    private EditText nameEdit;
-    private EditText descriptionEdit;
-    private EditText balanceEdit;
-    private EditText platfondEdit;
+    private TextInputEditText nameEdit;
+    private TextInputEditText descriptionEdit;
+    private TextInputEditText balanceEdit;
+    private TextInputEditText platfondEdit;
     private Spinner currencyBalanceEdit;
     private Spinner currencyPlatfondEdit;
 
     private SharedPreferences preferences;
 
-    public static AddAccountDialog display(FragmentManager fragmentManager) {
+    public static void display(FragmentManager fragmentManager) {
         AddAccountDialog addAccountDialog = new AddAccountDialog();
         addAccountDialog.show(fragmentManager, TAG);
-        return addAccountDialog;
     }
 
     @Override
@@ -154,10 +153,10 @@ public class AddAccountDialog extends DialogFragment {
         currencyPlatfondEdit = rootView.findViewById(R.id.currencyPlatfondEdit);
         currencyPlatfondEdit.setAdapter(currencyStringAdapter);
 
-        viewModel.getAllCurrencyCodes().observe(getViewLifecycleOwner(), currencyCodes -> {
+        viewModel.getAllCurrencies().observe(getViewLifecycleOwner(), currencies -> {
             currencyStringList.clear();
             currencyStringList.add(0, getResources().getString(R.string.choose_currency));
-            for (Currency currency : currencyCodes) {
+            for (Currency currency : currencies) {
                 currencyStringList.add(currency.getCurrencyString());
             }
             currencyStringAdapter.notifyDataSetChanged();
@@ -241,28 +240,28 @@ public class AddAccountDialog extends DialogFragment {
         toolbar.setOnMenuItemClickListener(item -> {
             if (item.getItemId() == R.id.action_save) {
                 account = new Account();
-                if (!nameEdit.getText().toString().isEmpty()) {
+                if (nameEdit.getText() != null && !nameEdit.getText().toString().isEmpty()) {
                     account.setAccountName(nameEdit.getText().toString());
                 }
-                if (!descriptionEdit.getText().toString().isEmpty()) {
+                if (descriptionEdit.getText() != null && !descriptionEdit.getText().toString().isEmpty()) {
                     account.setAccountDescription(descriptionEdit.getText().toString());
                 }
                 if (accountTypeSpinner.getSelectedItemPosition() != 0) {
                     account.setAccountType(AccountType.values()[accountTypeSpinner.getSelectedItemPosition()]);
                 }
-                if (!balanceEdit.getText().toString().isEmpty()) {
+                if (balanceEdit.getText() != null && !balanceEdit.getText().toString().isEmpty()) {
                     account.setAccountBalance(Double.parseDouble(balanceEdit.getText().toString()));
                 }
                 if (currencyBalanceEdit.getSelectedItemPosition() != 0) {
                     account.setAccountBalanceCurrencyId(0); // temporary value
                 }
-                if (!platfondEdit.getText().toString().isEmpty()) {
+                if (platfondEdit.getText() != null && !platfondEdit.getText().toString().isEmpty()) {
                     account.setAccountPlatfond(Double.parseDouble(platfondEdit.getText().toString()));
                 }
                 if (currencyPlatfondEdit.getSelectedItemPosition() != 0) {
                     account.setAccountPlatfondCurrencyId(0); // temporary value
                 }
-                if (!dateEdit.getText().toString().isEmpty()) {
+                if (dateEdit.getText() != null && !dateEdit.getText().toString().isEmpty()) {
                     account.setAccountCreated(Date.valueOf(dateEdit.getText().toString()));
                 }
                 if (pictureSelected) {
@@ -274,33 +273,34 @@ public class AddAccountDialog extends DialogFragment {
                 if (account.isValid()) {
                     viewModel.getCurrencyByString(currencyBalanceEdit.getSelectedItem().toString()).observe(getViewLifecycleOwner(), currency -> {
                         if (currency != null) {
-                            viewModel.setAccountViewModelFieldBalance(currency.getCurrencyId());
+                            viewModel.pushAccountFieldBalance(currency.getCurrencyId());
                         }
                     });
                     viewModel.getCurrencyByString(currencyPlatfondEdit.getSelectedItem().toString()).observe(getViewLifecycleOwner(), currency -> {
                         if (currency != null) {
-                            viewModel.setAccountViewModelFieldPlatfond(currency.getCurrencyId());
+                            viewModel.pushAccountFieldPlatfond(currency.getCurrencyId());
                         }
                     });
                     viewModel.getAccountByName(account.getAccountName()).observe(getViewLifecycleOwner(), query -> {
                         if (query == null) {
-                            viewModel.setAccountViewModelFieldProceed(true);
+                            viewModel.pushAccountFieldProceed(true);
                         } else {
                             Snackbar.make(requireContext(), view, getResources().getString(R.string.account_already_exists), Snackbar.LENGTH_LONG).show();
                         }
                     });
-                    viewModel.getAccountViewModelFieldsLiveData().observe(getViewLifecycleOwner(), fields -> {
+                    viewModel.pullAccountFieldsLiveData().observe(getViewLifecycleOwner(), fields -> {
                         if (fields.isValid()) {
                             account.setAccountBalanceCurrencyId(fields.getBalanceCurrencyId());
                             account.setAccountPlatfondCurrencyId(fields.getPlatfondCurrencyId());
                             account.setAccountAdded(new Date(System.currentTimeMillis()));
                             viewModel.insertAccount(account);
-                            viewModel.clearAccountViewModelFields();
+                            viewModel.popAccountFields();
                         }
                     });
                 }
                 else {
                     Snackbar.make(view, R.string.incomplete_fields, Snackbar.LENGTH_LONG).show();
+                    return false;
                 }
                 dismiss();
                 return true;

@@ -14,10 +14,12 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.marco.finbill.R;
-import com.marco.finbill.sql.model.FinBillViewModel;
-import com.marco.finbill.ui.main.adapters.spinners.dashboard.TransferAdapter;
+import com.marco.finbill.model.FinBillViewModel;
+import com.marco.finbill.ui.main.adapters.lists.transfers.TransferAdapter;
 
 public class DashboardTransferFragment extends Fragment {
+
+    private FinBillViewModel viewModel;
 
     public DashboardTransferFragment() {
         // Required empty public constructor
@@ -26,6 +28,7 @@ public class DashboardTransferFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        viewModel = new ViewModelProvider(requireActivity()).get(FinBillViewModel.class);
     }
 
     @Override
@@ -43,7 +46,7 @@ public class DashboardTransferFragment extends Fragment {
         recyclerView.hasFixedSize();
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(transferAdapter);
-
+        viewModel.getAllTransferIsTransactionWithRelationships().observe(getViewLifecycleOwner(), transferAdapter::updateTransferList);
     }
 
 }

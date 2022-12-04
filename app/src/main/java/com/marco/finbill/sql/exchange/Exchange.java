@@ -9,10 +9,8 @@ import androidx.room.PrimaryKey;
 
 import java.sql.Date;
 
-@Entity(tableName = "exchange_table", indices = {@Index(value = {"exchangeFromCurrency", "exchangeToCurrency"}, unique = true)})
+@Entity(tableName = "exchange_table", primaryKeys = {"exchangeFromCurrencyId", "exchangeToCurrencyId"})
 public class Exchange {
-    @PrimaryKey(autoGenerate = true)
-    private int exchangeId;
     private int exchangeFromCurrencyId;
     private int exchangeToCurrencyId;
     private double exchangeRate;
@@ -21,14 +19,6 @@ public class Exchange {
         this.exchangeFromCurrencyId = exchangeFromCurrencyId;
         this.exchangeToCurrencyId = exchangeToCurrencyId;
         this.exchangeRate = exchangeRate;
-    }
-
-    public int getExchangeId() {
-        return exchangeId;
-    }
-
-    public void setExchangeId(int exchangeId) {
-        this.exchangeId = exchangeId;
     }
 
     public int getExchangeFromCurrencyId() {

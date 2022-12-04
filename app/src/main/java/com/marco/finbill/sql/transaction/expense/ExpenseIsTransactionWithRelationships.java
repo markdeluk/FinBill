@@ -1,34 +1,51 @@
 package com.marco.finbill.sql.transaction.expense;
 
 import androidx.room.Embedded;
+import androidx.room.Relation;
 
 import com.marco.finbill.sql.account.Account;
 import com.marco.finbill.sql.category.Category;
+import com.marco.finbill.sql.currency.Currency;
+import com.marco.finbill.sql.transaction.all.Transaction;
 import com.marco.finbill.sql.transaction.all.TransactionHasCurrency;
 
 public class ExpenseIsTransactionWithRelationships {
 
-    private int expenseId;
     @Embedded
+    private Expense expense;
+
+    @Relation(
+            entity = Transaction.class,
+            parentColumn = "expenseId",
+            entityColumn = "transactionId"
+    )
     private TransactionHasCurrency transactionHasCurrency;
-    @Embedded
+
+    @Relation(
+            parentColumn = "fromExpense",
+            entityColumn = "accountId"
+    )
     private Account fromExpense;
-    @Embedded
+
+    @Relation(
+            parentColumn = "toExpense",
+            entityColumn = "categoryId"
+    )
     private Category toExpense;
 
-    public ExpenseIsTransactionWithRelationships(int expenseId, TransactionHasCurrency transactionHasCurrency, Account fromExpense, Category toExpense) {
-        this.expenseId = expenseId;
+    public ExpenseIsTransactionWithRelationships(Expense expense, TransactionHasCurrency transactionHasCurrency, Account fromExpense, Category toExpense) {
+        this.expense = expense;
         this.transactionHasCurrency = transactionHasCurrency;
         this.fromExpense = fromExpense;
         this.toExpense = toExpense;
     }
 
-    public int getExpenseId() {
-        return expenseId;
+    public Expense getExpense() {
+        return expense;
     }
 
-    public void setExpenseId(int expenseId) {
-        this.expenseId = expenseId;
+    public void setExpense(Expense expense) {
+        this.expense = expense;
     }
 
     public TransactionHasCurrency getTransactionHasCurrency() {
@@ -56,7 +73,7 @@ public class ExpenseIsTransactionWithRelationships {
     }
 
     public boolean equals(ExpenseIsTransactionWithRelationships expenseIsTransactionWithRelationships) {
-        return expenseIsTransactionWithRelationships.getExpenseId() == this.expenseId &&
+        return expenseIsTransactionWithRelationships.getExpense().equals(this.expense) &&
                 expenseIsTransactionWithRelationships.getTransactionHasCurrency().equals(this.transactionHasCurrency) &&
                 expenseIsTransactionWithRelationships.getFromExpense().equals(this.fromExpense) &&
                 expenseIsTransactionWithRelationships.getToExpense().equals(this.toExpense);

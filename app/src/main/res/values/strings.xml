@@ -1,28 +1,28 @@
 <resources>
     <string name="app_name">FinBill</string>
-    <string name="welcome" translatable="false">Welcome to FinBill</string>
-    <string name="start" translatable="false">Start</string>
-    <string name="set_name" translatable="false">What\'s your name?</string>
-    <string name="set_name_hint" translatable="false">Type your name here</string>
-    <string name="app_need" translatable="false">I need this app for…</string>
-    <string name="next" translatable="false">Next</string>
-    <string name="select_option" translatable="false">Select an option\…</string>
-    <string name="finish" translatable="false">Finished!</string>
-    <string name="finish_hint" translatable="false">You\'re all set up! Now you can start using FinBill!</string>
-    <string name="let_me_in" translatable="false">Let me in!</string>
-    <string name="settings" translatable="false">Settings</string>
-    <string name="settings_hint" translatable="false">Here you can change your settings</string>
-    <string name="accounts" translatable="false">Accounts</string>
-    <string name="categories" translatable="false">Categories</string>
-    <string name="dashboard" translatable="false">Dashboard</string>
-    <string name="subscriptions" translatable="false">Subscriptions</string>
-    <string name="backup" translatable="false">Backup and restore</string>
+    <string name="welcome">Welcome to FinBill</string>
+    <string name="start">Start</string>
+    <string name="set_name">What\'s your name?</string>
+    <string name="set_name_hint">Type your name here</string>
+    <string name="app_need">I need this app for…</string>
+    <string name="next">Next</string>
+    <string name="select_option">Select an option…</string>
+    <string name="finish">Finished!</string>
+    <string name="finish_hint">You\'re all set up! Now you can start using FinBill!</string>
+    <string name="let_me_in">Let me in!</string>
+    <string name="settings">Settings</string>
+    <string name="settings_hint">Here you can change your settings</string>
+    <string name="accounts">Accounts</string>
+    <string name="categories">Categories</string>
+    <string name="dashboard">Dashboard</string>
+    <string name="subscriptions">Subscriptions</string>
+    <string name="backup">Backup and restore</string>
     <string name="fab" translatable="false">FAB</string>
 
-    <string name="transactions" translatable="false">Transactions</string>
-    <string name="expenses" translatable="false">Expenses</string>
-    <string name="incomes" translatable="false">Incomes</string>
-    <string name="transfers" translatable="false">Transfers</string>
+    <string name="transactions">Transactions</string>
+    <string name="expenses">Expenses</string>
+    <string name="incomes">Incomes</string>
+    <string name="transfers">Transfers</string>
 
     <string name="picture_placeholder" translatable="false">PICTURE</string>
     <string name="title_placeholder" translatable="false">TITLE</string>
@@ -37,70 +37,74 @@
     <string name="minus" translatable="false">-</string>
     <string name="plus" translatable="false">+</string>
 
-    <string name="add_transaction" translatable="false">Add a new transaction</string>
-    <string name="add_expense" translatable="false">Add a new expense</string>
-    <string name="add_income" translatable="false">Add a new income</string>
-    <string name="add_transfer" translatable="false">Add a new transfer</string>
+    <string name="add_transaction">Add a new transaction</string>
+    <string name="add_expense">Add a new expense</string>
+    <string name="add_income">Add a new income</string>
+    <string name="add_transfer">Add a new transfer</string>
 
-    <string name="save" translatable="false">Save</string>
-    <string name="transaction_type" translatable="false">Transaction type</string>
-    <string name="name" translatable="false">Name</string>
-    <string name="description" translatable="false">Description</string>
-    <string name="amount" translatable="false">Amount</string>
-    <string name="currency" translatable="false">Currency</string>
-    <string name="date" translatable="false">Date</string>
-    <string name="time" translatable="false">Time</string>
-    <string name="frequency" translatable="false">Frequency</string>
-    <string name="estimated_years" translatable="false">Estimated years</string>
-    <string name="happens_every" translatable="false">It happens every…</string>
-    <string name="notify" translatable="false">Notify</string>
-    <string name="notify_every" translatable="false">Notify every…</string>
-    <string name="notes" translatable="false">Notes</string>
-    <string name="picture" translatable="false">Picture</string>
-    <string name="reset" translatable="false">Reset</string>
-    <string name="choose_gallery" translatable="false">Choose from gallery</string>
-    <string name="take_picture" translatable="false">Take a picture</string>
-    <string name="location" translatable="false">Location</string>
-    <string name="priority" translatable="false">Priority</string>
-    <string name="choose_option" translatable="false">Choose an option…</string>
-    <string name="from" translatable="false">From</string>
-    <string name="to" translatable="false">To</string>
-    <string name="choose_transaction_type" translatable="false">Choose a transaction type…</string>
-    <string name="choose_account" translatable="false">Choose an account…</string>
-    <string name="choose_category" translatable="false">Choose a category…</string>
-    <string name="choose_currency" translatable="false">Choose a currency…</string>
-    <string name="choose_frequency" translatable="false">Choose a frequency…</string>
-    <string name="choose_recurrency" translatable="false">Choose a recurrency…</string>
-    <string name="choose_priority" translatable="false">Choose a priority…</string>
-    <string name="incomplete_fields" translatable="false">Error! You must complete all the mandatory fields before clicking the save button.</string>
-    <string name="inserted_exchange_rates" translatable="false">Inserted exchange rates!</string>
-    <string name="updated_exchange_rates" translatable="false">Updated exchange rates!</string>
-    <string name="updating_exchange_rates" translatable="false">Updating exchange rates…</string>
-    <string name="updating_currencies" translatable="false">Updating currencies…</string>
-    <string name="updated_currencies" translatable="false">Updated currencies!</string>
-    <string name="error_updating_exchange_rates" translatable="false">Error while updating exchange rates!</string>
-    <string name="transaction_picture" translatable="false">Transaction picture</string>
-    <string name="add_account" translatable="false">Add a new account</string>
-    <string name="account_type" translatable="false">Account type</string>
-    <string name="balance" translatable="false">Balance</string>
-    <string name="platfond" translatable="false">Platfond</string>
-    <string name="account_picture" translatable="false">Account picture</string>
-    <string name="choose_account_type" translatable="false">Choose an account type…</string>
-    <string name="category_type" translatable="false">Category type</string>
-    <string name="choose_category_type" translatable="false">Choose a category type…</string>
-    <string name="is_child_of" translatable="false">Is child of</string>
-    <string name="choose_category_is_child_of" translatable="false">Choose a parent category…</string>
-    <string name="no_one" translatable="false">No one</string>
-    <string name="account_already_exists" translatable="false">Error! An account with the same name is already present in the database. Change it!</string>
-    <string name="category_already_exists" translatable="false">Error! A category with the same name is already present in the database. Change it!</string>
-    <string name="add_category" translatable="false">Add a new category</string>
-    <string name="add_category_expense" translatable="false">Add a new expense category</string>
-    <string name="add_category_income" translatable="false">Add a new income category</string>
-    <string name="default_currency_option" translatable="false">What\'s your preferred currency?</string>
-    <string name="cant_skip" translatable="false">You can\'t skip this setup!</string>
-    <string name="type_placeholder" translatable="false">TYPE</string>
-    <string name="date_of_opening" translatable="false">Date of opening</string>
-    <string name="all_categories" translatable="false">All categories</string>
-    <string name="expense_categories" translatable="false">Expense categories</string>
-    <string name="income_categories" translatable="false">Income categories</string>
+    <string name="save">Save</string>
+    <string name="transaction_type">Transaction type</string>
+    <string name="name">Name</string>
+    <string name="description">Description</string>
+    <string name="amount">Amount</string>
+    <string name="currency">Currency</string>
+    <string name="date">Date</string>
+    <string name="time">Time</string>
+    <string name="frequency">Frequency</string>
+    <string name="estimated_years">Estimated years</string>
+    <string name="happens_every">It happens every…</string>
+    <string name="notify">Notify</string>
+    <string name="notify_every">Notify every…</string>
+    <string name="notes">Notes</string>
+    <string name="picture">Picture</string>
+    <string name="reset">Reset</string>
+    <string name="choose_gallery">Choose from gallery</string>
+    <string name="take_picture">Take a picture</string>
+    <string name="location">Location</string>
+    <string name="priority">Priority</string>
+    <string name="choose_option">Choose an option…</string>
+    <string name="from">From</string>
+    <string name="to">To</string>
+    <string name="choose_transaction_type">Choose a transaction type…</string>
+    <string name="choose_account">Choose an account…</string>
+    <string name="choose_category">Choose a category…</string>
+    <string name="choose_currency">Choose a currency…</string>
+    <string name="choose_frequency">Choose a frequency…</string>
+    <string name="choose_recurrency">Choose a recurrency…</string>
+    <string name="choose_priority">Choose a priority…</string>
+    <string name="incomplete_fields">Error! You must complete all the mandatory fields before clicking the save button.</string>
+    <string name="inserted_exchange_rates">Inserted exchange rates!</string>
+    <string name="updated_exchange_rates">Updated exchange rates!</string>
+    <string name="updating_exchange_rates">Updating exchange rates…</string>
+    <string name="updating_currencies">Updating currencies…</string>
+    <string name="updated_currencies">Updated currencies!</string>
+    <string name="error_updating_exchange_rates">Error while updating exchange rates!</string>
+    <string name="transaction_picture">Transaction picture</string>
+    <string name="add_account">Add a new account</string>
+    <string name="account_type">Account type</string>
+    <string name="balance">Balance</string>
+    <string name="platfond">Platfond</string>
+    <string name="account_picture">Account picture</string>
+    <string name="choose_account_type">Choose an account type…</string>
+    <string name="category_type">Category type</string>
+    <string name="choose_category_type">Choose a category type…</string>
+    <string name="is_child_of">Is child of</string>
+    <string name="choose_category_is_child_of">Choose a parent category…</string>
+    <string name="no_one">No one</string>
+    <string name="account_already_exists">Error! An account with the same name is already present in the database. Change it!</string>
+    <string name="category_already_exists">Error! A category with the same name is already present in the database. Change it!</string>
+    <string name="add_category">Add a new category</string>
+    <string name="add_category_expense">Add a new expense category</string>
+    <string name="add_category_income">Add a new income category</string>
+    <string name="default_currency_option">What\'s your preferred currency?</string>
+    <string name="cant_skip">You can\'t skip this setup!</string>
+    <string name="type_placeholder">TYPE</string>
+    <string name="date_of_opening">Date of opening</string>
+    <string name="all_categories">All categories</string>
+    <string name="all">All</string>
+    <string name="expense_categories">Expense categories</string>
+    <string name="income_categories">Income categories</string>
+    <string name="expense">Expense</string>
+    <string name="income">Income</string>
+    <string name="category_picture">Category picture</string>
 </resources>

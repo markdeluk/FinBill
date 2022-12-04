@@ -1,6 +1,9 @@
 package com.marco.finbill.sql.account;
 
+import androidx.room.ColumnInfo;
 import androidx.room.Embedded;
+import androidx.room.Entity;
+import androidx.room.Relation;
 
 import com.marco.finbill.sql.currency.Currency;
 
@@ -8,10 +11,20 @@ public class AccountHasCurrencies {
 
     @Embedded
     private Account account;
-    @Embedded(prefix = "balance_")
+
+    @Relation(
+            parentColumn = "accountBalanceCurrencyId",
+            entityColumn = "currencyId"
+    )
     private Currency balanceCurrency;
-    @Embedded(prefix = "platfond_")
+
+    @Relation(
+            parentColumn = "accountPlatfondCurrencyId",
+            entityColumn = "currencyId"
+    )
     private Currency platfondCurrency;
+
+
 
     public AccountHasCurrencies(Account account, Currency balanceCurrency, Currency platfondCurrency) {
         this.account = account;

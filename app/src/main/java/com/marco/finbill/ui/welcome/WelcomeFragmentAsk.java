@@ -18,9 +18,10 @@ import android.widget.EditText;
 import android.widget.Spinner;
 
 import com.google.android.material.snackbar.Snackbar;
+import com.google.android.material.textfield.TextInputEditText;
 import com.marco.finbill.R;
 import com.marco.finbill.sql.currency.Currency;
-import com.marco.finbill.sql.model.FinBillViewModel;
+import com.marco.finbill.model.FinBillViewModel;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -28,7 +29,7 @@ import java.util.List;
 
 public class WelcomeFragmentAsk extends Fragment {
 
-    private EditText name;
+    private TextInputEditText name;
     private Spinner appNeedSpinner;
     private Spinner welcomeCurrencyEdit;
     private FinBillViewModel viewModel;
@@ -71,10 +72,10 @@ public class WelcomeFragmentAsk extends Fragment {
         ArrayAdapter<String> currencyStringAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, currencyStringList);
         currencyStringAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         welcomeCurrencyEdit.setAdapter(currencyStringAdapter);
-        viewModel.getAllCurrencyCodes().observe(getViewLifecycleOwner(), currencyCodes -> {
+        viewModel.getAllCurrencies().observe(getViewLifecycleOwner(), currencies -> {
             currencyStringList.clear();
             currencyStringList.add(0, getResources().getString(R.string.choose_currency));
-            for (Currency currency : currencyCodes) {
+            for (Currency currency : currencies) {
                 currencyStringList.add(currency.getCurrencyString());
             }
             currencyStringAdapter.notifyDataSetChanged();
@@ -89,7 +90,6 @@ public class WelcomeFragmentAsk extends Fragment {
             int appNeed = appNeedSpinner.getSelectedItemPosition();
             String currencyString = welcomeCurrencyEdit.getSelectedItem().toString();
             if (!nameString.isEmpty() && appNeed != 0 && !currencyString.equals(getResources().getString(R.string.choose_currency))) {
-                editor.putBoolean("firstStart", false);
                 editor.putString("name", nameString);
                 editor.putInt("app_need", appNeed);
                 editor.putString("currency", currencyString);

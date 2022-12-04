@@ -12,6 +12,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,6 +23,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
@@ -35,9 +37,8 @@ import com.google.android.material.snackbar.Snackbar;
 import com.marco.finbill.R;
 import com.marco.finbill.enums.CategoryType;
 import com.marco.finbill.enums.PriorityType;
-import com.marco.finbill.enums.TransactionType;
 import com.marco.finbill.sql.category.Category;
-import com.marco.finbill.sql.model.FinBillViewModel;
+import com.marco.finbill.model.FinBillViewModel;
 
 import java.sql.Date;
 import java.util.ArrayList;
@@ -64,7 +65,7 @@ public class AddCategoryDialog extends DialogFragment {
     private Spinner priorityEdit;
     private EditText nameEdit;
     private EditText descriptionEdit;
-    private Object defaultImage;
+    private Object defaultImage = R.drawable.money;
 
     private SharedPreferences sharedPreferences;
 
@@ -142,41 +143,11 @@ public class AddCategoryDialog extends DialogFragment {
         LinearLayout categoryLayout = rootView.findViewById(R.id.categoryLayout);
         categoryLayout.setVisibility(View.GONE);
 
-        categoryTypeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (position == 0) {
-                    categoryLayout.setVisibility(View.GONE);
-                } else {
-                    categoryLayout.setVisibility(View.VISIBLE);
-                }
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-                categoryLayout.setVisibility(View.GONE);
-            }
-        });
-
-        pictureEdit = rootView.findViewById(R.id.pictureEdit);
-
-        DisplayMetrics displayMetrics = new DisplayMetrics();
-        requireActivity().getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
-        int size = displayMetrics.widthPixels / 2;
-        pictureEdit.getLayoutParams().width = size;
-        pictureEdit.getLayoutParams().height = size;
-        pictureEdit.setAdjustViewBounds(true);
-        pictureEdit.setScaleType(ImageView.ScaleType.CENTER_CROP);
-
         categoryIsChildOfSpinner = rootView.findViewById(R.id.isChildOfEdit);
         List<String> categoryIsChildOfList = new ArrayList<>();
         categoryIsChildOfList.add(getResources().getString(R.string.choose_category_is_child_of));
         categoryIsChildOfList.add(getResources().getString(R.string.no_one));
-        viewModel.getAllCategoriesByType(CategoryType.values()[categoryTypeSpinner.getSelectedItemPosition()]).observe(getViewLifecycleOwner(), categories -> {
-            for (Category category : categories) {
-                categoryIsChildOfList.add(category.getCategoryName());
-            }
-        });
+
         ArrayAdapter<String> categoryIsChildOfAdapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_spinner_item, categoryIsChildOfList);
         categoryIsChildOfAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         categoryIsChildOfSpinner.setAdapter(categoryIsChildOfAdapter);
@@ -196,6 +167,40 @@ public class AddCategoryDialog extends DialogFragment {
             public void onNothingSelected(AdapterView<?> parent) {
             }
         });
+
+        categoryTypeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if (position == 0) {
+                    categoryLayout.setVisibility(View.GONE);
+                } else {
+                    categoryLayout.setVisibility(View.VISIBLE);
+                    viewModel.getAllCategoriesByType(CategoryType.values()[categoryTypeSpinner.getSelectedItemPosition()]).observe(getViewLifecycleOwner(), categories -> {
+                        for (Category category : categories) {
+                            categoryIsChildOfList.add(category.getCategoryName());
+                        }
+                    });
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                categoryLayout.setVisibility(View.GONE);
+            }
+        });
+
+        pictureEdit = rootView.findViewById(R.id.pictureEdit);
+
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        requireActivity().getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+        int size = displayMetrics.widthPixels / 2;
+        pictureEdit.getLayoutParams().width = size;
+        pictureEdit.getLayoutParams().height = size;
+        pictureEdit.setAdjustViewBounds(true);
+        pictureEdit.setScaleType(ImageView.ScaleType.CENTER_CROP);
+
+        // default image
+        pictureEdit.setImageResource(R.drawable.money);
 
         // PICTURE
 
@@ -240,7 +245,7 @@ public class AddCategoryDialog extends DialogFragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         toolbar.setNavigationOnClickListener(v -> dismiss());
-        toolbar.setTitle(R.string.add_account);
+        toolbar.setTitle(R.string.add_category);
         toolbar.inflateMenu(R.menu.menu_add_item);
         toolbar.setOnMenuItemClickListener(item -> {
             if (item.getItemId() == R.id.action_save) {
@@ -268,32 +273,36 @@ public class AddCategoryDialog extends DialogFragment {
                 if (category.isValid()) {
                     viewModel.getCurrencyByString(sharedPreferences.getString("currency", null)).observe(getViewLifecycleOwner(), currency -> {
                         if (currency != null) {
-                            viewModel.setCategoryViewModelFieldBalance(currency.getCurrencyId());
+                            viewModel.pushCategoryFieldBalance(currency.getCurrencyId());
                         }
                     });
                     viewModel.getCategoryByName(category.getCategoryName()).observe(getViewLifecycleOwner(), query -> {
                         if (query == null) {
-                            viewModel.setCategoryViewModelFieldProceed(true);
+                            viewModel.pushCategoryFieldProceed(true);
                         } else {
-                            Snackbar.make(requireContext(), view, getResources().getString(R.string.category_already_exists), Snackbar.LENGTH_LONG).show();
+                            Toast.makeText(requireContext(), R.string.category_already_exists, Toast.LENGTH_SHORT).show();
                         }
                     });
-                    viewModel.getCategoryViewModelFieldsLiveData().observe(getViewLifecycleOwner(), fields -> {
+                    viewModel.pullCategoryFieldsLiveData().observe(getViewLifecycleOwner(), fields -> {
                         if (fields.isValid()) {
                             category.setCategoryAdded(new Date(System.currentTimeMillis()));
                             category.setCategoryBalanceCurrencyId(fields.getBalanceCurrencyId());
                             viewModel.insertCategory(category);
-                            viewModel.clearCategoryViewModelFields();
+                            viewModel.popCategoryFields();
+                            dismiss();
                         }
                     });
                 }
                 else {
                     Snackbar.make(view, R.string.incomplete_fields, Snackbar.LENGTH_LONG).show();
+                    return false;
                 }
-                dismiss();
                 return true;
             }
-            return false;
+            else {
+                dismiss();
+                return false;
+            }
         });
     }
 

@@ -97,13 +97,13 @@ public class MainFragmentCategories extends Fragment {
             CategoryType tabPosition = CategoryType.values()[position];
             switch (tabPosition) {
                 case DEFAULT:
-                    tab.setText(R.string.all_categories);
+                    tab.setText(R.string.all);
                     break;
                 case EXPENSE:
-                    tab.setText(R.string.expense_categories);
+                    tab.setText(R.string.expense);
                     break;
                 case INCOME:
-                    tab.setText(R.string.income_categories);
+                    tab.setText(R.string.income);
                     break;
             }
         }).attach();

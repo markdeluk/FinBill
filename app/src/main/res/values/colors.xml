@@ -7,4 +7,51 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <!-- Color primary -->
+    <color name="green10">#FF003314</color>
+    <color name="green20">#FF006627</color>
+    <color name="green30">#FF00993B</color>
+    <color name="green40">#FF00CC4E</color>
+    <color name="green80">#FF99FFC0</color>
+    <color name="green90">#FFCCFFE0</color>
+
+    <!-- Color secondary -->
+    <color name="darkgreen10">#FF0D260D</color>
+    <color name="darkgreen20">#FF194D19</color>
+    <color name="darkgreen30">#FF267326</color>
+    <color name="darkgreen40">#FF339933</color>
+    <color name="darkgreen80">#FFB3E6B3</color>
+    <color name="darkgreen90">#FFD9F2D9</color>
+
+    <!-- Color tertiary -->
+    <color name="violet10">#FF330033</color>
+    <color name="violet20">#FF660066</color>
+    <color name="violet30">#FF990099</color>
+    <color name="violet40">#FFCC00CC</color>
+    <color name="violet80">#FFFF99FF</color>
+    <color name="violet90">#FFFFCCFF</color>
+
+    <!-- Color error -->
+    <color name="red10">#FF410001</color>
+    <color name="red20">#FF820003</color>
+    <color name="red30">#FFC30006</color>
+    <color name="red40">#FFBA1B1B</color>
+    <color name="red80">#FFFFB4A9</color>
+    <color name="red90">#FFFFDAD4</color>
+
+    <!-- Color neutral -->
+    <color name="gray10">#FF191C1D</color>
+    <color name="gray20">#FF2D3132</color>
+    <color name="gray90">#FFE0E3E3</color>
+    <color name="gray95">#FFEFF1F1</color>
+    <color name="gray99">#FFFBFDFD</color>
+
+    <!-- Color neutral variant -->
+    <color name="greengray30">#FF316847</color>
+    <color name="greengray50">#FF52AD76</color>
+    <color name="greengray60">#FF74BE92</color>
+    <color name="greengray80">#FFBADEC8</color>
+    <color name="greengray90">#FFdCEFE4</color>
+
 </resources>

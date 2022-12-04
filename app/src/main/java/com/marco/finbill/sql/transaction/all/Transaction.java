@@ -64,9 +64,9 @@ public class Transaction {
         this.transactionType = TransactionType.DEFAULT;
         this.transactionCurrencyId = null;
         this.transactionAmount = 0;
-        this.transactionDate = null;
-        this.transactionTime = null;
-        this.transactionFrequency = null;
+        this.transactionDate = new Date(System.currentTimeMillis());
+        this.transactionTime = new Time(System.currentTimeMillis());
+        this.transactionFrequency = TransactionFrequency.ONCE;
         this.transactionInfoLasting = 0;
         this.transactionInfoRecurrent = null;
         this.transactionNotify = false;
@@ -234,10 +234,10 @@ public class Transaction {
                 this.transactionType != TransactionType.DEFAULT &&
                 this.transactionCurrencyId != null &&
                 this.transactionAmount != 0 &&
-                this.transactionDate != null &&
-                (this.transactionFrequency != TransactionFrequency.DEFAULT &&
+                (
                         (this.transactionFrequency != TransactionFrequency.LASTING || this.transactionInfoLasting != 0) &&
-                        (this.transactionFrequency != TransactionFrequency.RECURRENT || this.transactionInfoRecurrent != TransactionRecurrency.DEFAULT)) &&
+                        (this.transactionFrequency != TransactionFrequency.RECURRENT || this.transactionInfoRecurrent != TransactionRecurrency.DEFAULT)
+                ) &&
                 (!this.transactionNotify || this.transactionNotifyFrequency != TransactionNotifyFrequency.DEFAULT);
     }
 }

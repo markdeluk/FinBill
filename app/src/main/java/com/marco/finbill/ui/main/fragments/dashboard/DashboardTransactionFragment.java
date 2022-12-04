@@ -15,12 +15,15 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.marco.finbill.R;
-import com.marco.finbill.sql.model.FinBillViewModel;
-import com.marco.finbill.ui.main.adapters.spinners.dashboard.ExpenseAdapter;
-import com.marco.finbill.ui.main.adapters.spinners.dashboard.IncomeAdapter;
-import com.marco.finbill.ui.main.adapters.spinners.dashboard.TransferAdapter;
+import com.marco.finbill.model.FinBillViewModel;
+import com.marco.finbill.ui.main.adapters.lists.expenses.ExpenseAdapter;
+import com.marco.finbill.ui.main.adapters.lists.incomes.IncomeAdapter;
+import com.marco.finbill.ui.main.adapters.lists.transfers.TransferAdapter;
+
 
 public class DashboardTransactionFragment extends Fragment {
+
+    private FinBillViewModel viewModel;
 
     public DashboardTransactionFragment() {
     }
@@ -28,6 +31,7 @@ public class DashboardTransactionFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        viewModel = new ViewModelProvider(requireActivity()).get(FinBillViewModel.class);
     }
 
     @Override
@@ -39,8 +43,6 @@ public class DashboardTransactionFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
-        FinBillViewModel viewModel = new ViewModelProvider(requireActivity()).get(FinBillViewModel.class);
         ExpenseAdapter expenseAdapter = new ExpenseAdapter();
         IncomeAdapter incomeAdapter = new IncomeAdapter();
         TransferAdapter transferAdapter = new TransferAdapter();
@@ -49,7 +51,9 @@ public class DashboardTransactionFragment extends Fragment {
         recyclerView.hasFixedSize();
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(concatAdapter);
-
+        viewModel.getAllExpenseIsTransactionWithRelationships().observe(getViewLifecycleOwner(), expenseAdapter::updateExpenseList);
+        viewModel.getAllIncomeIsTransactionWithRelationships().observe(getViewLifecycleOwner(), incomeAdapter::updateIncomeList);
+        viewModel.getAllTransferIsTransactionWithRelationships().observe(getViewLifecycleOwner(), transferAdapter::updateTransferList);
     }
 
 }

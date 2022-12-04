@@ -27,8 +27,8 @@ public interface ExchangeDao {
     @Query("SELECT * FROM exchange_table")
     LiveData<List<Exchange>> getAllExchanges();
 
-    @Query("SELECT exchangeId FROM exchange_table ORDER BY exchangeId DESC LIMIT 1")
-    LiveData<Integer> getLastExchangeId();
+    @Query("SELECT COUNT(*) FROM exchange_table")
+    LiveData<Integer> getNumberOfExchanges();
 
     @Query("DELETE FROM exchange_table")
     void deleteAllExchanges();

@@ -1,4 +1,92 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">FinBill</string>
+    <string name="welcome" translatable="false">Benvenuto in FinBill</string>
+    <string name="start" translatable="false">Inizia</string>
+    <string name="set_name" translatable="false">Come ti chiami?</string>
+    <string name="set_name_hint" translatable="false">Digita il tuo nome qui</string>
+    <string name="app_need" translatable="false">Ho bisogno di questa app per...</string>
+    <string name="next" translatable="false">Prossimo</string>
+    <string name="select_option" translatable="false">Seleziona un\'opzione…</string>
+    <string name="finish" translatable="false">Finito!</string>
+    <string name="finish_hint" translatable="false">È tutto pronto! Ora puoi iniziare a utilizzare FinBill!</string>
+    <string name="let_me_in" translatable="false">Fammi entrare!</string>
+    <string name="settings" translatable="false">Impostazioni</string>
+    <string name="settings_hint" translatable="false">Qui puoi modificare le tue impostazioni</string>
+    <string name="categories" translatable="false">Categorie</string>
+    <string name="accounts" translatable="false">Conti</string>
+    <string name="dashboard" translatable="false">Pannello di controllo</string>
+    <string name="subscriptions" translatable="false">Abbonamenti</string>
+    <string name="backup" translatable="false">Backup e ripristino</string>
+    <string name="transactions" translatable="false">Transazioni</string>
+    <string name="expenses" translatable="false">Spese</string>
+    <string name="incomes" translatable="false">Entrate</string>
+    <string name="transfers" translatable="false">Trasferimenti</string>
+    <string name="add_transaction" translatable="false">Aggiungi una nuova transazione</string>
+    <string name="add_expense" translatable="false">Aggiungi una nuova spesa</string>
+    <string name="add_income" translatable="false">Aggiungi una nuova entrata</string>
+    <string name="add_transfer" translatable="false">Aggiungi un nuovo trasferimento</string>
+    <string name="save" translatable="false">Salva</string>
+    <string name="transaction_type" translatable="false">Tipo di transazione</string>
+    <string name="name" translatable="false">Nome</string>
+    <string name="description" translatable="false">Descrizione</string>
+    <string name="amount" translatable="false">Quantità</string>
+    <string name="currency" translatable="false">Moneta</string>
+    <string name="date" translatable="false">Data</string>
+    <string name="time" translatable="false">Tempo</string>
+    <string name="frequency" translatable="false">Frequenza</string>
+    <string name="estimated_years" translatable="false">Anni stimati</string>
+    <string name="happens_every" translatable="false">Succede ogni…</string>
+    <string name="notify" translatable="false">Avvisa</string>
+    <string name="notify_every" translatable="false">Avvisa ogni...</string>
+    <string name="notes" translatable="false">Note</string>
+    <string name="picture" translatable="false">Immagine</string>
+    <string name="reset" translatable="false">Ripristina</string>
+    <string name="choose_gallery" translatable="false">Scegli dalla galleria</string>
+    <string name="take_picture" translatable="false">Fai una foto</string>
+    <string name="location" translatable="false">Posizione</string>
+    <string name="choose_option" translatable="false">Scegliere un\'opzione…</string>
+    <string name="priority" translatable="false">Priorità</string>
+    <string name="from" translatable="false">Da</string>
+    <string name="to" translatable="false">Verso</string>
+    <string name="choose_transaction_type" translatable="false">Scegli un tipo di transazione...</string>
+    <string name="choose_account" translatable="false">Scegli un conto...</string>
+    <string name="choose_category" translatable="false">Scegli una categoria…</string>
+    <string name="choose_currency" translatable="false">Scegli una valuta...</string>
+    <string name="choose_frequency" translatable="false">Scegli una frequenza...</string>
+    <string name="choose_recurrency" translatable="false">Scegli una ricorrenza...</string>
+    <string name="choose_priority" translatable="false">Scegli una priorità...</string>
+    <string name="incomplete_fields" translatable="false">Errore! È necessario completare tutti i campi obbligatori prima di fare clic sul pulsante Salva.</string>
+    <string name="inserted_exchange_rates" translatable="false">Tassi di cambio inseriti!</string>
+    <string name="updated_exchange_rates" translatable="false">Tassi di cambio aggiornati!</string>
+    <string name="updating_exchange_rates" translatable="false">Aggiornamento tassi di cambio...</string>
+    <string name="updating_currencies" translatable="false">Aggiornamento delle valute...</string>
+    <string name="updated_currencies" translatable="false">Valute aggiornate!</string>
+    <string name="error_updating_exchange_rates" translatable="false">Errore durante l\'aggiornamento dei tassi di cambio!</string>
+    <string name="transaction_picture" translatable="false">Errore durante l\'aggiornamento dei tassi di cambio!</string>
+    <string name="add_account" translatable="false">Aggiungi un nuovo account</string>
+    <string name="account_type" translatable="false">Tipo di account</string>
+    <string name="balance" translatable="false">Saldo</string>
+    <string name="platfond" translatable="false">Platfond</string>
+    <string name="account_picture" translatable="false">Immagine dell\'account</string>
+    <string name="choose_account_type" translatable="false">Scegli un tipo di conto...</string>
+    <string name="category_type" translatable="false">Tipo di categoria</string>
+    <string name="choose_category_type" translatable="false">Scegli un tipo di categoria...</string>
+    <string name="is_child_of" translatable="false">È figlia di</string>
+    <string name="choose_category_is_child_of" translatable="false">Scegli una categoria principale...</string>
+    <string name="no_one" translatable="false">Nessuna</string>
+    <string name="account_already_exists" translatable="false">Errore! Un account con lo stesso nome è già presente nel database. Cambialo!</string>
+    <string name="category_already_exists" translatable="false">Errore! Una categoria con lo stesso nome è già presente nel database. Cambialo!</string>
+    <string name="add_category" translatable="false">Aggiungi una nuova categoria</string>
+    <string name="add_category_expense" translatable="false">Aggiungi una nuova categoria di spesa</string>
+    <string name="add_category_income" translatable="false">Aggiungi una nuova categoria di reddito</string>
+    <string name="default_currency_option" translatable="false">Qual è la tua valuta preferita?</string>
+    <string name="cant_skip" translatable="false">Non puoi saltare questa configurazione!</string>
+    <string name="date_of_opening" translatable="false">Data di apertura</string>
+    <string name="all_categories" translatable="false">Tutte le categorie</string>
+    <string name="all" translatable="false">Tutto</string>
+    <string name="expense_categories" translatable="false">Categorie di spesa</string>
+    <string name="income_categories" translatable="false">Categorie di entrata</string>
+    <string name="expense" translatable="false">Spesa</string>
+    <string name="income" translatable="false">Entrata</string>
 </resources>

@@ -28,11 +28,10 @@ public class Category {
     private Date categoryAdded;
     private Double categoryBalance;
     private Integer categoryBalanceCurrencyId;
-    @Nullable
     private Integer categoryIsChildOf;
     private PriorityType categoryPriority;
 
-    public Category(String categoryName, @Nullable String categoryDescription, CategoryType categoryType, @Nullable Bitmap categoryImage, Date categoryAdded, Double categoryBalance, Integer categoryBalanceCurrencyId, @Nullable Integer categoryIsChildOf, PriorityType categoryPriority) {
+    public Category(String categoryName, @Nullable String categoryDescription, CategoryType categoryType, @Nullable Bitmap categoryImage, Date categoryAdded, Double categoryBalance, Integer categoryBalanceCurrencyId, Integer categoryIsChildOf, PriorityType categoryPriority) {
         this.categoryName = categoryName;
         this.categoryDescription = categoryDescription;
         this.categoryType = categoryType;
@@ -53,8 +52,8 @@ public class Category {
         this.categoryAdded = null;
         this.categoryBalance = (double) 0;
         this.categoryBalanceCurrencyId = null;
-        this.categoryIsChildOf = Integer.MIN_VALUE;
-        this.categoryPriority = null;
+        this.categoryIsChildOf = 0;
+        this.categoryPriority = PriorityType.LOW;
     }
 
     public int getCategoryId() {
@@ -123,12 +122,11 @@ public class Category {
         this.categoryBalanceCurrencyId = categoryBalanceCurrencyId;
     }
 
-    @Nullable
     public Integer getCategoryIsChildOf() {
         return categoryIsChildOf;
     }
 
-    public void setCategoryIsChildOf(@Nullable Integer categoryIsChildOf) {
+    public void setCategoryIsChildOf(Integer categoryIsChildOf) {
         this.categoryIsChildOf = categoryIsChildOf;
     }
 

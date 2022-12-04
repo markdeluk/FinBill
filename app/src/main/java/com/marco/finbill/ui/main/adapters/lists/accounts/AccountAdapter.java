@@ -12,9 +12,7 @@ import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.marco.finbill.R;
-import com.marco.finbill.sql.account.Account;
 import com.marco.finbill.sql.account.AccountHasCurrencies;
-import com.marco.finbill.sql.model.FinBillViewModel;
 
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;

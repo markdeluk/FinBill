@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="notify_option">
-        <item>Day</item>
-        <item>Week</item>
-        <item>Month</item>
-        <item>Year</item>
+        <item>Giorno</item>
+        <item>Settimana</item>
+        <item>Mese</item>
+        <item>Anno</item>
     </string-array>
 </resources>

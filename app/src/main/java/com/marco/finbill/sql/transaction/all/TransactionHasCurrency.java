@@ -1,6 +1,7 @@
 package com.marco.finbill.sql.transaction.all;
 
 import androidx.room.Embedded;
+import androidx.room.Relation;
 
 import com.marco.finbill.sql.currency.Currency;
 
@@ -8,7 +9,11 @@ public class TransactionHasCurrency {
 
     @Embedded
     private Transaction transaction;
-    @Embedded
+
+    @Relation(
+            parentColumn = "transactionCurrencyId",
+            entityColumn = "currencyId"
+    )
     private Currency currency;
 
     public TransactionHasCurrency(Transaction transaction, Currency currency) {

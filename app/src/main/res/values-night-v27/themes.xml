@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="Theme.FinBill" parent="Theme.Material3.Dark.NoActionBar">
+        <item name="fontFamily">@font/dm_sans_medium</item>
+        <item name="colorPrimary">@color/green80</item>
+        <item name="colorOnPrimary">@color/green20</item>
+        <item name="colorPrimaryContainer">@color/green30</item>
+        <item name="colorOnPrimaryContainer">@color/green90</item>
+        <item name="colorPrimaryInverse">@color/green40</item>
+        <item name="colorSecondary">@color/darkgreen80</item>
+        <item name="colorOnSecondary">@color/darkgreen20</item>
+        <item name="colorSecondaryContainer">@color/darkgreen30</item>
+        <item name="colorOnSecondaryContainer">@color/darkgreen90</item>
+        <item name="colorTertiary">@color/violet80</item>
+        <item name="colorOnTertiary">@color/violet20</item>
+        <item name="colorTertiaryContainer">@color/violet30</item>
+        <item name="colorOnTertiaryContainer">@color/violet90</item>
+        <item name="colorError">@color/red80</item>
+        <item name="colorOnError">@color/red20</item>
+        <item name="colorErrorContainer">@color/red30</item>
+        <item name="colorOnErrorContainer">@color/red90</item>
+        <item name="backgroundColor">@color/gray10</item>
+        <item name="colorOnBackground">@color/gray90</item>
+        <item name="colorSurface">@color/greengray30</item>
+        <item name="colorOnSurface">@color/greengray80</item>
+        <item name="colorSurfaceInverse">@color/gray90</item>
+        <item name="colorOnSurfaceInverse">@color/gray10</item>
+        <item name="colorSurfaceVariant">@color/greengray30</item>
+        <item name="colorOnSurfaceVariant">@color/greengray80</item>
+        <item name="colorOutline">@color/greengray80</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:windowLightStatusBar">false</item>
+        <item name="android:navigationBarColor">?attr/colorSurface</item>
+        <item name="android:windowLightNavigationBar">false</item>
+    </style>
+</resources>

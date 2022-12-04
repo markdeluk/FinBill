@@ -1,5 +1,7 @@
 package com.marco.finbill.ui.main.adapters.lists.categories;
 
+import android.util.Log;
+
 import androidx.recyclerview.widget.DiffUtil;
 
 import com.marco.finbill.sql.category.Category;

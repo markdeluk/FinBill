@@ -1,16 +1,34 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
-    <style name="Theme.FinBill" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/purple_500</item>
-        <item name="colorPrimaryVariant">@color/purple_700</item>
+    <style name="Theme.FinBill" parent="Theme.Material3.Light.NoActionBar">
+        <item name="fontFamily">@font/dm_sans_medium</item>
+        <item name="colorPrimary">@color/green40</item>
         <item name="colorOnPrimary">@color/white</item>
-        <!-- Secondary brand color. -->
-        <item name="colorSecondary">@color/teal_200</item>
-        <item name="colorSecondaryVariant">@color/teal_700</item>
-        <item name="colorOnSecondary">@color/black</item>
-        <!-- Status bar color. -->
-        <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
-        <!-- Customize your theme here. -->
+        <item name="colorPrimaryContainer">@color/green90</item>
+        <item name="colorOnPrimaryContainer">@color/green10</item>
+        <item name="colorPrimaryInverse">@color/green80</item>
+        <item name="colorSecondary">@color/darkgreen40</item>
+        <item name="colorOnSecondary">@color/white</item>
+        <item name="colorSecondaryContainer">@color/darkgreen90</item>
+        <item name="colorOnSecondaryContainer">@color/darkgreen10</item>
+        <item name="colorTertiary">@color/violet40</item>
+        <item name="colorOnTertiary">@color/white</item>
+        <item name="colorTertiaryContainer">@color/violet90</item>
+        <item name="colorOnTertiaryContainer">@color/violet10</item>
+        <item name="colorError">@color/red40</item>
+        <item name="colorOnError">@color/white</item>
+        <item name="colorErrorContainer">@color/red90</item>
+        <item name="colorOnErrorContainer">@color/red10</item>
+        <item name="backgroundColor">@color/gray99</item>
+        <item name="colorOnBackground">@color/gray10</item>
+        <item name="colorSurface">@color/greengray90</item>
+        <item name="colorOnSurface">@color/greengray30</item>
+        <item name="colorSurfaceInverse">@color/gray20</item>
+        <item name="colorOnSurfaceInverse">@color/gray95</item>
+        <item name="colorSurfaceVariant">@color/greengray90</item>
+        <item name="colorOnSurfaceVariant">@color/greengray30</item>
+        <item name="colorOutline">@color/greengray50</item>
+        <item name="android:statusBarColor">?attr/colorSurface</item>
+        <item name="android:windowLightStatusBar">true</item>
+        <item name="android:navigationBarColor">?attr/colorSurface</item>
     </style>
 </resources>

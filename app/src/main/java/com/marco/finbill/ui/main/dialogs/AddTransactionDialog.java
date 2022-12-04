@@ -28,6 +28,7 @@ import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,6 +42,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.google.android.material.snackbar.Snackbar;
+import com.google.android.material.textfield.TextInputEditText;
 import com.marco.finbill.R;
 import com.marco.finbill.enums.CategoryType;
 import com.marco.finbill.enums.PriorityType;
@@ -51,7 +53,7 @@ import com.marco.finbill.enums.TransactionType;
 import com.marco.finbill.sql.account.Account;
 import com.marco.finbill.sql.category.Category;
 import com.marco.finbill.sql.currency.Currency;
-import com.marco.finbill.sql.model.FinBillViewModel;
+import com.marco.finbill.model.FinBillViewModel;
 import com.marco.finbill.sql.transaction.all.Transaction;
 import com.marco.finbill.sql.transaction.expense.Expense;
 import com.marco.finbill.sql.transaction.income.Income;
@@ -75,12 +77,12 @@ public class AddTransactionDialog extends DialogFragment {
     private ActivityResultLauncher<Intent> galleryLauncher;
     private ActivityResultLauncher<Intent> cameraLauncher;
     private Transaction transaction;
-    private EditText nameEdit;
-    private EditText descriptionEdit;
+    private TextInputEditText nameEdit;
+    private TextInputEditText descriptionEdit;
     private Spinner transactionSpinner;
-    private EditText amountEdit;
-    private EditText dateEdit;
-    private EditText timeEdit;
+    private TextInputEditText amountEdit;
+    private TextInputEditText dateEdit;
+    private TextInputEditText timeEdit;
     private Spinner frequencyEdit;
     private EditText infoLastingEdit;
     private Spinner infoRecurrentEdit;
@@ -105,16 +107,14 @@ public class AddTransactionDialog extends DialogFragment {
         this.transactionType = transactionType;
     }
 
-    public static AddTransactionDialog display(FragmentManager fragmentManager) {
+    public static void display(FragmentManager fragmentManager) {
         AddTransactionDialog addTransactionDialog = new AddTransactionDialog();
         addTransactionDialog.show(fragmentManager, TAG);
-        return addTransactionDialog;
     }
 
-    public static AddTransactionDialog display(FragmentManager fragmentManager, TransactionType transactionType) {
+    public static void display(FragmentManager fragmentManager, TransactionType transactionType) {
         AddTransactionDialog addTransactionDialog = new AddTransactionDialog(transactionType);
         addTransactionDialog.show(fragmentManager, TAG);
-        return addTransactionDialog;
     }
 
     @Override
@@ -195,7 +195,6 @@ public class AddTransactionDialog extends DialogFragment {
                 }
                 else {
                     transactionLayout.setVisibility(View.VISIBLE);
-
                     if (position == TransactionType.EXPENSE.ordinal()) {
                         // Populate spinners
                         viewModel.getAllAccounts().observe(getViewLifecycleOwner(), accounts -> {
@@ -268,10 +267,10 @@ public class AddTransactionDialog extends DialogFragment {
         ArrayAdapter<String> currencyStringAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, currencyStringList);
         currencyStringAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         currencyEdit.setAdapter(currencyStringAdapter);
-        viewModel.getAllCurrencyCodes().observe(getViewLifecycleOwner(), currencyCodes -> {
+        viewModel.getAllCurrencies().observe(getViewLifecycleOwner(), currencies -> {
             currencyStringList.clear();
             currencyStringList.add(0, getResources().getString(R.string.choose_currency));
-            for (Currency currency : currencyCodes) {
+            for (Currency currency : currencies) {
                 currencyStringList.add(currency.getCurrencyString());
             }
             currencyStringAdapter.notifyDataSetChanged();
@@ -349,7 +348,9 @@ public class AddTransactionDialog extends DialogFragment {
         });
         Button minusButton = rootView.findViewById(R.id.minusButton);
         minusButton.setOnClickListener(v -> {
-            lasting.getAndDecrement();
+            if (lasting.get() > 0) {
+                lasting.getAndDecrement();
+            }
             infoLastingEdit.setText(String.valueOf(lasting.get()));
         });
 
@@ -490,21 +491,23 @@ public class AddTransactionDialog extends DialogFragment {
         toolbar.setOnMenuItemClickListener(item -> {
             if (item.getItemId() == R.id.action_save) {
                 transaction = new Transaction();
-                transaction.setTransactionName(nameEdit.getText().toString());
-                transaction.setTransactionDescription(descriptionEdit.getText().toString());
+                if (nameEdit.getText() != null && !nameEdit.getText().toString().isEmpty()) {
+                    transaction.setTransactionName(nameEdit.getText().toString());
+                }
+                if (descriptionEdit.getText() != null && !descriptionEdit.getText().toString().isEmpty()) {
+                    transaction.setTransactionDescription(descriptionEdit.getText().toString());
+                }
                 transaction.setTransactionType(TransactionType.values()[transactionSpinner.getSelectedItemPosition()]);
                 if (currencyEdit.getSelectedItemPosition() != 0) {
                     transaction.setTransactionCurrencyId(0); // temporary value
                 }
-                if (amountEdit.getText().toString().isEmpty()) {
-                    transaction.setTransactionAmount(0);
-                } else {
+                if (amountEdit.getText() != null && !amountEdit.getText().toString().isEmpty()) {
                     transaction.setTransactionAmount(Double.parseDouble(amountEdit.getText().toString()));
                 }
-                if (!dateEdit.getText().toString().isEmpty()) {
+                if (dateEdit.getText() != null && !dateEdit.getText().toString().isEmpty()) {
                     transaction.setTransactionDate(Date.valueOf(dateEdit.getText().toString()));
                 }
-                if (!timeEdit.getText().toString().isEmpty()) {
+                if (timeEdit.getText() != null && !timeEdit.getText().toString().isEmpty()) {
                     transaction.setTransactionTime(Time.valueOf(timeEdit.getText().toString()));
                 }
                 transaction.setTransactionFrequency(TransactionFrequency.values()[frequencyEdit.getSelectedItemPosition()]);
@@ -525,77 +528,95 @@ public class AddTransactionDialog extends DialogFragment {
                 else {
                     transaction.setTransactionImage(null);
                 }
-                transaction.setTransactionPriority(PriorityType.values()[priorityEdit.getSelectedItemPosition()]);
+                if (priorityEdit.getSelectedItemPosition() != 0) {
+                    transaction.setTransactionPriority(PriorityType.values()[priorityEdit.getSelectedItemPosition()]);
+                }
                 if (transaction.isValid() && fromSpinner.getSelectedItemPosition() != 0 && toSpinner.getSelectedItemPosition() != 0) {
                     viewModel.getCurrencyByString(currencyEdit.getSelectedItem().toString()).observe(getViewLifecycleOwner(), currency -> {
-                        transaction.setTransactionCurrencyId(currency.getCurrencyId());
-                        viewModel.insertTransaction(transaction);
+                        if (currency != null) {
+                            viewModel.pushTransactionFieldCurrencyId(currency.getCurrencyId());
+                        }
+                    });
+                    // Insertion happens with a temporary value for the currency id, which is then updated
+                    viewModel.insertTransaction(transaction).observe(getViewLifecycleOwner(), transactionId -> {
+                        if (transactionId != null) {
+                            viewModel.pushTransactionFieldId(Math.toIntExact(transactionId));
+                        }
                     });
                     String from = fromSpinner.getSelectedItem().toString();
                     String to = toSpinner.getSelectedItem().toString();
                     if (transaction.getTransactionType().equals(TransactionType.EXPENSE)) {
                         expense = new Expense();
-                        expense.setExpenseId(transaction.getTransactionId());
                         viewModel.getAccountByName(from).observe(getViewLifecycleOwner(), account -> {
                             if (account != null) {
-                                viewModel.setTransactionViewModelFieldFrom(account.getAccountId());
+                                viewModel.pushTransactionFieldFrom(account);
                             }
                         });
                         viewModel.getCategoryByName(to).observe(getViewLifecycleOwner(), category -> {
                             if (category != null) {
-                                viewModel.setTransactionViewModelFieldTo(category.getCategoryId());
+                                viewModel.pushTransactionFieldTo(category);
                             }
                         });
-                        viewModel.getTransactionViewModelFieldsLiveData().observe(getViewLifecycleOwner(), fields -> {
+                        viewModel.pullTransactionFieldsLiveData().observe(getViewLifecycleOwner(), fields -> {
                             if (fields.isValid()) {
+                                transaction.setTransactionId(fields.getId());
+                                transaction.setTransactionCurrencyId(fields.getCurrencyId());
+                                viewModel.updateTransaction(transaction);
+                                expense.setExpenseId(fields.getId());
                                 expense.setFromExpense(((Account)fields.getFrom()).getAccountId());
                                 expense.setToExpense(((Category)fields.getTo()).getCategoryId());
                                 viewModel.insertExpense(expense);
-                                viewModel.clearTransactionViewModelFields();
+                                viewModel.popTransactionFields();
                             }
                         });
                     }
                     else if (transaction.getTransactionType().equals(TransactionType.INCOME)) {
                         income = new Income();
-                        income.setIncomeId(transaction.getTransactionId());
                         viewModel.getCategoryByName(from).observe(getViewLifecycleOwner(), category -> {
                             if (category != null) {
-                                viewModel.setTransactionViewModelFieldFrom(category.getCategoryId());
+                                viewModel.pushTransactionFieldFrom(category);
                             }
                         });
                         viewModel.getAccountByName(to).observe(getViewLifecycleOwner(), account -> {
                             if (account != null) {
-                                viewModel.setTransactionViewModelFieldTo(account.getAccountId());
+                                viewModel.pushTransactionFieldTo(account);
                             }
                         });
-                        viewModel.getTransactionViewModelFieldsLiveData().observe(getViewLifecycleOwner(), fields -> {
+                        viewModel.pullTransactionFieldsLiveData().observe(getViewLifecycleOwner(), fields -> {
                             if (fields.isValid()) {
+                                transaction.setTransactionId(fields.getId());
+                                transaction.setTransactionCurrencyId(fields.getCurrencyId());
+                                viewModel.updateTransaction(transaction);
+                                income.setIncomeId(fields.getId());
                                 income.setFromIncome(((Category)fields.getFrom()).getCategoryId());
                                 income.setToIncome(((Account)fields.getTo()).getAccountId());
                                 viewModel.insertIncome(income);
-                                viewModel.clearTransactionViewModelFields();
+                                viewModel.popTransactionFields();
                             }
                         });
                     }
                     else { // transfer
                         transfer = new Transfer();
-                        transfer.setTransferId(transaction.getTransactionId());
                         viewModel.getAccountByName(from).observe(getViewLifecycleOwner(), account -> {
                             if (account != null) {
-                                viewModel.setTransactionViewModelFieldFrom(account.getAccountId());
+                                viewModel.pushTransactionFieldFrom(account);
                             }
                         });
                         viewModel.getAccountByName(to).observe(getViewLifecycleOwner(), account -> {
                             if (account != null) {
-                                viewModel.setTransactionViewModelFieldTo(account.getAccountId());
+                                viewModel.pushTransactionFieldTo(account);
                             }
                         });
-                        viewModel.getTransactionViewModelFieldsLiveData().observe(getViewLifecycleOwner(), fields -> {
+                        viewModel.pullTransactionFieldsLiveData().observe(getViewLifecycleOwner(), fields -> {
                             if (fields.isValid()) {
+                                transaction.setTransactionId(fields.getId());
+                                transaction.setTransactionCurrencyId(fields.getCurrencyId());
+                                viewModel.updateTransaction(transaction);
+                                transfer.setTransferId(fields.getId());
                                 transfer.setFromTransfer(((Account)fields.getFrom()).getAccountId());
                                 transfer.setToTransfer(((Account)fields.getTo()).getAccountId());
                                 viewModel.insertTransfer(transfer);
-                                viewModel.clearTransactionViewModelFields();
+                                viewModel.popTransactionFields();
                             }
                         });
                     }

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="frequency_option">
-        <item>Once</item>
-        <item>Lasting</item>
-        <item>Recurrent</item>
+        <item>Una volta</item>
+        <item>A lungo termine</item>
+        <item>Ricorrente</item>
     </string-array>
 </resources>

@@ -1,6 +1,7 @@
 package com.marco.finbill.ui.main.adapters.lists.categories;
 
 import android.graphics.Bitmap;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,7 +39,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
     }
 
     @Override
-    public void onBindViewHolder(@NonNull CategoryAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         CategoryWithCurrency categoryWithCurrency = categories.get(position);
         Bitmap image = categoryWithCurrency.getCategory().getCategoryImage();
         if (image == null) {
@@ -48,12 +49,19 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
         }
         holder.title.setText(categoryWithCurrency.getCategory().getCategoryName());
         double balance = categoryWithCurrency.getCategory().getCategoryBalance();
-        holder.sign.setText(balance < 0 ? R.string.minus : R.string.plus);
+        if (balance > 0) {
+            holder.sign.setText(R.string.plus);
+        }
+        else if (balance < 0) {
+            holder.sign.setText(R.string.minus);
+        }
+        else {
+            holder.sign.setText("");
+        }
         holder.amount.setText(new DecimalFormat("#,##0.00", new DecimalFormatSymbols(Locale.getDefault())).format(balance < 0 ? -balance : balance));
         holder.currency.setText(categoryWithCurrency.getCurrency().getCurrencyString());
     }
 
-    @Override
     public int getItemCount() {
         return categories.size();
     }
@@ -76,11 +84,11 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            picture = itemView.findViewById(R.id.picture);
-            title = itemView.findViewById(R.id.title);
-            sign = itemView.findViewById(R.id.sign);
-            amount = itemView.findViewById(R.id.amount);
-            currency = itemView.findViewById(R.id.currency);
+            picture = itemView.findViewById(R.id.categoryPicture);
+            title = itemView.findViewById(R.id.categoryTitleText);
+            sign = itemView.findViewById(R.id.categorySign);
+            amount = itemView.findViewById(R.id.categoryAmount);
+            currency = itemView.findViewById(R.id.categoryCurrency);
         }
     }
 }

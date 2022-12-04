@@ -14,10 +14,12 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.marco.finbill.R;
-import com.marco.finbill.sql.model.FinBillViewModel;
-import com.marco.finbill.ui.main.adapters.spinners.dashboard.IncomeAdapter;
+import com.marco.finbill.model.FinBillViewModel;
+import com.marco.finbill.ui.main.adapters.lists.incomes.IncomeAdapter;
 
 public class DashboardIncomeFragment extends Fragment {
+
+    private FinBillViewModel viewModel;
 
     public DashboardIncomeFragment() {
     }
@@ -25,6 +27,7 @@ public class DashboardIncomeFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        viewModel = new ViewModelProvider(requireActivity()).get(FinBillViewModel.class);
     }
 
     @Override
@@ -43,7 +46,7 @@ public class DashboardIncomeFragment extends Fragment {
         recyclerView.hasFixedSize();
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(incomeAdapter);
-
+        viewModel.getAllIncomeIsTransactionWithRelationships().observe(getViewLifecycleOwner(), incomeAdapter::updateIncomeList);
     }
 
 }

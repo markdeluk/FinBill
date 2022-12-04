@@ -14,8 +14,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.marco.finbill.R;
-import com.marco.finbill.sql.model.FinBillViewModel;
-import com.marco.finbill.ui.main.adapters.spinners.dashboard.ExpenseAdapter;
+import com.marco.finbill.model.FinBillViewModel;
+import com.marco.finbill.ui.main.adapters.lists.expenses.ExpenseAdapter;
 
 public class DashboardExpenseFragment extends Fragment {
 
@@ -44,5 +44,6 @@ public class DashboardExpenseFragment extends Fragment {
         recyclerView.hasFixedSize();
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(expenseAdapter);
+        viewModel.getAllExpenseIsTransactionWithRelationships().observe(getViewLifecycleOwner(), expenseAdapter::updateExpenseList);
     }
 }
