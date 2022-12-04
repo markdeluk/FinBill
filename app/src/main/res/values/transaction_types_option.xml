@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="transaction_types_option">
-        <item>Expense</item>
-        <item>Income</item>
-        <item>Transfer</item>
+        <item>Bekostning</item>
+        <item>Indkomst</item>
+        <item>Overførsel</item>
     </string-array>
 </resources>

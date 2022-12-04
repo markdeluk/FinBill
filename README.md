@@ -34,7 +34,8 @@ This project aims to propose a free and easy-to-use accounting application which
 - [x] As a user, I want to add a picture from camera to a movement
 - [x] As a user, I want to add a long-term movement
 - [x] As a user, I want to choose the priority of a movement
-- [ ] As a user, I want that my application is in my language (Provided only english, danish and italian translations)
+- [x] As a user, I want the dark mode!!!
+- [ ] As a user, I want that my application is in my language (Provided only English, Danish and Italian translations: there are all the required resources for providing also French and German, but they are simply copy-paste from English)
 - [ ] As a user, I want to set my preferred currency for movements (You can do it in the initial setup, but you cannot change it later (Settings Fragment not configured yet))
 - [ ] As a user, I want to be notified when a recurrent movement is due (There is the option, but the backend is not configured for this purpose)
 - [ ] As a user, I want to visualize a list of all my recurrent movements (Not yet implemented)

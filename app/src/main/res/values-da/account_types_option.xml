@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="account_types_option">
-        <item>Cash</item>
-        <item>Bank account</item>
-        <item>Credit card</item>
-        <item>Debit card</item>
-        <item>Deposit</item>
-        <item>Loan</item>
-        <item>Online account</item>
-        <item>Other</item>
+        <item>Kontanter</item>
+        <item>bankkonto</item>
+        <item>Kreditkort</item>
+        <item>Debit kort</item>
+        <item>Depositum</item>
+        <item>Lån</item>
+        <item>Online konto</item>
+        <item>Andet</item>
     </string-array>
 </resources>
