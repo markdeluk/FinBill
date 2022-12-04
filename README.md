@@ -16,14 +16,14 @@ This project aims to propose a free and easy-to-use accounting application which
 - [x] As a user, I want to add a new account
 - [x] As a user, I want to add a new category
 - [x] As a user, I want to use more currencies in my accounts
-- [-] As a user, I want to see the balance of each account (It is recorded the initial balance, but it is not updated)
-- [-] As a user, I want to see the balance of each account in a currency of my choice (exchange rates are recorded but they are never queried, since the balance is not updated)
+- [ ] As a user, I want to see the balance of each account (It is recorded the initial balance, but it is not updated)
+- [ ] As a user, I want to see the balance of each account in a currency of my choice (exchange rates are recorded but they are never queried, since the balance is not updated)
 
 ### Medium priority
 - [x] As a user, I want to visualize a list of all my accounts
 - [x] As a user, I want to visualize a list of all my categories
-- [-] As a user, I want to see the total of my movements (Not yet implemented)
-- [-] As a user, I want to see the total of expenses per category (It is recorded the initial value (0), but it is not updated)
+- [ ] As a user, I want to see the total of my movements (Not yet implemented)
+- [ ] As a user, I want to see the total of expenses per category (It is recorded the initial value (0), but it is not updated)
 
 
 ### Low priority
@@ -34,12 +34,12 @@ This project aims to propose a free and easy-to-use accounting application which
 - [x] As a user, I want to add a picture from camera to a movement
 - [x] As a user, I want to add a long-term movement
 - [x] As a user, I want to choose the priority of a movement
-- [-] As a user, I want that my application is in my language (Provided only english, danish and italian translations)
-- [-] As a user, I want to set my preferred currency for movements (You can do it in the initial setup, but you cannot change it later (Settings Fragment not configured yet))
-- [-] As a user, I want to be notified when a recurrent movement is due (There is the option, but the backend is not configured for this purpose)
-- [-] As a user, I want to visualize a list of all my recurrent movements (Not yet implemented)
-- [-] As a user, I want to backup and restore my database (Firebase is installed, but the login button does not work)
-- [-] As a user, I want to know an estimation of my expenses for the next month (Not yet implemented)
+- [ ] As a user, I want that my application is in my language (Provided only english, danish and italian translations)
+- [ ] As a user, I want to set my preferred currency for movements (You can do it in the initial setup, but you cannot change it later (Settings Fragment not configured yet))
+- [ ] As a user, I want to be notified when a recurrent movement is due (There is the option, but the backend is not configured for this purpose)
+- [ ] As a user, I want to visualize a list of all my recurrent movements (Not yet implemented)
+- [ ] As a user, I want to backup and restore my database (Firebase is installed, but the login button does not work)
+- [ ] As a user, I want to know an estimation of my expenses for the next month (Not yet implemented)
 
 ## App features - YouTube
 https://youtu.be/TXCmN3UyaPk
