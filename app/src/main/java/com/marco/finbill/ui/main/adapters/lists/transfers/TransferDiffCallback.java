@@ -2,16 +2,16 @@ package com.marco.finbill.ui.main.adapters.lists.transfers;
 
 import androidx.recyclerview.widget.DiffUtil;
 
-import com.marco.finbill.sql.transaction.transfer.TransferIsTransactionWithRelationships;
+import com.marco.finbill.sql.transaction.transfer.TransferRelationships;
 
 import java.util.List;
 
 public class TransferDiffCallback extends DiffUtil.Callback {
 
-    private final List<TransferIsTransactionWithRelationships> oldTransferList;
-    private final List<TransferIsTransactionWithRelationships> newTransferList;
+    private final List<TransferRelationships> oldTransferList;
+    private final List<TransferRelationships> newTransferList;
 
-    public TransferDiffCallback(List<TransferIsTransactionWithRelationships> oldTransferList, List<TransferIsTransactionWithRelationships> newTransferList) {
+    public TransferDiffCallback(List<TransferRelationships> oldTransferList, List<TransferRelationships> newTransferList) {
         this.oldTransferList = oldTransferList;
         this.newTransferList = newTransferList;
     }

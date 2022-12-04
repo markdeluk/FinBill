@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.marco.finbill.R;
-import com.marco.finbill.sql.account.AccountHasCurrencies;
+import com.marco.finbill.sql.account.AccountWithCurrencies;
 
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
@@ -22,7 +22,7 @@ import java.util.Locale;
 
 public class AccountAdapter extends RecyclerView.Adapter<AccountAdapter.ViewHolder> {
 
-    private final List<AccountHasCurrencies> accounts;
+    private final List<AccountWithCurrencies> accounts;
 
     public AccountAdapter() {
         this.accounts = new ArrayList<>();
@@ -38,26 +38,26 @@ public class AccountAdapter extends RecyclerView.Adapter<AccountAdapter.ViewHold
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        AccountHasCurrencies accountHasCurrencies = accounts.get(position);
-        Bitmap image = accountHasCurrencies.getAccount().getAccountImage();
+        AccountWithCurrencies accountWithCurrencies = accounts.get(position);
+        Bitmap image = accountWithCurrencies.getAccount().getAccountImage();
         if (image == null) {
             holder.picture.setImageResource(R.drawable.picture_icon);
         } else {
             holder.picture.setImageBitmap(image);
         }
-        holder.title.setText(accountHasCurrencies.getAccount().getAccountName());
-        holder.type.setText(holder.accountTypes[accountHasCurrencies.getAccount().getAccountType().ordinal() - 1]);
-        double balance = accountHasCurrencies.getAccount().getAccountBalance();
+        holder.title.setText(accountWithCurrencies.getAccount().getAccountName());
+        holder.type.setText(holder.accountTypes[accountWithCurrencies.getAccount().getAccountType().ordinal() - 1]);
+        double balance = accountWithCurrencies.getAccount().getAccountBalance();
         holder.sign.setText(balance < 0 ? R.string.minus : R.string.plus);
         holder.amount.setText(new DecimalFormat("#,##0.00", new DecimalFormatSymbols(Locale.getDefault())).format(balance < 0 ? -balance : balance));
-        holder.currency.setText(accountHasCurrencies.getBalanceCurrency().getCurrencyString());
+        holder.currency.setText(accountWithCurrencies.getBalanceCurrency().getCurrencyString());
     }
 
     public int getItemCount() {
         return accounts.size();
     }
 
-    public void updateAccountList(List<AccountHasCurrencies> accounts) {
+    public void updateAccountList(List<AccountWithCurrencies> accounts) {
         AccountDiffCallback diffCallback = new AccountDiffCallback(this.accounts, accounts);
         DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(diffCallback);
         this.accounts.clear();

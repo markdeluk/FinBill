@@ -5,28 +5,29 @@ import androidx.room.Relation;
 
 import com.marco.finbill.sql.currency.Currency;
 
+import java.util.List;
+
 public class TransactionHasCurrency {
 
     @Embedded
-    private Transaction transaction;
-
-    @Relation(
-            parentColumn = "transactionCurrencyId",
-            entityColumn = "currencyId"
-    )
     private Currency currency;
+    @Relation(
+            parentColumn = "currencyId",
+            entityColumn = "transactionCurrencyId"
+    )
+    private List<Transaction> transactions;
 
-    public TransactionHasCurrency(Transaction transaction, Currency currency) {
-        this.transaction = transaction;
+    public TransactionHasCurrency(List<Transaction> transactions, Currency currency) {
+        this.transactions = transactions;
         this.currency = currency;
     }
 
-    public Transaction getTransaction() {
-        return transaction;
+    public List<Transaction> getTransactions() {
+        return transactions;
     }
 
-    public void setTransaction(Transaction transaction) {
-        this.transaction = transaction;
+    public void setTransactions(List<Transaction> transactions) {
+        this.transactions = transactions;
     }
 
     public Currency getCurrency() {

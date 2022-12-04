@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "503753778648",
+    "project_id": "finbill-86e14",
+    "storage_bucket": "finbill-86e14.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:503753778648:android:e461671e149f962134bead",
+        "android_client_info": {
+          "package_name": "com.marco.finbill"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "503753778648-ab64eepqjea4potojeri1dtjgbh7nlae.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.marco.finbill",
+            "certificate_hash": "bd511f0a2247f59d04a03c4218fbef0f502ea9d4"
+          }
+        },
+        {
+          "client_id": "503753778648-kgq2shlbmfcbvcdjdquo11i0ukgmlevo.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAD4QP6r_rRNCJnLXVuI0ZYSzpzuRfx9Ww"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "503753778648-kgq2shlbmfcbvcdjdquo11i0ukgmlevo.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

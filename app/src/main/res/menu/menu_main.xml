@@ -10,7 +10,7 @@
     />
     <item
         android:id="@+id/backupFragment"
-        android:title="@string/backup"
+        android:title="@string/backup_restore"
         android:icon="@drawable/backup_icon"
         app:showAsAction="ifRoom"
     />

@@ -17,7 +17,7 @@
     <string name="accounts" translatable="false">Conti</string>
     <string name="dashboard" translatable="false">Pannello di controllo</string>
     <string name="subscriptions" translatable="false">Abbonamenti</string>
-    <string name="backup" translatable="false">Backup e ripristino</string>
+    <string name="backup_restore" translatable="false">Backup e ripristino</string>
     <string name="transactions" translatable="false">Transazioni</string>
     <string name="expenses" translatable="false">Spese</string>
     <string name="incomes" translatable="false">Entrate</string>

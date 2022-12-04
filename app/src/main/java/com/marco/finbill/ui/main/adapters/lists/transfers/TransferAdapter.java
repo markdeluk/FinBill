@@ -1,5 +1,6 @@
 package com.marco.finbill.ui.main.adapters.lists.transfers;
 
+import android.icu.text.SimpleDateFormat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,14 +12,18 @@ import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.marco.finbill.R;
-import com.marco.finbill.sql.transaction.transfer.TransferIsTransactionWithRelationships;
+import com.marco.finbill.sql.transaction.transfer.TransferRelationships;
 
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.util.ArrayList;
+import java.util.Currency;
 import java.util.List;
+import java.util.Locale;
 
 public class TransferAdapter extends RecyclerView.Adapter<TransferAdapter.ViewHolder> {
 
-    private final ArrayList<TransferIsTransactionWithRelationships> transfers;
+    private final ArrayList<TransferRelationships> transfers;
 
     public TransferAdapter() {
         this.transfers = new ArrayList<>();
@@ -34,20 +39,22 @@ public class TransferAdapter extends RecyclerView.Adapter<TransferAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(@NonNull TransferAdapter.ViewHolder holder, int position) {
-        TransferIsTransactionWithRelationships transferIsTransactionWithRelationships = transfers.get(position);
-        if (transferIsTransactionWithRelationships.getTransactionHasCurrency().getTransaction().getTransactionImage() == null) {
+        TransferRelationships transferRelationships = transfers.get(position);
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd.MM.yyyy", Locale.getDefault());
+        if (transferRelationships.getTransactionHasCurrency().getTransaction().getTransactionImage() == null) {
             holder.picture.setImageResource(R.drawable.picture_icon);
         } else {
-            holder.picture.setImageBitmap(transferIsTransactionWithRelationships.getTransactionHasCurrency().getTransaction().getTransactionImage());
+            holder.picture.setImageBitmap(transferRelationships.getTransactionHasCurrency().getTransaction().getTransactionImage());
         }
-        holder.title.setText(transferIsTransactionWithRelationships.getTransactionHasCurrency().getTransaction().getTransactionName());
-        holder.from.setText(transferIsTransactionWithRelationships.getFromTransfer().getAccountName());
-        holder.to.setText(transferIsTransactionWithRelationships.getToTransfer().getAccountName());
-        holder.date.setText(transferIsTransactionWithRelationships.getTransactionHasCurrency().getTransaction().getTransactionDate().toString());
-        holder.time.setText(transferIsTransactionWithRelationships.getTransactionHasCurrency().getTransaction().getTransactionTime().toString());
-        holder.sign.setText(R.string.minus);
-        holder.amount.setText(String.valueOf(transferIsTransactionWithRelationships.getTransactionHasCurrency().getTransaction().getTransactionAmount()));
-        holder.currency.setText(transferIsTransactionWithRelationships.getTransactionHasCurrency().getCurrency().getCurrencyString());
+        holder.title.setText(transferRelationships.getTransactionHasCurrency().getTransaction().getTransactionName());
+        holder.from.setText(transferRelationships.getFromTransfer().getAccountName());
+        holder.to.setText(transferRelationships.getToTransfer().getAccountName());
+        holder.date.setText(simpleDateFormat.format(transferRelationships.getTransactionHasCurrency().getTransaction().getTransactionDate()));
+        simpleDateFormat.applyPattern("HH:mm");
+        holder.time.setText(simpleDateFormat.format(transferRelationships.getTransactionHasCurrency().getTransaction().getTransactionTime()));
+        holder.sign.setText("");
+        holder.amount.setText(new DecimalFormat("#,##0.00", new DecimalFormatSymbols(Locale.getDefault())).format(transferRelationships.getTransactionHasCurrency().getTransaction().getTransactionAmount()));
+        holder.currency.setText(Currency.getInstance(transferRelationships.getTransactionHasCurrency().getCurrency().getCurrencyString()).getSymbol());
     }
 
     @Override
@@ -55,7 +62,7 @@ public class TransferAdapter extends RecyclerView.Adapter<TransferAdapter.ViewHo
         return transfers.size();
     }
 
-    public void updateTransferList(List<TransferIsTransactionWithRelationships> transfers) {
+    public void updateTransferList(List<TransferRelationships> transfers) {
         TransferDiffCallback diffCallback = new TransferDiffCallback(this.transfers, transfers);
         DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(diffCallback);
         this.transfers.clear();

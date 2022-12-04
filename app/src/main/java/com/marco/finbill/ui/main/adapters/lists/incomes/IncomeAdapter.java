@@ -1,5 +1,6 @@
 package com.marco.finbill.ui.main.adapters.lists.incomes;
 
+import android.icu.text.SimpleDateFormat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,14 +12,18 @@ import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.marco.finbill.R;
-import com.marco.finbill.sql.transaction.income.IncomeIsTransactionWithRelationships;
+import com.marco.finbill.sql.transaction.income.IncomeRelationships;
 
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.util.ArrayList;
+import java.util.Currency;
 import java.util.List;
+import java.util.Locale;
 
 public class IncomeAdapter extends RecyclerView.Adapter<IncomeAdapter.ViewHolder> {
 
-    private final ArrayList<IncomeIsTransactionWithRelationships> incomes;
+    private final ArrayList<IncomeRelationships> incomes;
 
     public IncomeAdapter() {
         this.incomes = new ArrayList<>();
@@ -34,20 +39,22 @@ public class IncomeAdapter extends RecyclerView.Adapter<IncomeAdapter.ViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        IncomeIsTransactionWithRelationships incomeIsTransactionWithRelationships = incomes.get(position);
-        if (incomeIsTransactionWithRelationships.getTransactionHasCurrency().getTransaction().getTransactionImage() == null) {
+        IncomeRelationships incomeRelationships = incomes.get(position);
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd.MM.yyyy", Locale.getDefault());
+        if (incomeRelationships.getTransactionHasCurrency().getTransaction().getTransactionImage() == null) {
             holder.picture.setImageResource(R.drawable.picture_icon);
         } else {
-            holder.picture.setImageBitmap(incomeIsTransactionWithRelationships.getTransactionHasCurrency().getTransaction().getTransactionImage());
+            holder.picture.setImageBitmap(incomeRelationships.getTransactionHasCurrency().getTransaction().getTransactionImage());
         }
-        holder.title.setText(incomeIsTransactionWithRelationships.getTransactionHasCurrency().getTransaction().getTransactionName());
-        holder.from.setText(incomeIsTransactionWithRelationships.getFromIncome().getCategoryName());
-        holder.to.setText(incomeIsTransactionWithRelationships.getToIncome().getAccountName());
-        holder.date.setText(incomeIsTransactionWithRelationships.getTransactionHasCurrency().getTransaction().getTransactionDate().toString());
-        holder.time.setText(incomeIsTransactionWithRelationships.getTransactionHasCurrency().getTransaction().getTransactionTime().toString());
-        holder.sign.setText(R.string.minus);
-        holder.amount.setText(String.valueOf(incomeIsTransactionWithRelationships.getTransactionHasCurrency().getTransaction().getTransactionAmount()));
-        holder.currency.setText(incomeIsTransactionWithRelationships.getTransactionHasCurrency().getCurrency().getCurrencyString());
+        holder.title.setText(incomeRelationships.getTransactionHasCurrency().getTransaction().getTransactionName());
+        holder.from.setText(incomeRelationships.getFromIncome().getCategoryName());
+        holder.to.setText(incomeRelationships.getToIncome().getAccountName());
+        holder.date.setText(simpleDateFormat.format(incomeRelationships.getTransactionHasCurrency().getTransaction().getTransactionDate()));
+        simpleDateFormat.applyPattern("HH:mm");
+        holder.time.setText(simpleDateFormat.format(incomeRelationships.getTransactionHasCurrency().getTransaction().getTransactionTime()));
+        holder.sign.setText(R.string.plus);
+        holder.amount.setText(new DecimalFormat("#,##0.00", new DecimalFormatSymbols(Locale.getDefault())).format(incomeRelationships.getTransactionHasCurrency().getTransaction().getTransactionAmount()));
+        holder.currency.setText(Currency.getInstance(incomeRelationships.getTransactionHasCurrency().getCurrency().getCurrencyString()).getSymbol());
     }
 
     @Override
@@ -55,7 +62,7 @@ public class IncomeAdapter extends RecyclerView.Adapter<IncomeAdapter.ViewHolder
         return incomes.size();
     }
 
-    public void updateIncomeList(List<IncomeIsTransactionWithRelationships> incomes) {
+    public void updateIncomeList(List<IncomeRelationships> incomes) {
         IncomeDiffCallback diffCallback = new IncomeDiffCallback(this.incomes, incomes);
         DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(diffCallback);
         this.incomes.clear();

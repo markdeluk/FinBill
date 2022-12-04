@@ -12,19 +12,18 @@ import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.marco.finbill.R;
-import com.marco.finbill.sql.category.CategoryWithCurrency;
-import com.marco.finbill.sql.transaction.expense.ExpenseIsTransactionWithRelationships;
-import com.marco.finbill.ui.main.adapters.lists.categories.CategoryDiffCallback;
+import com.marco.finbill.sql.transaction.expense.ExpenseRelationships;
 
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.util.ArrayList;
+import java.util.Currency;
 import java.util.List;
 import java.util.Locale;
 
 public class ExpenseAdapter extends RecyclerView.Adapter<ExpenseAdapter.ViewHolder> {
 
-    private final ArrayList<ExpenseIsTransactionWithRelationships> expenses;
+    private final ArrayList<ExpenseRelationships> expenses;
 
     public ExpenseAdapter() {
         this.expenses = new ArrayList<>();
@@ -40,22 +39,22 @@ public class ExpenseAdapter extends RecyclerView.Adapter<ExpenseAdapter.ViewHold
 
     @Override
     public void onBindViewHolder(@NonNull ExpenseAdapter.ViewHolder holder, int position) {
-        ExpenseIsTransactionWithRelationships expenseIsTransactionWithRelationships = expenses.get(position);
+        ExpenseRelationships expenseRelationships = expenses.get(position);
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd.MM.yyyy", Locale.getDefault());
-        if (expenseIsTransactionWithRelationships.getTransactionHasCurrency().getTransaction().getTransactionImage() == null) {
+        if (expenseRelationships.getTransactionHasCurrency().getTransaction().getTransactionImage() == null) {
             holder.picture.setImageResource(R.drawable.picture_icon);
         } else {
-            holder.picture.setImageBitmap(expenseIsTransactionWithRelationships.getTransactionHasCurrency().getTransaction().getTransactionImage());
+            holder.picture.setImageBitmap(expenseRelationships.getTransactionHasCurrency().getTransaction().getTransactionImage());
         }
-        holder.title.setText(expenseIsTransactionWithRelationships.getTransactionHasCurrency().getTransaction().getTransactionName());
-        holder.from.setText(expenseIsTransactionWithRelationships.getFromExpense().getAccountName());
-        holder.to.setText(expenseIsTransactionWithRelationships.getToExpense().getCategoryName());
-        holder.date.setText(simpleDateFormat.format(expenseIsTransactionWithRelationships.getTransactionHasCurrency().getTransaction().getTransactionDate()));
+        holder.title.setText(expenseRelationships.getTransactionHasCurrency().getTransaction().getTransactionName());
+        holder.from.setText(expenseRelationships.getFromExpense().getAccountName());
+        holder.to.setText(expenseRelationships.getToExpense().getCategoryName());
+        holder.date.setText(simpleDateFormat.format(expenseRelationships.getTransactionHasCurrency().getTransaction().getTransactionDate()));
         simpleDateFormat.applyPattern("HH:mm");
-        holder.time.setText(simpleDateFormat.format(expenseIsTransactionWithRelationships.getTransactionHasCurrency().getTransaction().getTransactionTime()));
+        holder.time.setText(simpleDateFormat.format(expenseRelationships.getTransactionHasCurrency().getTransaction().getTransactionTime()));
         holder.sign.setText(R.string.minus);
-        holder.amount.setText(new DecimalFormat("#,##0.00", new DecimalFormatSymbols(Locale.getDefault())).format(expenseIsTransactionWithRelationships.getTransactionHasCurrency().getTransaction().getTransactionAmount()));
-        holder.currency.setText(expenseIsTransactionWithRelationships.getTransactionHasCurrency().getCurrency().getCurrencyString());
+        holder.amount.setText(new DecimalFormat("#,##0.00", new DecimalFormatSymbols(Locale.getDefault())).format(expenseRelationships.getTransactionHasCurrency().getTransaction().getTransactionAmount()));
+        holder.currency.setText(Currency.getInstance(expenseRelationships.getTransactionHasCurrency().getCurrency().getCurrencyString()).getSymbol());
     }
 
     @Override
@@ -63,7 +62,7 @@ public class ExpenseAdapter extends RecyclerView.Adapter<ExpenseAdapter.ViewHold
         return expenses.size();
     }
 
-    public void updateExpenseList(List<ExpenseIsTransactionWithRelationships> expenses) {
+    public void updateExpenseList(List<ExpenseRelationships> expenses) {
         ExpenseDiffCallback diffCallback = new ExpenseDiffCallback(this.expenses, expenses);
         DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(diffCallback);
         this.expenses.clear();

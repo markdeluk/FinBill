@@ -49,6 +49,7 @@ public class MainFragmentCategories extends Fragment {
             public void onTabSelected(TabLayout.Tab tab) {
                 viewPager2.setCurrentItem(tab.getPosition());
                 FloatingActionButton fab = requireActivity().findViewById(R.id.fab);
+                fab.setVisibility(View.VISIBLE);
                 View.OnLongClickListener allCategoriesLongClickListener = view1 -> {
                     Snackbar.make(view1, R.string.add_category, Snackbar.LENGTH_LONG).show();
                     return false;

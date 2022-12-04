@@ -2,16 +2,16 @@ package com.marco.finbill.ui.main.adapters.lists.incomes;
 
 import androidx.recyclerview.widget.DiffUtil;
 
-import com.marco.finbill.sql.transaction.income.IncomeIsTransactionWithRelationships;
+import com.marco.finbill.sql.transaction.income.IncomeRelationships;
 
 import java.util.List;
 
 public class IncomeDiffCallback extends DiffUtil.Callback {
 
-    private final List<IncomeIsTransactionWithRelationships> oldIncomeList;
-    private final List<IncomeIsTransactionWithRelationships> newIncomeList;
+    private final List<IncomeRelationships> oldIncomeList;
+    private final List<IncomeRelationships> newIncomeList;
 
-    public IncomeDiffCallback(List<IncomeIsTransactionWithRelationships> oldIncomeList, List<IncomeIsTransactionWithRelationships> newIncomeList) {
+    public IncomeDiffCallback(List<IncomeRelationships> oldIncomeList, List<IncomeRelationships> newIncomeList) {
         this.oldIncomeList = oldIncomeList;
         this.newIncomeList = newIncomeList;
     }

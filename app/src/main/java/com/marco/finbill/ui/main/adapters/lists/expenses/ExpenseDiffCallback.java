@@ -2,16 +2,16 @@ package com.marco.finbill.ui.main.adapters.lists.expenses;
 
 import androidx.recyclerview.widget.DiffUtil;
 
-import com.marco.finbill.sql.transaction.expense.ExpenseIsTransactionWithRelationships;
+import com.marco.finbill.sql.transaction.expense.ExpenseRelationships;
 
 import java.util.List;
 
 public class ExpenseDiffCallback extends DiffUtil.Callback {
 
-    private final List<ExpenseIsTransactionWithRelationships> oldExpenseList;
-    private final List<ExpenseIsTransactionWithRelationships> newExpenseList;
+    private final List<ExpenseRelationships> oldExpenseList;
+    private final List<ExpenseRelationships> newExpenseList;
 
-    public ExpenseDiffCallback(List<ExpenseIsTransactionWithRelationships> oldExpenseList, List<ExpenseIsTransactionWithRelationships> newExpenseList) {
+    public ExpenseDiffCallback(List<ExpenseRelationships> oldExpenseList, List<ExpenseRelationships> newExpenseList) {
         this.oldExpenseList = oldExpenseList;
         this.newExpenseList = newExpenseList;
     }

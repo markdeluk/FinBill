@@ -54,4 +54,9 @@
     <color name="greengray80">#FFBADEC8</color>
     <color name="greengray90">#FFdCEFE4</color>
 
+    <!-- Brand colors -->
+    <color name="twitter">#FF4DB6EB</color>
+    <color name="facebook">#FF3B5998</color>
+    <color name="google">#FFEA4335</color>
+
 </resources>

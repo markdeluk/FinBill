@@ -16,7 +16,9 @@
     <string name="categories">Categories</string>
     <string name="dashboard">Dashboard</string>
     <string name="subscriptions">Subscriptions</string>
-    <string name="backup">Backup and restore</string>
+    <string name="backup_restore">Backup and restore</string>
+    <string name="backup">Backup</string>
+    <string name="restore">Restore</string>
     <string name="fab" translatable="false">FAB</string>
 
     <string name="transactions">Transactions</string>
@@ -107,4 +109,17 @@
     <string name="expense">Expense</string>
     <string name="income">Income</string>
     <string name="category_picture">Category picture</string>
+    <string name="add_currency">Add a new currency</string>
+    <string name="login_twitter">Login with Twitter</string>
+    <string name="login_facebook">Login with Facebook</string>
+    <string name="login_google">Login with Google</string>
+    <string name="choose_login">Choose one of the following login providers…</string>
+    <string name="login">Login</string>
+    <string name="error">Error!</string>
+    <string name="need_login">You need to log in to use this feature.</string>
+    <string name="ok">Ok</string>
+    <string name="login_continue">Please log in to continue…</string>
+
+    <string name="facebook_application_id" translatable="false">475428994659550</string>
+    <string name="facebook_login_protocol_scheme" translatable="false">fb475428994659550</string>
 </resources>

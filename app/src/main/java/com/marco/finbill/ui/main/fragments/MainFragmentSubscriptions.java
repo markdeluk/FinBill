@@ -28,10 +28,11 @@ public class MainFragmentSubscriptions extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView =  inflater.inflate(R.layout.fragment_main_subscriptions, container, false);
         FloatingActionButton fab = requireActivity().findViewById(R.id.fab);
+        fab.setVisibility(View.VISIBLE);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Subscriptions", Snackbar.LENGTH_LONG).show();
+                Snackbar.make(view, R.string.subscriptions, Snackbar.LENGTH_LONG).show();
             }
         });
 

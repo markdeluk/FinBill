@@ -5,12 +5,10 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,11 +17,8 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.marco.finbill.R;
 import com.marco.finbill.model.FinBillViewModel;
-import com.marco.finbill.sql.account.AccountHasCurrencies;
 import com.marco.finbill.ui.main.adapters.lists.accounts.AccountAdapter;
 import com.marco.finbill.ui.main.dialogs.AddAccountDialog;
-
-import java.util.List;
 
 public class MainFragmentAccounts extends Fragment {
 
@@ -43,6 +38,7 @@ public class MainFragmentAccounts extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_main_accounts, container, false);
         FloatingActionButton fab = requireActivity().findViewById(R.id.fab);
+        fab.setVisibility(View.VISIBLE);
         fab.setOnClickListener(v -> AddAccountDialog.display(getChildFragmentManager()));
         fab.setOnLongClickListener(view -> {
             Snackbar.make(view, R.string.add_account, Snackbar.LENGTH_LONG).show();

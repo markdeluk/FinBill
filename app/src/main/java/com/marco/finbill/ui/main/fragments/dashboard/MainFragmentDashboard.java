@@ -37,6 +37,7 @@ public class MainFragmentDashboard extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_main_dashboard, container, false);
 
         FloatingActionButton fab = requireActivity().findViewById(R.id.fab);
+        fab.setVisibility(View.VISIBLE);
 
         return rootView;
     }

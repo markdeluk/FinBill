@@ -2,17 +2,16 @@ package com.marco.finbill.ui.main.adapters.lists.accounts;
 
 import androidx.recyclerview.widget.DiffUtil;
 
-import com.marco.finbill.sql.account.Account;
-import com.marco.finbill.sql.account.AccountHasCurrencies;
+import com.marco.finbill.sql.account.AccountWithCurrencies;
 
 import java.util.List;
 
 public class AccountDiffCallback extends DiffUtil.Callback {
 
-    private final List<AccountHasCurrencies> oldAccountList;
-    private final List<AccountHasCurrencies> newAccountList;
+    private final List<AccountWithCurrencies> oldAccountList;
+    private final List<AccountWithCurrencies> newAccountList;
 
-    public AccountDiffCallback(List<AccountHasCurrencies> oldAccountList, List<AccountHasCurrencies> newAccountList) {
+    public AccountDiffCallback(List<AccountWithCurrencies> oldAccountList, List<AccountWithCurrencies> newAccountList) {
         this.oldAccountList = oldAccountList;
         this.newAccountList = newAccountList;
     }
