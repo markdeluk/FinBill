@@ -52,21 +52,21 @@ public class FinBillRepository {
 
     private static FinBillRepository instance;
 
-    private ExpenseRelationshipsDao expenseRelationshipsDao;
-    private IncomeRelationshipsDao incomeRelationshipsDao;
-    private TransferRelationshipsDao transferRelationshipsDao;
-    private TransactionDao transactionDao;
-    private ExpenseDao expenseDao;
-    private IncomeDao incomeDao;
-    private TransferDao transferDao;
-    private AccountDao accountDao;
-    private AccountWithCurrenciesDao accountWithCurrenciesDao;
-    private CategoryDao categoryDao;
-    private CategoryWithCurrencyDao categoryWithCurrencyDao;
-    private CurrencyDao currencyDao;
-    private ExchangeDao exchangeDao;
+    private final ExpenseRelationshipsDao expenseRelationshipsDao;
+    private final IncomeRelationshipsDao incomeRelationshipsDao;
+    private final TransferRelationshipsDao transferRelationshipsDao;
+    private final TransactionDao transactionDao;
+    private final ExpenseDao expenseDao;
+    private final IncomeDao incomeDao;
+    private final TransferDao transferDao;
+    private final AccountDao accountDao;
+    private final AccountWithCurrenciesDao accountWithCurrenciesDao;
+    private final CategoryDao categoryDao;
+    private final CategoryWithCurrencyDao categoryWithCurrencyDao;
+    private final CurrencyDao currencyDao;
+    private final ExchangeDao exchangeDao;
 
-    private ExecutorService executorService;
+    private final ExecutorService executorService;
 
     private final MutableLiveData<TransactionFields> transactionFieldsLiveData = new MutableLiveData<>();
     private final MutableLiveData<AccountFields> accountFieldsLiveData = new MutableLiveData<>();
@@ -161,7 +161,7 @@ public class FinBillRepository {
     }
 
     public void deleteAllExchanges() {
-        executorService.execute(() -> exchangeDao.deleteAllExchanges());
+        executorService.execute(exchangeDao::deleteAllExchanges);
     }
 
     public LiveData<List<Currency>> getAllCurrencies() {
@@ -169,7 +169,7 @@ public class FinBillRepository {
     }
 
     public void deleteAllCurrencies() {
-        executorService.execute(() -> currencyDao.deleteAllCurrencies());
+        executorService.execute(currencyDao::deleteAllCurrencies);
     }
 
     public void insertAccount(Account account) {

@@ -1,42 +1,45 @@
-![alt text](money.png?raw=true "Title")  
+![](app/src/main/res/mipmap-xxxhdpi/ic_launcher_round.png)
 # FinBill
 Yet another app to manage expenses.
 
-There are already some applications available on Google Play Store that provide lots of features regarding expense management, but sometimes they are difficult to use, and/or you have to pay a subscription for an app that should even manage... subscriptions!  
-This project aims to propose a free and easy-to-use accounting application which tracks personal expenses dividing them by category, also recording recurrent ones (like subscriptions, bills, taxes…), and consequently calculate expenditure forecasts for next week, month, year...
+There are already some applications available on Google Play Store that provide lots of features regarding expense management, but sometimes they are difficult to use, and/or you have to pay a subscription for them.
+This project aims to propose a free and easy-to-use accounting application which tracks personal expenses dividing them by category, possibly recording recurrent ones (like subscriptions, bills, taxes…).
   
-Features:
-- [ ] Expense/entrance insertion giving name, category, amount, notes
-- [ ] Total and by-category expense calculation
-- [ ] Recurrent expenses management
-- [ ] Expenditure forecasts
-- [ ] Depreciation of long-term expenses
-  
-Remember to do it!
-- [ ] Multi-language translation (at least English, Danish, German, Italian, French, Spanish)
+## Requirements
+
+### High priority
+- [x] As a user, I want to add a new movement
+- [x] As a user, I want to visualize all my movements in one place
+- [x] As a user, I want to visualize a list of all my expenses
+- [x] As a user, I want to visualize a list of all my incomes
+- [x] As a user, I want to visualize a list of all my transfers
+- [x] As a user, I want to add a new account
+- [x] As a user, I want to add a new category
+- [x] As a user, I want to use more currencies in my accounts
+- [-] As a user, I want to see the balance of each account (It is recorded the initial balance, but it is not updated)
+- [-] As a user, I want to see the balance of each account in a currency of my choice (exchange rates are recorded but they are never queried, since the balance is not updated)
+
+### Medium priority
+- [x] As a user, I want to visualize a list of all my accounts
+- [x] As a user, I want to visualize a list of all my categories
+- [-] As a user, I want to see the total of my movements (Not yet implemented)
+- [-] As a user, I want to see the total of expenses per category (It is recorded the initial value (0), but it is not updated)
 
 
-# To save my life!!!
+### Low priority
+- [x] As a user, I want to visualize a list of all my expense categories
+- [x] As a user, I want to visualize a list of all my income categories
+- [x] As a user, I want to add a recurrent movement
+- [x] As a user, I want to add a picture from gallery to a movement
+- [x] As a user, I want to add a picture from camera to a movement
+- [x] As a user, I want to add a long-term movement
+- [x] As a user, I want to choose the priority of a movement
+- [-] As a user, I want that my application is in my language (Provided only english, danish and italian translations)
+- [-] As a user, I want to set my preferred currency for movements (You can do it in the initial setup, but you cannot change it later (Settings Fragment not configured yet))
+- [-] As a user, I want to be notified when a recurrent movement is due (There is the option, but the backend is not configured for this purpose)
+- [-] As a user, I want to visualize a list of all my recurrent movements (Not yet implemented)
+- [-] As a user, I want to backup and restore my database (Firebase is installed, but the login button does not work)
+- [-] As a user, I want to know an estimation of my expenses for the next month (Not yet implemented)
 
-    <androidx.fragment.app.FragmentContainerView
-        android:id="@+id/fragmentContainerView"
-        android:name="androidx.navigation.fragment.NavHostFragment"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:defaultNavHost="true"
-        app:navGraph="@navigation/navigation"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/toolbar" />
-    
-    NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.fragmentContainerView);
-    navController = navHostFragment.getNavController();
-
-# For the future!!!
-// periodic update of exchange rates
-Constraints constraints = new Constraints.Builder().setRequiredNetworkType(NetworkType.CONNECTED).build();
-PeriodicWorkRequest periodicWorkRequest = new PeriodicWorkRequest.Builder(ExchangeUpdateWorker.class, 1, TimeUnit.DAYS).setConstraints(constraints).build();
-
-        WorkManager workManager = WorkManager.getInstance(this);
-        workManager.enqueue(periodicWorkRequest);
+## App features - YouTube
+https://youtu.be/TXCmN3UyaPk

@@ -1,4 +1,105 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">FinBill</string>
+    <string name="welcome" translatable="false">Velkommen til FinBill</string>
+    <string name="start" translatable="false">Start</string>
+    <string name="set_name" translatable="false">Hvad hedder du?</string>
+    <string name="set_name_hint" translatable="false">Skriv dit navn her</string>
+    <string name="app_need" translatable="false">Jeg har brug for denne app til...</string>
+    <string name="next" translatable="false">Næste</string>
+    <string name="select_option" translatable="false">Vælg en mulighed...</string>
+    <string name="finish" translatable="false">Færdig!</string>
+    <string name="finish_hint" translatable="false">Du er klar! Nu kan du begynde at bruge FinBill!</string>
+    <string name="let_me_in" translatable="false">Luk mig ind!</string>
+    <string name="settings" translatable="false">Indstillinger</string>
+    <string name="settings_hint" translatable="false">Her kan du ændre dine indstillinger</string>
+    <string name="accounts" translatable="false">Regnskaber</string>
+    <string name="categories" translatable="false">Kategorier</string>
+    <string name="dashboard" translatable="false">Dashboard</string>
+    <string name="subscriptions" translatable="false">Abonnementer</string>
+    <string name="backup_restore" translatable="false">Backup og genskab</string>
+    <string name="backup">Backup</string>
+    <string name="restore">Gendan</string>
+    <string name="transactions" translatable="false">Transaktioner</string>
+    <string name="expenses" translatable="false">Udgifter</string>
+    <string name="incomes" translatable="false">Indkomster</string>
+    <string name="transfers" translatable="false">Overførsler</string>
+    <string name="add_transaction">Tilføj en ny transaktion</string>
+    <string name="add_expense">Tilføj en ny udgift</string>
+    <string name="add_income">Tilføj en ny indkomst</string>
+    <string name="add_transfer">Tilføj en ny overførsel</string>
+    <string name="save">Gemme</string>
+    <string name="transaction_type">Transaktionstype</string>
+    <string name="name">Navn</string>
+    <string name="description">Beskrivelse</string>
+    <string name="amount">Beløb</string>
+    <string name="currency">betalingsmiddel</string>
+    <string name="date">Dato</string>
+    <string name="time">Tid</string>
+    <string name="frequency">Frekvens</string>
+    <string name="estimated_years">Anslåede år</string>
+    <string name="happens_every">Det sker hver …</string>
+    <string name="notify">Underrette</string>
+    <string name="notify_every">Giv besked hver…</string>
+    <string name="notes">Noter</string>
+    <string name="picture">Billede</string>
+    <string name="reset">Nulstil</string>
+    <string name="choose_gallery">Vælg fra galleri</string>
+    <string name="take_picture">Tag et billede</string>
+    <string name="priority">Prioritet</string>
+    <string name="location">Beliggenhed</string>
+    <string name="choose_option">Vælg en mulighed…</string>
+    <string name="from">Fra</string>
+    <string name="to">Til</string>
+    <string name="choose_transaction_type">Vælg en transaktionstype…</string>
+    <string name="choose_account">Vælg en konto…</string>
+    <string name="choose_category">Vælg en kategori…</string>
+    <string name="choose_currency">Vælg en valuta…</string>
+    <string name="choose_frequency">Vælg en frekvens…</string>
+    <string name="choose_priority">Vælg en prioritet…</string>
+    <string name="choose_recurrency">Vælg en gentagelse…</string>
+    <string name="incomplete_fields">Fejl! Du skal udfylde alle de obligatoriske felter, før du klikker på knappen Gem.</string>
+    <string name="inserted_exchange_rates">Indsatte valutakurser!</string>
+    <string name="updated_exchange_rates">Opdaterede valutakurser!</string>
+    <string name="updating_exchange_rates">Opdaterer valutakurser…</string>
+    <string name="updating_currencies">Opdaterer valutaer…</string>
+    <string name="updated_currencies">Opdaterede valutaer!</string>
+    <string name="error_updating_exchange_rates">Fejl under opdatering af valutakurser!</string>
+    <string name="transaction_picture">Transaktionsbillede</string>
+    <string name="add_account">Tilføj en ny konto</string>
+    <string name="account_type">Kontotype</string>
+    <string name="balance">Balance</string>
+    <string name="plafond">Plafond</string>
+    <string name="account_picture" translatable="false">Konto billede</string>
+    <string name="choose_account_type" translatable="false">Vælg en kontotype...</string>
+    <string name="category_type" translatable="false">Kategoritype</string>
+    <string name="choose_category_type" translatable="false">Vælg en kategoritype...</string>
+    <string name="is_child_of" translatable="false">er barn af</string>
+    <string name="choose_category_is_child_of" translatable="false">Vælg en overordnet kategori...</string>
+    <string name="no_one" translatable="false">Ingen</string>
+    <string name="account_already_exists" translatable="false">Fejl! En konto med samme navn findes allerede i databasen. Ændre det!</string>
+    <string name="category_already_exists" translatable="false">Fejl! En kategori med samme navn findes allerede i databasen. Ændre det!</string>
+    <string name="add_category" translatable="false">Tilføj en ny kategori</string>
+    <string name="add_category_expense" translatable="false">Tilføj en ny udgiftskategori</string>
+    <string name="add_category_income" translatable="false">Tilføj en ny indkomstkategori</string>
+    <string name="default_currency_option" translatable="false">Hvad er din foretrukne valuta?</string>
+    <string name="cant_skip" translatable="false">Du kan ikke springe denne opsætning over!</string>
+    <string name="date_of_opening" translatable="false">Dato for åbning</string>
+    <string name="all_categories" translatable="false">Alle kategorier</string>
+    <string name="all" translatable="false">Alle</string>
+    <string name="expense_categories" translatable="false">Udgiftskategorier</string>
+    <string name="income_categories" translatable="false">Indkomstkategorier</string>
+    <string name="expense" translatable="false">Bekostning</string>
+    <string name="income" translatable="false">Indkomst</string>
+    <string name="category_picture">Kategori billede</string>
+    <string name="add_currency">Tilføj en ny valuta</string>
+    <string name="login_twitter">Log ind med Twitter</string>
+    <string name="login_facebook">Login med Facebook</string>
+    <string name="login_google">Log ind med Google</string>
+    <string name="choose_login">Vælg en af følgende login-udbydere…</string>
+    <string name="login">Log på</string>
+    <string name="error">Fejl!</string>
+    <string name="need_login">Du skal logge ind for at bruge denne funktion.</string>
+    <string name="ok">Okay</string>
+    <string name="login_continue">Log venligst ind for at fortsætte…</string>
 </resources>

@@ -29,7 +29,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            android:layout_margin="16dp">
+            android:layout_margin="@dimen/medium_spacer">
 
             <TextView
                 android:id="@+id/categoryTypeTitle"
@@ -42,7 +42,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:minHeight="48dp"
-                android:layout_marginBottom="8dp"/>
+                android:layout_marginBottom="@dimen/little_spacer"/>
 
             <LinearLayout
                 android:id="@+id/categoryLayout"
@@ -67,7 +67,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:minHeight="48dp"
-                        android:layout_marginBottom="8dp"/>
+                        android:layout_marginBottom="@dimen/little_spacer"/>
 
                 </LinearLayout>
 
@@ -75,7 +75,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/name"
-                    android:layout_marginBottom="8dp">
+                    android:layout_marginBottom="@dimen/little_spacer">
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/nameEdit"
                         android:layout_width="match_parent"
@@ -87,7 +87,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/description"
-                    android:layout_marginBottom="8dp">
+                    android:layout_marginBottom="@dimen/little_spacer">
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/descriptionEdit"
                         android:layout_width="match_parent"
@@ -100,20 +100,20 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/picture"
-                    android:layout_marginBottom="8dp"/>
+                    android:layout_marginBottom="@dimen/little_spacer"/>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:layout_marginBottom="8dp"
+                    android:layout_marginBottom="@dimen/little_spacer"
                     >
 
                     <androidx.cardview.widget.CardView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         app:cardCornerRadius="12dp"
-                        android:layout_marginEnd="8dp"
+                        android:layout_marginEnd="@dimen/little_spacer"
                         app:cardElevation="0dp">
                         <ImageView
                             android:id="@+id/pictureEdit"

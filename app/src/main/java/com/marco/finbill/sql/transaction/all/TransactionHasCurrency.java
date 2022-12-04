@@ -1,40 +1,41 @@
 package com.marco.finbill.sql.transaction.all;
 
+import androidx.room.DatabaseView;
 import androidx.room.Embedded;
 import androidx.room.Relation;
 
 import com.marco.finbill.sql.currency.Currency;
 
 import java.util.List;
-
 public class TransactionHasCurrency {
 
     @Embedded
-    private Currency currency;
+    private Transaction transaction;
+
     @Relation(
-            parentColumn = "currencyId",
-            entityColumn = "transactionCurrencyId"
+            parentColumn = "transactionCurrencyId",
+            entityColumn = "currencyId"
     )
-    private List<Transaction> transactions;
+    private Currency transactionCurrency;
 
-    public TransactionHasCurrency(List<Transaction> transactions, Currency currency) {
-        this.transactions = transactions;
-        this.currency = currency;
+    public TransactionHasCurrency(Transaction transaction, Currency transactionCurrency) {
+        this.transaction = transaction;
+        this.transactionCurrency = transactionCurrency;
     }
 
-    public List<Transaction> getTransactions() {
-        return transactions;
+    public Transaction getTransaction() {
+        return transaction;
     }
 
-    public void setTransactions(List<Transaction> transactions) {
-        this.transactions = transactions;
+    public void setTransaction(Transaction transaction) {
+        this.transaction = transaction;
     }
 
-    public Currency getCurrency() {
-        return currency;
+    public Currency getTransactionCurrency() {
+        return transactionCurrency;
     }
 
-    public void setCurrency(Currency currency) {
-        this.currency = currency;
+    public void setTransactionCurrency(Currency transactionCurrency) {
+        this.transactionCurrency = transactionCurrency;
     }
 }

@@ -3,29 +3,24 @@ package com.marco.finbill.sql.category;
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Query;
+import androidx.room.Transaction;
 
 import com.marco.finbill.enums.CategoryType;
 
 import java.util.List;
-
 @Dao
 public interface CategoryWithCurrencyDao {
 
-    @Query("SELECT CA.*, CU.* " +
-            "FROM category_table CA, currency_table CU " +
-            "WHERE CA.categoryBalanceCurrencyId = CU.currencyId " +
-            "AND CA.categoryId = :categoryId")
-    public LiveData<CategoryWithCurrency> getCategoryWithCurrencyById(int categoryId);
+    @Transaction
+    @Query("SELECT * FROM category_table WHERE categoryId = :categoryId")
+    LiveData<CategoryWithCurrency> getCategoryWithCurrencyById(int categoryId);
 
-    @Query("SELECT CA.*, CU.* " +
-            "FROM category_table CA, currency_table CU " +
-            "WHERE CA.categoryBalanceCurrencyId = CU.currencyId")
-    public LiveData<List<CategoryWithCurrency>> getAllCategoriesWithCurrency();
+    @Transaction
+    @Query("SELECT * FROM category_table")
+    LiveData<List<CategoryWithCurrency>> getAllCategoriesWithCurrency();
 
-    @Query("SELECT CA.*, CU.* " +
-            "FROM category_table CA, currency_table CU " +
-            "WHERE CA.categoryBalanceCurrencyId = CU.currencyId " +
-            "AND CA.categoryType = :categoryType")
-    public LiveData<List<CategoryWithCurrency>> getAllCategoriesWithCurrencyByType(CategoryType categoryType);
+    @Transaction
+    @Query("SELECT * FROM category_table WHERE categoryType = :categoryType")
+    LiveData<List<CategoryWithCurrency>> getAllCategoriesWithCurrencyByType(CategoryType categoryType);
 
 }

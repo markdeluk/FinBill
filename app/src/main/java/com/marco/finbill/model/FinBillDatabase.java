@@ -40,6 +40,7 @@ import com.marco.finbill.sql.type_converters.enums.TransactionNotifyFrequencyTyp
 import com.marco.finbill.sql.type_converters.enums.TransactionRecurrencyTypeConverter;
 import com.marco.finbill.sql.type_converters.enums.TransactionTypeTypeConverter;
 
+
 @Database(entities = {Account.class, Category.class, Currency.class, Exchange.class, Expense.class, Income.class, Transfer.class, Transaction.class}, version = 1)
 @TypeConverters({AccountTypeTypeConverter.class, CategoryTypeTypeConverter.class, PriorityTypeTypeConverter.class, TransactionFrequencyTypeConverter.class, TransactionNotifyFrequencyTypeConverter.class, TransactionRecurrencyTypeConverter.class, TransactionTypeTypeConverter.class, DateTypeConverter.class, TimeTypeConverter.class, LocationTypeConverter.class, BitmapTypeConverter.class})
 public abstract class FinBillDatabase extends RoomDatabase {

@@ -560,12 +560,16 @@ public class AddTransactionDialog extends DialogFragment {
                         viewModel.pullTransactionFieldsLiveData().observe(getViewLifecycleOwner(), fields -> {
                             if (fields.isValid()) {
                                 transaction.setTransactionId(fields.getId());
+                                Log.e("Transaction ID", String.valueOf(transaction.getTransactionId()));
                                 transaction.setTransactionCurrencyId(fields.getCurrencyId());
+                                Log.e("Transaction Currency ID", String.valueOf(transaction.getTransactionCurrencyId()));
                                 viewModel.updateTransaction(transaction);
+                                Log.e("Transaction", transaction.toString());
                                 expense.setExpenseId(fields.getId());
                                 expense.setFromExpense(((Account)fields.getFrom()).getAccountId());
                                 expense.setToExpense(((Category)fields.getTo()).getCategoryId());
                                 viewModel.insertExpense(expense);
+                                Log.e("Expense", expense.toString());
                                 viewModel.popTransactionFields();
                             }
                         });

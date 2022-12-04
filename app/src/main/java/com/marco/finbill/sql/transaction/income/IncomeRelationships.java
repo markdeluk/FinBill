@@ -5,15 +5,15 @@ import androidx.room.Relation;
 
 import com.marco.finbill.sql.account.Account;
 import com.marco.finbill.sql.category.Category;
+import com.marco.finbill.sql.transaction.all.Transaction;
 import com.marco.finbill.sql.transaction.all.TransactionHasCurrency;
-
 public class IncomeRelationships {
 
     @Embedded
     private Income income;
 
     @Relation(
-            entity = TransactionHasCurrency.class,
+            entity = Transaction.class,
             parentColumn = "incomeId",
             entityColumn = "transactionId"
     )

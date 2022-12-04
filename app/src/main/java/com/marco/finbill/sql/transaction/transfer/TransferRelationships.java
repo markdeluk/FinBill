@@ -6,7 +6,6 @@ import androidx.room.Relation;
 import com.marco.finbill.sql.account.Account;
 import com.marco.finbill.sql.transaction.all.Transaction;
 import com.marco.finbill.sql.transaction.all.TransactionHasCurrency;
-
 public class TransferRelationships {
 
     @Embedded
@@ -71,6 +70,9 @@ public class TransferRelationships {
     }
 
     public boolean equals(TransferRelationships transferRelationships) {
-        return this.transfer.equals(transferRelationships.transfer) && this.transactionHasCurrency.equals(transferRelationships.transactionHasCurrency) && this.fromTransfer.equals(transferRelationships.fromTransfer) && this.toTransfer.equals(transferRelationships.toTransfer);
+        return this.transfer.equals(transferRelationships.transfer) &&
+                this.transactionHasCurrency.equals(transferRelationships.transactionHasCurrency) &&
+                this.fromTransfer.equals(transferRelationships.fromTransfer) &&
+                this.toTransfer.equals(transferRelationships.toTransfer);
     }
 }

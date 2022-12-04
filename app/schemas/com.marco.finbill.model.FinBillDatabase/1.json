@@ -1,0 +1,469 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 1,
+    "identityHash": "8fd2ccf0268be6afe0393b6d1e736996",
+    "entities": [
+      {
+        "tableName": "account_table",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`accountId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `accountName` TEXT, `accountDescription` TEXT, `accountType` INTEGER, `accountBalance` REAL, `accountBalanceCurrencyId` INTEGER, `accountPlatfond` REAL, `accountPlatfondCurrencyId` INTEGER, `accountAdded` INTEGER, `accountCreated` INTEGER, `accountImage` BLOB, `accountPriority` INTEGER)",
+        "fields": [
+          {
+            "fieldPath": "accountId",
+            "columnName": "accountId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "accountName",
+            "columnName": "accountName",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "accountDescription",
+            "columnName": "accountDescription",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "accountType",
+            "columnName": "accountType",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "accountBalance",
+            "columnName": "accountBalance",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "accountBalanceCurrencyId",
+            "columnName": "accountBalanceCurrencyId",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "accountPlatfond",
+            "columnName": "accountPlatfond",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "accountPlatfondCurrencyId",
+            "columnName": "accountPlatfondCurrencyId",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "accountAdded",
+            "columnName": "accountAdded",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "accountCreated",
+            "columnName": "accountCreated",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "accountImage",
+            "columnName": "accountImage",
+            "affinity": "BLOB",
+            "notNull": false
+          },
+          {
+            "fieldPath": "accountPriority",
+            "columnName": "accountPriority",
+            "affinity": "INTEGER",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "accountId"
+          ],
+          "autoGenerate": true
+        },
+        "indices": [
+          {
+            "name": "index_account_table_accountName",
+            "unique": true,
+            "columnNames": [
+              "accountName"
+            ],
+            "orders": [],
+            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `index_account_table_accountName` ON `${TABLE_NAME}` (`accountName`)"
+          }
+        ],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "category_table",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`categoryId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `categoryName` TEXT, `categoryDescription` TEXT, `categoryType` INTEGER, `categoryImage` BLOB, `categoryAdded` INTEGER, `categoryBalance` REAL, `categoryBalanceCurrencyId` INTEGER, `categoryIsChildOf` INTEGER, `categoryPriority` INTEGER)",
+        "fields": [
+          {
+            "fieldPath": "categoryId",
+            "columnName": "categoryId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "categoryName",
+            "columnName": "categoryName",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "categoryDescription",
+            "columnName": "categoryDescription",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "categoryType",
+            "columnName": "categoryType",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "categoryImage",
+            "columnName": "categoryImage",
+            "affinity": "BLOB",
+            "notNull": false
+          },
+          {
+            "fieldPath": "categoryAdded",
+            "columnName": "categoryAdded",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "categoryBalance",
+            "columnName": "categoryBalance",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "categoryBalanceCurrencyId",
+            "columnName": "categoryBalanceCurrencyId",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "categoryIsChildOf",
+            "columnName": "categoryIsChildOf",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "categoryPriority",
+            "columnName": "categoryPriority",
+            "affinity": "INTEGER",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "categoryId"
+          ],
+          "autoGenerate": true
+        },
+        "indices": [
+          {
+            "name": "index_category_table_categoryName",
+            "unique": true,
+            "columnNames": [
+              "categoryName"
+            ],
+            "orders": [],
+            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `index_category_table_categoryName` ON `${TABLE_NAME}` (`categoryName`)"
+          }
+        ],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "currency_table",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`currencyId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `currencyString` TEXT NOT NULL)",
+        "fields": [
+          {
+            "fieldPath": "currencyId",
+            "columnName": "currencyId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "currencyString",
+            "columnName": "currencyString",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "currencyId"
+          ],
+          "autoGenerate": true
+        },
+        "indices": [
+          {
+            "name": "index_currency_table_currencyString",
+            "unique": true,
+            "columnNames": [
+              "currencyString"
+            ],
+            "orders": [],
+            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `index_currency_table_currencyString` ON `${TABLE_NAME}` (`currencyString`)"
+          }
+        ],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "exchange_table",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`exchangeFromCurrencyId` INTEGER NOT NULL, `exchangeToCurrencyId` INTEGER NOT NULL, `exchangeRate` REAL NOT NULL, PRIMARY KEY(`exchangeFromCurrencyId`, `exchangeToCurrencyId`))",
+        "fields": [
+          {
+            "fieldPath": "exchangeFromCurrencyId",
+            "columnName": "exchangeFromCurrencyId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "exchangeToCurrencyId",
+            "columnName": "exchangeToCurrencyId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "exchangeRate",
+            "columnName": "exchangeRate",
+            "affinity": "REAL",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "exchangeFromCurrencyId",
+            "exchangeToCurrencyId"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "expense_table",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`expenseId` INTEGER NOT NULL, `fromExpense` INTEGER NOT NULL, `toExpense` INTEGER NOT NULL, PRIMARY KEY(`expenseId`))",
+        "fields": [
+          {
+            "fieldPath": "expenseId",
+            "columnName": "expenseId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "fromExpense",
+            "columnName": "fromExpense",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "toExpense",
+            "columnName": "toExpense",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "expenseId"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "income_table",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`incomeId` INTEGER NOT NULL, `fromIncome` INTEGER NOT NULL, `toIncome` INTEGER NOT NULL, PRIMARY KEY(`incomeId`))",
+        "fields": [
+          {
+            "fieldPath": "incomeId",
+            "columnName": "incomeId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "fromIncome",
+            "columnName": "fromIncome",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "toIncome",
+            "columnName": "toIncome",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "incomeId"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "transfer_table",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`transferId` INTEGER NOT NULL, `fromTransfer` INTEGER NOT NULL, `toTransfer` INTEGER NOT NULL, PRIMARY KEY(`transferId`))",
+        "fields": [
+          {
+            "fieldPath": "transferId",
+            "columnName": "transferId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "fromTransfer",
+            "columnName": "fromTransfer",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "toTransfer",
+            "columnName": "toTransfer",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "transferId"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "transaction_table",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`transactionId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `transactionName` TEXT, `transactionDescription` TEXT, `transactionType` INTEGER, `transactionCurrencyId` INTEGER, `transactionAmount` REAL NOT NULL, `transactionDate` INTEGER, `transactionTime` INTEGER, `transactionFrequency` INTEGER, `transactionInfoLasting` INTEGER NOT NULL, `transactionInfoRecurrent` INTEGER, `transactionNotify` INTEGER NOT NULL, `transactionNotifyFrequency` INTEGER, `transactionNotes` TEXT, `transactionImage` BLOB, `transactionPriority` INTEGER)",
+        "fields": [
+          {
+            "fieldPath": "transactionId",
+            "columnName": "transactionId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "transactionName",
+            "columnName": "transactionName",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "transactionDescription",
+            "columnName": "transactionDescription",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "transactionType",
+            "columnName": "transactionType",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "transactionCurrencyId",
+            "columnName": "transactionCurrencyId",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "transactionAmount",
+            "columnName": "transactionAmount",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "transactionDate",
+            "columnName": "transactionDate",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "transactionTime",
+            "columnName": "transactionTime",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "transactionFrequency",
+            "columnName": "transactionFrequency",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "transactionInfoLasting",
+            "columnName": "transactionInfoLasting",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "transactionInfoRecurrent",
+            "columnName": "transactionInfoRecurrent",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "transactionNotify",
+            "columnName": "transactionNotify",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "transactionNotifyFrequency",
+            "columnName": "transactionNotifyFrequency",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "transactionNotes",
+            "columnName": "transactionNotes",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "transactionImage",
+            "columnName": "transactionImage",
+            "affinity": "BLOB",
+            "notNull": false
+          },
+          {
+            "fieldPath": "transactionPriority",
+            "columnName": "transactionPriority",
+            "affinity": "INTEGER",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "transactionId"
+          ],
+          "autoGenerate": true
+        },
+        "indices": [],
+        "foreignKeys": []
+      }
+    ],
+    "views": [],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '8fd2ccf0268be6afe0393b6d1e736996')"
+    ]
+  }
+}

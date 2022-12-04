@@ -4,7 +4,6 @@ import androidx.room.Embedded;
 import androidx.room.Relation;
 
 import com.marco.finbill.sql.currency.Currency;
-
 public class AccountWithCurrencies {
 
     @Embedded

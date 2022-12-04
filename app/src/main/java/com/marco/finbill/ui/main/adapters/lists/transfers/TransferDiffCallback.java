@@ -28,7 +28,7 @@ public class TransferDiffCallback extends DiffUtil.Callback {
 
     @Override
     public boolean areItemsTheSame(int oldItemPosition, int newItemPosition) {
-        return oldTransferList.get(oldItemPosition).getTransferId() == newTransferList.get(newItemPosition).getTransferId();
+        return oldTransferList.get(oldItemPosition).getTransfer().getTransferId() == newTransferList.get(newItemPosition).getTransfer().getTransferId();
     }
 
     @Override

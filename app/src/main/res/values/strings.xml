@@ -85,7 +85,7 @@
     <string name="add_account">Add a new account</string>
     <string name="account_type">Account type</string>
     <string name="balance">Balance</string>
-    <string name="platfond">Platfond</string>
+    <string name="plafond">Plafond</string>
     <string name="account_picture">Account picture</string>
     <string name="choose_account_type">Choose an account type…</string>
     <string name="category_type">Category type</string>
@@ -100,7 +100,7 @@
     <string name="add_category_income">Add a new income category</string>
     <string name="default_currency_option">What\'s your preferred currency?</string>
     <string name="cant_skip">You can\'t skip this setup!</string>
-    <string name="type_placeholder">TYPE</string>
+    <string name="type_placeholder" translatable="false">TYPE</string>
     <string name="date_of_opening">Date of opening</string>
     <string name="all_categories">All categories</string>
     <string name="all">All</string>
@@ -117,7 +117,7 @@
     <string name="login">Login</string>
     <string name="error">Error!</string>
     <string name="need_login">You need to log in to use this feature.</string>
-    <string name="ok">Ok</string>
+    <string name="ok">OK</string>
     <string name="login_continue">Please log in to continue…</string>
 
     <string name="facebook_application_id" translatable="false">475428994659550</string>

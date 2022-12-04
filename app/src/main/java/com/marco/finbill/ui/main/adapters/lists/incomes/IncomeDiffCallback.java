@@ -28,7 +28,7 @@ public class IncomeDiffCallback extends DiffUtil.Callback {
 
     @Override
     public boolean areItemsTheSame(int oldItemPosition, int newItemPosition) {
-        return oldIncomeList.get(oldItemPosition).getIncomeId() == newIncomeList.get(newItemPosition).getIncomeId();
+        return oldIncomeList.get(oldItemPosition).getIncome().getIncomeId() == newIncomeList.get(newItemPosition).getIncome().getIncomeId();
     }
 
     @Override

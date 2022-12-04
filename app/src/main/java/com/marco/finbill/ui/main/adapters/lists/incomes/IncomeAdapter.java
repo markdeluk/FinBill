@@ -54,7 +54,7 @@ public class IncomeAdapter extends RecyclerView.Adapter<IncomeAdapter.ViewHolder
         holder.time.setText(simpleDateFormat.format(incomeRelationships.getTransactionHasCurrency().getTransaction().getTransactionTime()));
         holder.sign.setText(R.string.plus);
         holder.amount.setText(new DecimalFormat("#,##0.00", new DecimalFormatSymbols(Locale.getDefault())).format(incomeRelationships.getTransactionHasCurrency().getTransaction().getTransactionAmount()));
-        holder.currency.setText(Currency.getInstance(incomeRelationships.getTransactionHasCurrency().getCurrency().getCurrencyString()).getSymbol());
+        holder.currency.setText(Currency.getInstance(incomeRelationships.getTransactionHasCurrency().getTransactionCurrency().getCurrencyString()).getSymbol());
     }
 
     @Override

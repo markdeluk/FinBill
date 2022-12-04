@@ -9,13 +9,13 @@ import com.marco.finbill.sql.category.Category;
 import com.marco.finbill.sql.currency.Currency;
 import com.marco.finbill.sql.transaction.all.Transaction;
 import com.marco.finbill.sql.transaction.all.TransactionHasCurrency;
-
 public class ExpenseRelationships {
 
     @Embedded
     private Expense expense;
 
     @Relation(
+            entity = Transaction.class,
             parentColumn = "expenseId",
             entityColumn = "transactionId"
     )

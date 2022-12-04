@@ -54,7 +54,7 @@ public class ExpenseAdapter extends RecyclerView.Adapter<ExpenseAdapter.ViewHold
         holder.time.setText(simpleDateFormat.format(expenseRelationships.getTransactionHasCurrency().getTransaction().getTransactionTime()));
         holder.sign.setText(R.string.minus);
         holder.amount.setText(new DecimalFormat("#,##0.00", new DecimalFormatSymbols(Locale.getDefault())).format(expenseRelationships.getTransactionHasCurrency().getTransaction().getTransactionAmount()));
-        holder.currency.setText(Currency.getInstance(expenseRelationships.getTransactionHasCurrency().getCurrency().getCurrencyString()).getSymbol());
+        holder.currency.setText(Currency.getInstance(expenseRelationships.getTransactionHasCurrency().getTransactionCurrency().getCurrencyString()).getSymbol());
     }
 
     @Override

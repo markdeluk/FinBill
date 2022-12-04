@@ -33,7 +33,6 @@ public class BackupFragment extends Fragment {
 
     private final ActivityResultLauncher<Intent> signInLauncher = registerForActivityResult(new FirebaseAuthUIActivityResultContract(), this::onSignInResult);
     private FirebaseAuth mAuth;
-    private List<AuthUI.IdpConfig> providers;
     private Intent signInIntent;
 
     public BackupFragment() {
@@ -46,7 +45,7 @@ public class BackupFragment extends Fragment {
         mAuth = FirebaseAuth.getInstance();
 
         // Choose authentication providers
-        providers = Arrays.asList(
+        List<AuthUI.IdpConfig> providers = Arrays.asList(
                 new AuthUI.IdpConfig.GoogleBuilder().build(),
                 new AuthUI.IdpConfig.FacebookBuilder().build(),
                 new AuthUI.IdpConfig.TwitterBuilder().build());
@@ -73,10 +72,7 @@ public class BackupFragment extends Fragment {
         FloatingActionButton fab = requireActivity().findViewById(R.id.fab);
         fab.setVisibility(View.GONE);
         Button loginButton = view.findViewById(R.id.loginButton);
-        loginButton.setOnClickListener(v -> {
-            Log.e("BackupFragment", "Login button clicked");
-            signInLauncher.launch(signInIntent);
-        });
+        loginButton.setOnClickListener(v -> signInLauncher.launch(signInIntent));
     }
 
     private void onSignInResult(FirebaseAuthUIAuthenticationResult result) {
@@ -89,9 +85,7 @@ public class BackupFragment extends Fragment {
             MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(requireContext());
             builder.setTitle(R.string.error);
             builder.setMessage(R.string.need_login);
-            builder.setPositiveButton(R.string.ok, (dialog, which) -> {
-                dialog.dismiss();
-            });
+            builder.setPositiveButton(R.string.ok, (dialog, which) -> dialog.dismiss());
             builder.show();
             // Sign in failed. If response is null the user canceled the
             // sign-in flow using the back button. Otherwise check

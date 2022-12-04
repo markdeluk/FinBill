@@ -67,7 +67,7 @@
     <string name="add_account" translatable="false">Aggiungi un nuovo account</string>
     <string name="account_type" translatable="false">Tipo di account</string>
     <string name="balance" translatable="false">Saldo</string>
-    <string name="platfond" translatable="false">Platfond</string>
+    <string name="plafond" translatable="false">Plafond</string>
     <string name="account_picture" translatable="false">Immagine dell\'account</string>
     <string name="choose_account_type" translatable="false">Scegli un tipo di conto...</string>
     <string name="category_type" translatable="false">Tipo di categoria</string>
@@ -89,4 +89,17 @@
     <string name="income_categories" translatable="false">Categorie di entrata</string>
     <string name="expense" translatable="false">Spesa</string>
     <string name="income" translatable="false">Entrata</string>
+    <string name="category_picture">Foto di categoria</string>
+    <string name="add_currency">Aggiungi una nuova valuta</string>
+    <string name="login_twitter">Accedi con Twitter</string>
+    <string name="login_facebook">Fai il login con facebook</string>
+    <string name="login_google">Accedi con Google</string>
+    <string name="choose_login">Scegli uno dei seguenti provider di accesso…</string>
+    <string name="login">Login</string>
+    <string name="error">Errore!</string>
+    <string name="need_login">Devi effettuare il login per utilizzare questa funzione.</string>
+    <string name="ok">Ok</string>
+    <string name="login_continue">Per favore accedi per continuare…</string>
+    <string name="backup">Backup</string>
+    <string name="restore">Ripristino</string>
 </resources>

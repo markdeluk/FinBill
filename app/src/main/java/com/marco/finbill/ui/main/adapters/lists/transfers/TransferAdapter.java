@@ -54,7 +54,7 @@ public class TransferAdapter extends RecyclerView.Adapter<TransferAdapter.ViewHo
         holder.time.setText(simpleDateFormat.format(transferRelationships.getTransactionHasCurrency().getTransaction().getTransactionTime()));
         holder.sign.setText("");
         holder.amount.setText(new DecimalFormat("#,##0.00", new DecimalFormatSymbols(Locale.getDefault())).format(transferRelationships.getTransactionHasCurrency().getTransaction().getTransactionAmount()));
-        holder.currency.setText(Currency.getInstance(transferRelationships.getTransactionHasCurrency().getCurrency().getCurrencyString()).getSymbol());
+        holder.currency.setText(Currency.getInstance(transferRelationships.getTransactionHasCurrency().getTransactionCurrency().getCurrencyString()).getSymbol());
     }
 
     @Override
